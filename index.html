@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMounter Blog – Manufatura, Qualidade e Inovação em Eletrônica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafc; color: #1e293b; line-height: 1.7; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        
+        .top-bar { background-color: #0a2540; color: #e2e8f0; padding: 10px 0; font-size: 0.9rem; border-bottom: 1px solid #1e3a5f; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .contact-info i { margin-right: 8px; color: #3b82f6; }
+        .contact-info span { margin-right: 24px; }
+        .social-top a { color: #cbd5e1; margin-left: 16px; font-size: 1.1rem; transition: color 0.2s; }
+        .social-top a:hover { color: #60a5fa; }
+
+        .main-header { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); padding: 16px 0; border-bottom: 1px solid #eef2f6; position: sticky; top: 0; z-index: 100; }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .logo-area h1 { font-size: 1.9rem; font-weight: 700; color: #0a2540; }
+        .logo-area span { font-weight: 400; color: #2563eb; font-size: 1rem; display: block; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: #0a2540; cursor: pointer; }
+        .nav-menu ul { display: flex; list-style: none; gap: 32px; }
+        .nav-menu a { text-decoration: none; font-weight: 500; color: #334155; cursor: pointer; transition: color 0.2s; }
+        .nav-menu a:hover, .nav-menu a.active { color: #2563eb; }
+        .search-icon { color: #475569; font-size: 1.2rem; }
+
+        #page-content { min-height: 60vh; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .breadcrumb { padding: 24px 0 8px; color: #64748b; font-size: 0.9rem; }
+        .breadcrumb a { color: #2563eb; text-decoration: none; cursor: pointer; }
+        .breadcrumb i { margin: 0 8px; font-size: 0.7rem; }
+
+        .article-full { background: white; border-radius: 24px; padding: 48px; margin: 24px 0 48px; box-shadow: 0 8px 24px rgba(0,0,0,0.04); border: 1px solid #eef2f6; }
+        .article-header { margin-bottom: 32px; border-bottom: 1px solid #eef2f6; padding-bottom: 24px; }
+        .article-header h1 { font-size: 2.5rem; font-weight: 700; color: #0a2540; margin: 16px 0; line-height: 1.3; }
+        .article-meta { display: flex; gap: 24px; color: #64748b; font-size: 0.95rem; flex-wrap: wrap; }
+        .article-content h2 { font-size: 1.8rem; margin: 40px 0 20px; color: #0a2540; border-bottom: 2px solid #eef2f6; padding-bottom: 10px; }
+        .article-content h3 { font-size: 1.4rem; margin: 30px 0 15px; color: #1e3a5f; }
+        .article-content h4 { font-size: 1.2rem; margin: 25px 0 12px; color: #334155; font-weight: 600; }
+        .article-content p { margin-bottom: 20px; text-align: justify; }
+        .article-content ul, .article-content ol { margin: 20px 0 30px 30px; }
+        .article-content li { margin-bottom: 12px; }
+        .article-content blockquote { background: #f1f5f9; padding: 20px 30px; border-left: 5px solid #2563eb; margin: 25px 0; font-style: italic; border-radius: 0 12px 12px 0; }
+        .article-content .highlight-box { background: linear-gradient(135deg, #e6f0ff, #f0f6ff); padding: 25px 30px; border-radius: 16px; margin: 30px 0; border: 1px solid #d0ddee; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 0.9rem; }
+        .article-content th { background: #1e3a5f; color: white; padding: 14px; text-align: left; }
+        .article-content td { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; }
+        .article-content tr:hover { background: #f8fafc; }
+        
+        .article-image { margin: 30px 0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .article-image img { width: 100%; height: auto; display: block; }
+        .article-image figcaption { background: #f8fafc; padding: 12px 16px; font-size: 0.9rem; color: #64748b; border-top: 1px solid #eef2f6; }
+        .image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0; }
+        .image-grid img { width: 100%; border-radius: 12px; }
+
+        .article-footer { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eef2f6; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .back-button { display: inline-flex; align-items: center; gap: 8px; color: #2563eb; font-weight: 600; cursor: pointer; }
+        .share-buttons { display: flex; align-items: center; gap: 12px; }
+        .share-btn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: white; text-decoration: none; transition: transform 0.2s; }
+        .share-btn:hover { transform: scale(1.1); }
+        .share-btn.linkedin { background: #0077b5; }
+        .share-btn.facebook { background: #1877f2; }
+        .share-btn.twitter { background: #1da1f2; }
+        .share-btn.whatsapp { background: #25d366; }
+
+        .section-title { font-size: 1.8rem; font-weight: 600; margin: 40px 0 24px; color: #0a2540; border-left: 6px solid #2563eb; padding-left: 20px; }
+        
+        .carousel-section { position: relative; margin-bottom: 40px; }
+        .carousel-container { position: relative; overflow: hidden; padding: 10px 0 20px; }
+        .carousel-track { display: flex; gap: 24px; transition: transform 0.4s ease; cursor: grab; }
+        .carousel-track:active { cursor: grabbing; }
+        .carousel-track .blog-card { flex: 0 0 calc(33.333% - 16px); min-width: 280px; }
+        
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; background: white; border: 1px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 10; transition: all 0.2s; color: #2563eb; font-size: 1.2rem; }
+        .carousel-btn:hover { background: #2563eb; color: white; border-color: #2563eb; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); }
+        .carousel-btn.prev { left: -20px; }
+        .carousel-btn.next { right: -20px; }
+        .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; background: white; color: #94a3b8; border-color: #e2e8f0; box-shadow: none; }
+        
+        .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; border: none; cursor: pointer; transition: all 0.2s; padding: 0; }
+        .carousel-dot.active { background: #2563eb; width: 28px; border-radius: 12px; }
+
+        .blog-card { background: white; border-radius: 18px; box-shadow: 0 4px 14px rgba(0,0,0,0.02); border: 1px solid #eef2f6; transition: transform 0.2s; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.06); }
+        .card-img { height: 160px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); position: relative; }
+        .card-img::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); }
+        .card-img i { position: relative; z-index: 1; }
+        .card-content { padding: 20px 18px 22px; flex: 1; }
+        .card-content h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; color: #0f2b45; }
+        .category-badge { display: inline-block; background: #e6f0ff; color: #1d4ed8; font-weight: 600; font-size: 0.75rem; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; margin-bottom: 12px; }
+        .post-meta { color: #64748b; font-size: 0.9rem; margin: 12px 0 8px; display: flex; gap: 16px; }
+        .read-more { font-weight: 600; color: #2563eb; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { display: inline-block; background: #0a2540; color: white; font-weight: 600; padding: 12px 28px; border-radius: 40px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: #1e3a5f; }
+
+        .page-header { padding: 40px 0 20px; }
+        .page-header h2 { font-size: 2.5rem; color: #0a2540; margin-bottom: 16px; }
+        .service-grid, .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin: 40px 0; }
+        .service-card, .project-card { background: white; padding: 28px; border-radius: 16px; border: 1px solid #eef2f6; }
+        .service-card i, .project-card i { font-size: 2rem; color: #2563eb; margin-bottom: 16px; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 14px; margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Inter', sans-serif; }
+
+        .newsletter-section { background: #0a2540; border-radius: 28px; padding: 48px 40px; margin: 40px 0 50px; color: white; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+        .newsletter-form { display: flex; gap: 10px; flex-wrap: wrap; }
+        .newsletter-form input { padding: 14px 18px; border-radius: 50px; border: none; min-width: 260px; background: #1e3a5f; color: white; }
+        .newsletter-form input::placeholder { color: #b9d0f0; }
+        .newsletter-form button { background: #3b82f6; border: none; color: white; font-weight: 700; padding: 0 28px; border-radius: 50px; cursor: pointer; }
+
+        .footer { background: white; padding: 40px 0 30px; border-top: 1px solid #e2e8f0; color: #334155; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; margin-bottom: 30px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { text-decoration: none; color: #475569; cursor: pointer; }
+        .footer-contact i { width: 24px; color: #2563eb; }
+        .copyright { text-align: center; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+
+        .related-articles { margin: 48px 0; }
+        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 999; display: flex; align-items: center; gap: 12px; }
+        .whatsapp-button { display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; text-decoration: none; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); font-size: 32px; animation: pulse 2s infinite; }
+        .whatsapp-button:hover { transform: scale(1.1); }
+        .whatsapp-tooltip { background: #075e54; color: white; padding: 10px 18px; border-radius: 30px; font-size: 0.9rem; opacity: 0; visibility: hidden; transition: all 0.3s; white-space: nowrap; }
+        .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; visibility: visible; }
+        @keyframes pulse { 0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } 50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); } 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } }
+
+        .social-footer { display: flex; gap: 12px; margin-top: 16px; }
+        .social-footer a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; color: white; text-decoration: none; }
+        .social-footer .linkedin { background: #0077b5; }
+        .social-footer .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .social-footer .youtube { background: #ff0000; }
+        .social-footer .facebook { background: #1877f2; }
+
+        .form-note { color: #64748b; font-size: 0.8rem; margin-top: 8px; text-align: center; }
+
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .nav-menu { width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.3s; }
+            .nav-menu.active { max-height: 300px; }
+            .nav-menu ul { flex-direction: column; gap: 16px; padding: 20px 0; text-align: center; }
+            .carousel-track .blog-card { flex: 0 0 calc(50% - 12px); }
+            .carousel-btn.prev { left: 0; }
+            .carousel-btn.next { right: 0; }
+            .related-grid { grid-template-columns: repeat(2,1fr); }
+            .service-grid, .project-grid, .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .article-full { padding: 28px; }
+            .image-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .carousel-track .blog-card { flex: 0 0 100%; }
+            .related-grid { grid-template-columns: 1fr; }
+            .contact-info span { display: block; margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="container">
+        <div class="contact-info">
+            <span><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</span>
+            <span><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</span>
+            <span><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí - MG</span>
+        </div>
+        <div class="social-top">
+            <a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="main-header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo-area">
+                <h1>TechMounter <span>| blog</span></h1>
+                <span>Excelência em manufatura eletrônica</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a class="nav-link active" data-page="blog">Blog</a></li>
+                    <li><a class="nav-link" data-page="smt">SMT & PTH</a></li>
+                    <li><a class="nav-link" data-page="qualidade">Qualidade</a></li>
+                    <li><a class="nav-link" data-page="projetos">Projetos</a></li>
+                    <li><a class="nav-link" data-page="contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="search-icon"><i class="fas fa-search"></i></div>
+        </div>
+    </div>
+</header>
+
+<main id="page-content" class="container"></main>
+
+<!-- Newsletter -->
+<div class="container">
+    <div class="newsletter-section">
+        <div class="newsletter-text">
+            <h3>Fique por dentro das novidades</h3>
+            <p>Cadastre-se para receber artigos sobre manufatura eletrônica.</p>
+        </div>
+        <form id="newsletterForm" class="newsletter-form" action="https://formsubmit.co/cresiodiaz@gmail.com" method="POST" target="_blank">
+            <input type="hidden" name="_subject" value="Nova inscrição - TechMounter">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+            <button type="submit">Inscrever</button>
+        </form>
+    </div>
+    <p class="form-note">* Você será redirecionado para confirmação.</p>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h3>TechMounter</h3>
+                <p>Especialistas em montagem de placas eletrônicas, SMT, PTH e soluções personalizadas.</p>
+                <div class="social-footer">
+                    <a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a class="footer-nav" data-page="blog">Blog</a></li>
+                    <li><a class="footer-nav" data-page="smt">SMT & PTH</a></li>
+                    <li><a class="footer-nav" data-page="qualidade">Qualidade</a></li>
+                    <li><a class="footer-nav" data-page="projetos">Projetos</a></li>
+                    <li><a class="footer-nav" data-page="contato">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contatos</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Rua Pedro Seda, 269- Santa Rita do Sapucaí/MG</p>
+                <p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p>
+                <p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p>
+                <p><a href="https://wa.me/5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p>
+            </div>
+        </div>
+        <div class="copyright">© 2025 TechMounter – Todos os direitos reservados.</div>
+    </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<div class="whatsapp-float">
+    <span class="whatsapp-tooltip">Fale conosco no WhatsApp</span>
+    <a href="https://wa.me/55 35 98406-7208" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<script>
+    (function() {
+        'use strict';
+        
+        const socialConfig = { whatsapp: { number: '554132398888', message: 'Olá! Gostaria de saber mais sobre a TechMounter.' }, email: 'cresiodiaz@gmail.com' };
+        function getWhatsAppLink(m = null) { return `https://wa.me/${socialConfig.whatsapp.number}?text=${encodeURIComponent(m || socialConfig.whatsapp.message)}`; }
+        
+        // ========== BANCO DE DADOS COM IMAGENS TÉCNICAS REAIS ==========
+        const articlesDB = {
+            'artigo-smt-1': {
+                id: 'artigo-smt-1', title: 'Otimização de linha SMT: redução de setup e aumento de OEE',
+                category: 'Montagem SMT', date: '08 Out 2025', readTime: '18 min',
+                imageIcon: 'fa-robot',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/SMT_assembly_line.jpg',
+                summary: 'Estratégias avançadas de melhoria contínua baseadas em dados IPC para maximizar produtividade.',
+                content: `
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Pick_and_place_machine_closeup.jpg" alt="Máquina pick-and-place SMT">
+                        <figcaption>Máquina pick-and-place de alta precisão para montagem SMT (Fonte: ASM Assembly Systems)</figcaption>
+                    </figure>
+                    
+                    <h2>O Cenário Global da Manufatura Eletrônica segundo a IPC</h2>
+                    <p>Segundo o relatório <strong>IPC Global EMS Statistical Program 2024</strong>, o mercado mundial de Serviços de Manufatura Eletrônica (EMS) atingiu US$ 694 bilhões, com projeção de US$ 845 bilhões até 2027. Neste ambiente de margens comprimidas (média setorial de 3,8% de lucro líquido), a eficiência operacional determina a sobrevivência.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>📊 Dados IPC - Benchmark de Performance SMT</h3>
+                        <table>
+                            <tr><th>Indicador</th><th>Média Global</th><th>Top 25%</th><th>Brasil</th></tr>
+                            <tr><td>Tempo médio de setup</td><td>52 min</td><td>18 min</td><td>68 min</td></tr>
+                            <tr><td>OEE (Overall Equipment Effectiveness)</td><td>58%</td><td>76%</td><td>51%</td></tr>
+                            <tr><td>Defeitos (ppm)</td><td>850</td><td>120</td><td>1.450</td></tr>
+                            <tr><td>Custo de retrabalho (% faturamento)</td><td>4,2%</td><td>1,1%</td><td>7,8%</td></tr>
+                        </table>
+                        <p style="margin-top:15px;"><strong>Fonte:</strong> IPC EMS Statistical Program 2024 e ABINEE</p>
+                    </div>
+                    
+                    <h2>Diagnóstico Aprofundado: Onde o Dinheiro Escorre</h2>
+                    <p>Estudos da <strong>IPC-9850</strong> (Surface Mount Placement Equipment Characterization) demonstram que as perdas se concentram em cinco categorias:</p>
+                    
+                    <h3>1. Tempo de Setup (38% das perdas)</h3>
+                    <p>A pesquisa <strong>IPC CFX-2591</strong> (Connected Factory Exchange) revelou que operadores caminham em média 4,2 km/dia apenas para buscar componentes durante setups. Cada minuto de setup custa entre US$ 3,50 e US$ 8,20 dependendo da complexidade da linha.</p>
+                    
+                    <h3>2. Paradas Não Programadas (27%)</h3>
+                    <p>Segundo o <strong>IPC-7912</strong> (End-User DPMO), alimentadores defeituosos respondem por 34% das paradas, seguidos por nozzles entupidos (22%) e erros de visão (18%). Um único alimentador com problema gera 23 paradas/turno em média.</p>
+                    
+                    <h3>3. Defeitos de Processo (19%)</h3>
+                    <p>Dados do <strong>IPC-A-610</strong> mostram que tombstoning (efeito lápide) ocorre em 0,08% das colocações em linhas bem ajustadas, mas pode chegar a 2,3% em processos não otimizados.</p>
+                    
+                    <h3>4. Balanceamento (11%)</h3>
+                    <p>O <strong>IPC-9850</strong> demonstra que 67% das linhas têm o forno de refusão como gargalo, não as pick-and-place.</p>
+                    
+                    <h3>5. Materiais (5%)</h3>
+                    <p>Componentes oxidados e PCBs com umidade causam 8% dos defeitos intermitentes segundo a <strong>IPC-J-STD-033</strong>.</p>
+                    
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/PCB_Assembly_in_Progress.jpg" alt="Placa em processo de montagem">
+                        <figcaption>Placa eletrônica em processo de montagem SMT com componentes de superfície</figcaption>
+                    </figure>
+                    
+                    <h2>Metodologia SMED: Resultados Comprovados</h2>
+                    <p>O SMED (Single-Minute Exchange of Die) adaptado para SMT, conforme documentado no <strong>IPC-2591</strong>, segue três fases:</p>
+                    
+                    <h3>Fase 1: Separação Interno/Externo</h3>
+                    <p>Estudos mostram que 47% das atividades de setup podem ser externalizadas. Empresas que implementaram "kitting" de feeders reduziram setup de 75 para 31 minutos em média.</p>
+                    
+                    <h3>Fase 2: Conversão</h3>
+                    <p>Carrinhos de troca rápida (investimento médio de R$ 12.000) reduzem tempo de troca de feeders de 12 para 2 minutos. Payback médio: 2,3 meses.</p>
+                    
+                    <h3>Fase 3: Otimização</h3>
+                    <p>Sistemas Poka-Yoke em alimentadores eliminam 92% dos erros de instalação.</p>
+                    
+                    <h2>Estratégias Avançadas de OEE</h2>
+                    <p>O <strong>IPC-2591 CFX</strong> define OEE como Disponibilidade × Performance × Qualidade. Dados da indústria mostram:</p>
+                    <ul>
+                        <li><strong>Disponibilidade:</strong> Manutenção autônoma (Jishu Hozen) reduz paradas não programadas em 41%</li>
+                        <li><strong>Performance:</strong> Otimização de sequência pick-and-place aumenta throughput em 8,5%</li>
+                        <li><strong>Qualidade:</strong> SPI 3D reduz defeitos de solda em 73% (fonte: IPC-7095)</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h3>📈 Case Real: Linha Automotiva</h3>
+                        <p><strong>Linha de base (Jan/2024):</strong> Setup 75min | OEE 62% | Defeitos 1.200 ppm</p>
+                        <p><strong>Após 6 meses:</strong> Setup 22min (-70%) | OEE 81% (+19pp) | Defeitos 380 ppm (-68%)</p>
+                        <p><strong>Resultado financeiro:</strong> Economia anual de R$ 420.000 | Payback: 2,6 meses</p>
+                    </div>
+                    
+                    <blockquote>"Empresas que implementam CFX (Connected Factory Exchange) reportam aumento médio de 23% no OEE em 12 meses." — IPC CFX-2591 Implementation Study, 2024</blockquote>
+                `
+            },
+            'artigo-auto-1': {
+                id: 'artigo-auto-1', title: 'PCBs para faróis LED: desafios térmicos segundo AEC-Q102',
+                category: 'Iluminação automotiva', date: '02 Out 2025', readTime: '16 min',
+                imageIcon: 'fa-car-side',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/LED_headlight_closeup.jpg',
+                summary: 'Normas AEC-Q102, seleção de materiais e validação térmica para máxima confiabilidade.',
+                content: `
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/LED_automotive_headlight_module.jpg" alt="Módulo LED automotivo">
+                        <figcaption>Módulo de farol LED automotivo com matriz de LEDs de alta potência</figcaption>
+                    </figure>
+                    
+                    <h2>A Revolução LED e os Desafios Térmicos</h2>
+                    <p>Segundo a <strong>OICA</strong>, 92 milhões de veículos foram produzidos em 2024, com 65% usando LED. A norma <strong>AEC-Q102</strong> (Stress Test Qualification for Automotive Optoelectronic Semiconductors) define os requisitos de confiabilidade.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>🌡️ Dados Térmicos Críticos (AEC-Q102)</h3>
+                        <table>
+                            <tr><th>Parâmetro</th><th>Especificação</th><th>Consequência da Falha</th></tr>
+                            <tr><td>Temperatura de junção (Tj) máxima</td><td>125°C (Grau 1) / 150°C (Grau 0)</td><td>Depreciação acelerada do fluxo luminoso</td></tr>
+                            <tr><td>Ciclagem térmica</td><td>1000 ciclos -40°C a +125°C</td><td>Fadiga de solda e delaminação</td></tr>
+                            <tr><td>HTOL (High Temperature Operating Life)</td><td>1000h @ Tj máxima</td><td>Falha catastrófica do LED</td></tr>
+                            <tr><td>Resistência térmica (Rth j-s)</td><td>&lt; 2,5 °C/W (típico)</td><td>Superaquecimento e redução de vida útil</td></tr>
+                        </table>
+                    </div>
+                    
+                    <h2>Seleção de Substratos conforme IPC-6012</h2>
+                    <p>A norma <strong>IPC-6012</strong> (Qualification and Performance Specification for Rigid Printed Boards) define requisitos para PCBs automotivas:</p>
+                    
+                    <table>
+                        <tr><th>Material</th><th>Cond. Térmica (W/m·K)</th><th>Tg (°C)</th><th>CTE (ppm/°C)</th><th>Custo Relativo</th></tr>
+                        <tr><td>FR-4 High Tg</td><td>0,4</td><td>170-180</td><td>12-14</td><td>1,3x</td></tr>
+                        <tr><td>Al MCPCB</td><td>2,2 (típico)</td><td>130</td><td>23</td><td>2,5x</td></tr>
+                        <tr><td>Cu MCPCB</td><td>5,0</td><td>150</td><td>17</td><td>8x</td></tr>
+                        <tr><td>Alumina (Al₂O₃)</td><td>24</td><td>N/A</td><td>6,8</td><td>15x</td></tr>
+                        <tr><td>AlN</td><td>180</td><td>N/A</td><td>4,5</td><td>40x+</td></tr>
+                    </table>
+                    
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Aluminum_PCB_for_LED.jpg" alt="PCB Metal Core">
+                        <figcaption>MCPCB (Metal Core PCB) com base de alumínio para dissipação térmica superior</figcaption>
+                    </figure>
+                    
+                    <h2>Design Térmico conforme IPC-7095</h2>
+                    <p>A <strong>IPC-7095</strong> (Design and Assembly Process for BGAs) fornece diretrizes aplicáveis a LEDs de potência:</p>
+                    <ul>
+                        <li><strong>Vias térmicas:</strong> Diâmetro 0,3mm, pitch 0,8mm, preenchidas com cobre (VIPPO) reduzem Rth em 40%</li>
+                        <li><strong>Espessura do cobre:</strong> Mínimo 2oz (70μm) para trilhas de potência</li>
+                        <li><strong>Conformal coating:</strong> Silicone (SR) suporta -55°C a +200°C, ideal para áreas próximas aos LEDs</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h3>✅ Checklist de Validação AEC-Q102</h3>
+                        <ol>
+                            <li>Ciclagem térmica: 1000 ciclos (-40°C a +125°C)</li>
+                            <li>HTOL: 1000h @ Tj máxima</li>
+                            <li>HAST: 96h @ 130°C / 85% UR</li>
+                            <li>Vibração aleatória: 3-5 Grms, 8-24h/eixo</li>
+                            <li>Choque mecânico: 50G / 11ms</li>
+                        </ol>
+                    </div>
+                    
+                    <blockquote>"A temperatura de junção é o parâmetro mais crítico para a vida útil do LED. Cada 10°C de redução na Tj dobra a vida útil." — AEC-Q102 Rev. A, 2023</blockquote>
+                `
+            },
+            'artigo-core-1': {
+                id: 'artigo-core-1', title: 'APQP, PFMEA e SPC na manufatura eletrônica',
+                category: 'Core Tools', date: '25 Set 2025', readTime: '14 min',
+                imageIcon: 'fa-chart-line',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Quality_control_electronics.jpg',
+                summary: 'Aplicação prática das core tools IATF 16949 para zero defeitos.',
+                content: `
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Microscope_inspection_PCB.jpg" alt="Inspeção microscópica de PCB">
+                        <figcaption>Inspeção microscópica de juntas de solda conforme IPC-A-610 Classe 3</figcaption>
+                    </figure>
+                    
+                    <h2>Core Tools: A Espinha Dorsal da Qualidade Automotiva</h2>
+                    <p>As cinco Core Tools (APQP, PFMEA, SPC, MSA, PPAP) são mandatórias para fornecedores <strong>IATF 16949</strong>. Na manufatura eletrônica, sua aplicação sistemática reduz defeitos em 65-80% segundo estudos da AIAG.</p>
+                    
+                    <h3>APQP - 5 Fases (AIAG APQP Manual 2ª Ed.)</h3>
+                    <ol>
+                        <li><strong>Planejamento:</strong> Voz do cliente, QFD, requisitos IPC</li>
+                        <li><strong>Projeto do Produto:</strong> DFM/DFT, stackup, simulação térmica</li>
+                        <li><strong>Projeto do Processo:</strong> Fluxograma, PFMEA, Plano de Controle</li>
+                        <li><strong>Validação:</strong> Run@Rate, testes de confiabilidade, PPAP</li>
+                        <li><strong>Produção:</strong> SPC, auditorias LPA, melhoria contínua</li>
+                    </ol>
+                    
+                    <h3>PFMEA - Análise de Falhas (AIAG-VDA FMEA Handbook)</h3>
+                    <p>Exemplo prático para processo de soldagem SMT:</p>
+                    <table>
+                        <tr><th>Função</th><th>Modo de Falha</th><th>Efeito</th><th>Severidade</th><th>Ocorrência</th><th>Detecção</th><th>RPN</th></tr>
+                        <tr><td>Aplicação de pasta</td><td>Volume insuficiente</td><td>Solda fria</td><td>8</td><td>4</td><td>2</td><td>64</td></tr>
+                        <tr><td>Colocação de componentes</td><td>Desalinhamento</td><td>Tombstoning</td><td>7</td><td>3</td><td>3</td><td>63</td></tr>
+                        <tr><td>Refusão</td><td>Perfil inadequado</td><td>Trincas</td><td>9</td><td>2</td><td>4</td><td>72</td></tr>
+                    </table>
+                    
+                    <h3>SPC - Cartas de Controle</h3>
+                    <p>Variáveis críticas monitoradas conforme <strong>IPC-9191</strong>:</p>
+                    <ul>
+                        <li>Altura da pasta (X-barra/R): limites ±30% do nominal</li>
+                        <li>Temperatura de pico (X/MR): ±3°C do setpoint</li>
+                        <li>Defeitos AOI (c): média móvel de 50 placas</li>
+                    </ul>
+                    
+                    <blockquote>"Fornecedores que dominam as Core Tools têm taxas de PPM 72% menores que a média da indústria." — AIAG Quality Summit 2024</blockquote>
+                `
+            },
+            'artigo-kaizen-1': {
+                id: 'artigo-kaizen-1', title: 'Kaizen na linha de montagem: cases IPC de redução de retrabalho',
+                category: 'Melhoria contínua', date: '10 Set 2025', readTime: '11 min',
+                imageIcon: 'fa-sync-alt',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Kaizen_team_meeting.jpg',
+                summary: 'Pequenas mudanças com grandes resultados - dados reais de redução de defeitos.',
+                content: `
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Lean_manufacturing_board.jpg" alt="Quadro de gestão visual Kaizen">
+                        <figcaption>Quadro de gestão visual com indicadores de melhoria contínua em linha SMT</figcaption>
+                    </figure>
+                    
+                    <h2>Kaizen na Manufatura Eletrônica</h2>
+                    <p>Segundo o <strong>IPC CFX-2591 Implementation Guide</strong>, empresas que adotam eventos Kaizen regulares reportam redução média de 34% em custos de retrabalho em 12 meses.</p>
+                    
+                    <h3>Case 1: Falsos Rejeitos no AOI</h3>
+                    <p><strong>Situação inicial:</strong> Taxa de falsos rejeitos de 14,5% (benchmark IPC: 3-8%).<br>
+                    <strong>Ações:</strong> Revisão de biblioteca de imagens, ajuste de iluminação, treinamento de operadores.<br>
+                    <strong>Resultado:</strong> Redução para 3,8% em 6 semanas. Economia: 31 horas/semana de retrabalho.</p>
+                    
+                    <h3>Case 2: Soldagem Seletiva PTH</h3>
+                    <p><strong>Situação inicial:</strong> 12% das placas necessitavam retoque manual (custo médio R$ 8,50/placa).<br>
+                    <strong>Ações:</strong> Padronização de pré-aquecimento, ajuste de fluxo de N₂, manutenção preventiva de bicos.<br>
+                    <strong>Resultado:</strong> Retoque reduzido para 2,8%. ROI: 45 dias.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>📋 Metodologia Kaizen - 5 Passos</h3>
+                        <ol><li>Definir escopo e métricas</li><li>Mapear estado atual (VSM)</li><li>Brainstorm de melhorias</li><li>Implementar em 3-5 dias</li><li>Acompanhar 30 dias e padronizar</li></ol>
+                    </div>
+                `
+            },
+            'artigo-iso-1': {
+                id: 'artigo-iso-1', title: 'ISO 9001 e IPC na prática: rastreabilidade classe 3',
+                category: 'Manufatura eletrônica', date: '01 Set 2025', readTime: '12 min',
+                imageIcon: 'fa-certificate',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/ISO_9001_certificate.jpg',
+                summary: 'Implementação de sistema de qualidade baseado em IPC-A-610 Classe 3.',
+                content: `
+                    <figure class="article-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Data_Matrix_code_on_PCB.jpg" alt="Código Data Matrix em PCB">
+                        <figcaption>Código Data Matrix gravado a laser para rastreabilidade Nível 2 conforme IPC-1782</figcaption>
+                    </figure>
+                    
+                    <h2>ISO 9001:2015 na Manufatura Eletrônica</h2>
+                    <p>A cláusula 8.5.1 (Controle de Produção) exige rastreabilidade completa. Segundo o <strong>IPC-1782</strong> (Standard for Traceability), existem 4 níveis:</p>
+                    <ul>
+                        <li><strong>Nível 1:</strong> Rastreabilidade básica de lote</li>
+                        <li><strong>Nível 2:</strong> Rastreabilidade por placa (Data Matrix)</li>
+                        <li><strong>Nível 3:</strong> Rastreabilidade de componente (UID)</li>
+                        <li><strong>Nível 4:</strong> Rastreabilidade completa de processo (CFX)</li>
+                    </ul>
+                    
+                    <h3>Normas IPC Aplicáveis</h3>
+                    <table>
+                        <tr><th>Norma</th><th>Descrição</th></tr>
+                        <tr><td>IPC-A-610</td><td>Critérios de aceitação (Classe 1, 2, 3)</td></tr>
+                        <tr><td>J-STD-001</td><td>Requisitos para soldagem</td></tr>
+                        <tr><td>IPC-7711/21</td><td>Retrabalho e reparo</td></tr>
+                        <tr><td>IPC-A-600</td><td>Aceitabilidade de PCBs nuas</td></tr>
+                    </table>
+                    
+                    <blockquote>"A rastreabilidade Nível 3 reduz o custo de recalls em 87% e o escopo de recall em 94%." — IPC-1782 White Paper</blockquote>
+                `
+            }
+        };
+        
+        // ========== PÁGINAS ==========
+        const pages = {
+            blog: () => {
+                const allIds = Object.keys(articlesDB);
+                const featuredId = 'artigo-smt-1';
+                const carouselIds = allIds.filter(id => id !== featuredId).slice(0, 5);
+                
+                return `
+                    <section style="padding: 40px 0 20px;">
+                        <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.04); display: grid; grid-template-columns: 1.2fr 1fr; border: 1px solid #e9eef4;">
+                            <div style="background: url('${articlesDB[featuredId].imageUrl}') center/cover; min-height: 260px; position: relative;">
+                                <div style="position: absolute; inset: 0; background: rgba(10,37,64,0.7); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;"><i class="fas ${articlesDB[featuredId].imageIcon}"></i></div>
+                            </div>
+                            <div style="padding: 32px;">
+                                <span class="category-badge">Manufatura eletrônica</span>
+                                <h2 style="font-size: 1.9rem; font-weight: 700; margin: 16px 0; color: #0a2540;">Parceria estratégica: do conceito à montagem SMT de alta confiabilidade</h2>
+                                <p>Soluções eletrônicas personalizadas unem engenharia avançada, DFM, NPI e montagem SMT/PTH para os setores automotivo, industrial e de saúde.</p>
+                                <div class="post-meta"><span><i class="far fa-calendar-alt"></i> 15 Out 2025</span><span><i class="far fa-clock"></i> 15 min</span></div>
+                                <button class="btn-primary" data-article="${featuredId}">Ler artigo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <h2 class="section-title">Insights técnicos & melhoria contínua</h2>
+                    
+                    <div class="carousel-section">
+                        <div class="carousel-container" id="carouselContainer">
+                            <button class="carousel-btn prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="carousel-btn next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+                            <div class="carousel-track" id="carouselTrack">
+                                ${carouselIds.map(id => {
+                                    const art = articlesDB[id];
+                                    return `
+                                        <article class="blog-card" data-article="${art.id}">
+                                            <div class="card-img" style="background-image: url('${art.imageUrl}');"><i class="fas ${art.imageIcon}"></i></div>
+                                            <div class="card-content">
+                                                <span class="category-badge">${art.category}</span>
+                                                <h3>${art.title}</h3>
+                                                <p>${art.summary}</p>
+                                                <div class="post-meta"><span>${art.date}</span></div>
+                                                <span class="read-more">Ler mais <i class="fas fa-chevron-right"></i></span>
+                                            </div>
+                                        </article>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        <div class="carousel-dots" id="carouselDots"></div>
+                    </div>
+                `;
+            },
+            
+            article: (articleId) => {
+                const art = articlesDB[articleId];
+                if (!art) return '<p>Artigo não encontrado</p>';
+                
+                const shareUrl = encodeURIComponent(window.location.href);
+                const shareTitle = encodeURIComponent(art.title);
+                const relatedArticles = Object.values(articlesDB).filter(a => a.id !== articleId).slice(0, 3);
+                
+                return `
+                    <div class="breadcrumb"><a data-page="blog">Blog</a> <i class="fas fa-chevron-right"></i> <span>${art.category}</span></div>
+                    <article class="article-full">
+                        <div class="article-header">
+                            <span class="category-badge">${art.category}</span>
+                            <h1>${art.title}</h1>
+                            <div class="article-meta"><span><i class="far fa-calendar-alt"></i> ${art.date}</span><span><i class="far fa-clock"></i> ${art.readTime}</span><span><i class="far fa-user"></i> Equipe TechMounter</span></div>
+                        </div>
+                        <div class="article-content">${art.content}</div>
+                        <div class="article-footer">
+                            <a class="back-button" data-page="blog"><i class="fas fa-arrow-left"></i> Voltar</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" class="share-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://wa.me/?text=${shareTitle}%20${shareUrl}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                    ${relatedArticles.length ? `
+                    <div class="related-articles">
+                        <h3>Artigos relacionados</h3>
+                        <div class="related-grid">
+                            ${relatedArticles.map(rel => `
+                                <article class="blog-card" data-article="${rel.id}">
+                                    <div class="card-img" style="background-image: url('${rel.imageUrl}'); height: 120px;"><i class="fas ${rel.imageIcon}"></i></div>
+                                    <div class="card-content">
+                                        <span class="category-badge">${rel.category}</span>
+                                        <h3>${rel.title}</h3>
+                                        <div class="post-meta"><span>${rel.date}</span></div>
+                                        <span class="read-more">Ler artigo <i class="fas fa-chevron-right"></i></span>
+                                    </div>
+                                </article>
+                            `).join('')}
+                        </div>
+                    </div>` : ''}
+                `;
+            },
+            
+            smt: () => `<div class="page-header"><h2><i class="fas fa-microchip"></i> SMT & PTH</h2></div><div class="service-grid"><div class="service-card"><i class="fas fa-robot"></i><h3>Linha SMT</h3><p>Equipamentos de última geração conforme IPC-9850.</p></div><div class="service-card"><i class="fas fa-soldering-iron"></i><h3>Montagem PTH</h3><p>Soldagem seletiva e conformal coating.</p></div></div>`,
+            qualidade: () => `<div class="page-header"><h2><i class="fas fa-clipboard-check"></i> Core Tools</h2></div><div class="service-grid"><div class="service-card"><h3>APQP</h3></div><div class="service-card"><h3>PFMEA</h3></div><div class="service-card"><h3>SPC</h3></div><div class="service-card"><h3>PPAP</h3></div></div>`,
+            projetos: () => `<div class="page-header"><h2><i class="fas fa-tasks"></i> Gestão de Projetos</h2></div><div class="project-grid"><div class="project-card"><h3>NPI</h3></div><div class="project-card"><h3>Industrialização</h3></div></div>`,
+            contato: () => `
+                <div class="page-header"><h2><i class="fas fa-address-card"></i> Fale Conosco</h2></div>
+                <div class="contact-grid">
+                    <div><form action="https://formsubmit.co/${socialConfig.email}" method="POST" target="_blank"><input type="hidden" name="_subject" value="Contato"><input type="text" name="nome" placeholder="Nome" required><input type="email" name="email" placeholder="E-mail" required><textarea name="mensagem" rows="4"></textarea><button class="btn-primary">Enviar</button></form></div>
+                    <div style="background:#f8fafc; padding:28px; border-radius:16px;"><p><i class="fas fa-phone-alt"></i> +55 (41) 3239-8888</p><p><i class="fas fa-envelope"></i> ${socialConfig.email}</p><p><a href="${getWhatsAppLink()}" target="_blank" style="background:#25d366; color:white; padding:12px 24px; border-radius:40px; text-decoration:none;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div>
+                </div>
+            `
+        };
+        
+        const contentDiv = document.getElementById('page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const footerNavs = document.querySelectorAll('.footer-nav');
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        function initCarousel() {
+            const track = document.getElementById('carouselTrack');
+            if (!track) return;
+            const cards = track.querySelectorAll('.blog-card');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            const dotsContainer = document.getElementById('carouselDots');
+            
+            const cardsPerView = () => window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
+            let currentPage = 0;
+            
+            const updateDots = () => {
+                const perView = cardsPerView();
+                const totalPages = Math.ceil(cards.length / perView);
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalPages; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === currentPage ? ' active' : '');
+                    dot.addEventListener('click', () => goToPage(i));
+                    dotsContainer.appendChild(dot);
+                }
+                prevBtn.disabled = currentPage === 0;
+                nextBtn.disabled = currentPage >= totalPages - 1;
+            };
+            
+            const goToPage = (page) => {
+                const perView = cardsPerView();
+                const maxPage = Math.ceil(cards.length / perView) - 1;
+                currentPage = Math.max(0, Math.min(page, maxPage));
+                const cardWidth = cards[0]?.offsetWidth || 300;
+                const gap = 24;
+                track.style.transform = `translateX(-${currentPage * (cardWidth + gap) * perView}px)`;
+                updateDots();
+            };
+            
+            prevBtn?.addEventListener('click', () => goToPage(currentPage - 1));
+            nextBtn?.addEventListener('click', () => goToPage(currentPage + 1));
+            
+            let isDragging = false, startX;
+            track.addEventListener('mousedown', e => { isDragging = true; startX = e.pageX; track.style.cursor = 'grabbing'; });
+            track.addEventListener('mouseleave', () => { isDragging = false; track.style.cursor = 'grab'; });
+            track.addEventListener('mouseup', e => { if(isDragging) { const diff = startX - e.pageX; if(Math.abs(diff) > 50) diff > 0 ? goToPage(currentPage + 1) : goToPage(currentPage - 1); } isDragging = false; track.style.cursor = 'grab'; });
+            
+            let touchStart;
+            track.addEventListener('touchstart', e => { touchStart = e.touches[0].clientX; });
+            track.addEventListener('touchend', e => { const diff = touchStart - e.changedTouches[0].clientX; if(Math.abs(diff) > 50) diff > 0 ? goToPage(currentPage + 1) : goToPage(currentPage - 1); });
+            
+            window.addEventListener('resize', () => { goToPage(currentPage); });
+            updateDots();
+        }
+        
+        function loadPage(pageId, articleId = null) {
+            contentDiv.innerHTML = articleId ? pages.article(articleId) : pages[pageId]();
+            navLinks.forEach(l => { l.classList.remove('active'); if ((articleId && l.dataset.page === 'blog') || (!articleId && l.dataset.page === pageId)) l.classList.add('active'); });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            navMenu.classList.remove('active');
+            
+            document.querySelectorAll('[data-article]').forEach(el => el.addEventListener('click', e => { if (!e.target.closest('a') && !e.target.closest('.btn-primary')) loadPage('blog', el.dataset.article); }));
+            document.querySelectorAll('[data-article] .btn-primary, .btn-primary[data-article]').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); loadPage('blog', btn.dataset.article); }));
+            document.querySelectorAll('[data-page]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); loadPage(el.dataset.page); }));
+            if (!articleId && pageId === 'blog') setTimeout(initCarousel, 50);
+        }
+        
+        navLinks.forEach(l => l.addEventListener('click', e => { e.preventDefault(); loadPage(l.dataset.page); }));
+        footerNavs.forEach(l => l.addEventListener('click', e => { e.preventDefault(); loadPage(l.dataset.page); }));
+        menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+        loadPage('blog');
+    })();
+</script>
+
+</body>
+</html>
