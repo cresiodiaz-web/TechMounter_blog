@@ -1072,7 +1072,7 @@
                         <div class="related-grid">
                             ${relatedArticles.map(rel => `
                                 <article class="blog-card" data-article="${rel.id}">
-                                    <div class="card-img" style="height:120px;">
+                                    <div class="card-img" style="height:20px;">
                                         ${rel.imageIcon && rel.imageIcon.includes('/') 
                                             ? `<img src="${rel.imageIcon}" alt="${rel.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">`
                                             : `<i class="fas ${rel.imageIcon || 'fa-image'}" style="font-size:2.5rem;"></i>`}
