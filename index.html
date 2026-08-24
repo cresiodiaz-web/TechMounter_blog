@@ -145,6 +145,36 @@
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .menu-overlay.active { opacity: 1; visibility: visible; }
 
+        /* ===== CSS CORRIGIDO PARA IMAGENS NOS ARTIGOS RELACIONADOS ===== */
+        .related-grid .card-img {
+            height: 140px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(145deg, #0a2540, #1e3a5f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .related-grid .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .related-grid .card-img i {
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        .related-grid .blog-card {
+            display: flex;
+            flex-direction: column;
+        }
+
         @media (max-width: 900px) {
             .menu-toggle { display: block; }
             .nav-menu { position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh; background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.1); transition: right 0.3s ease; z-index: 100; padding: 80px 30px 30px; overflow-y: auto; }
@@ -158,6 +188,8 @@
             .newsletter-form input { min-width: 200px; }
             .article-list-item { flex-direction: column; }
             .article-list-img { flex: none; height: 180px; }
+            .related-grid { grid-template-columns: 1fr; }
+            .related-grid .card-img { height: 180px; }
         }
         @media (max-width: 600px) {
             .contact-info span { display: block; margin-bottom: 5px; }
@@ -173,12 +205,14 @@
             .article-content h4 { font-size: 1rem; }
             .article-content table { display: block; overflow-x: auto; white-space: nowrap; }
             .article-content .highlight-box { padding: 15px 10px; }
+            .related-grid { grid-template-columns: 1fr; }
+            .related-grid .card-img { height: 160px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Top Bar e Header -->
+<!-- Top Bar e Header (mantidos exatamente iguais) -->
 <div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-phone-alt"></i> +55 (35) 98506-7208</span><span><i class="fas fa-envelope"></i> cresiodias@gmail.com</span><span><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí - MG</span></div><div class="social-top"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
 <header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
 <div class="menu-overlay" id="menuOverlay"></div>
@@ -1072,10 +1106,10 @@
                         <div class="related-grid">
                             ${relatedArticles.map(rel => `
                                 <article class="blog-card" data-article="${rel.id}">
-                                    <div class="card-img" style="height:20px;">
+                                    <div class="card-img">
                                         ${rel.imageIcon && rel.imageIcon.includes('/') 
                                             ? `<img src="${rel.imageIcon}" alt="${rel.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">`
-                                            : `<i class="fas ${rel.imageIcon || 'fa-image'}" style="font-size:2.5rem;"></i>`}
+                                            : `<i class="fas ${rel.imageIcon || 'fa-image'}"></i>`}
                                     </div>
                                     <div class="card-content">
                                         <span class="category-badge">${rel.category}</span>
