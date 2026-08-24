@@ -1312,9 +1312,10 @@
                 html += `
                     <article class="article-list-item" data-article="${art.id}">
                         <div class="article-list-img">
-                            <i class="fas ${art.imageIcon}"></i>
-                            <img src="assets/img/${art.id}.jpg" alt="${art.title}" onerror="this.style.display='none'">
-                        </div>
+                          ${art.imageIcon && art.imageIcon.includes('/') 
+                          ? <img src="${art.imageIcon}" alt="${art.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">
+                          : <i class="fas ${art.imageIcon || 'fa-image'}"></i>}
+                    </div>
                         <div class="article-list-content">
                             <span class="category-badge">${art.category}</span>
                             <h3>${art.title}</h3>
