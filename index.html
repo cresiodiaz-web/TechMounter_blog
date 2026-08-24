@@ -22,9 +22,10 @@
 
         .main-header { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); padding: 16px 0; border-bottom: 1px solid #eef2f6; position: sticky; top: 0; z-index: 100; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-        .logo-area h1 { font-size: 1.9rem; font-weight: 700; color: #0a2540; }
-        .logo-area span { font-weight: 400; color: #2563eb; font-size: 1rem; display: block; }
-        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: #0a2540; cursor: pointer; }
+        .logo-area h1 { font-size: clamp(1.5rem, 2.5vw, 1.9rem); font-weight: 700; color: #0a2540; }
+        .logo-area span { font-weight: 400; color: #2563eb; font-size: 0.9rem; display: block; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: #0a2540; cursor: pointer; transition: transform 0.3s; }
+        .menu-toggle.active { transform: rotate(90deg); }
         .nav-menu ul { display: flex; list-style: none; gap: 32px; }
         .nav-menu a { text-decoration: none; font-weight: 500; color: #334155; cursor: pointer; transition: color 0.2s; }
         .nav-menu a:hover, .nav-menu a.active { color: #2563eb; }
@@ -36,13 +37,20 @@
         .breadcrumb a { color: #2563eb; text-decoration: none; cursor: pointer; }
         .breadcrumb i { margin: 0 8px; font-size: 0.7rem; }
 
-        .article-full { background: white; border-radius: 24px; padding: 48px; margin: 24px 0 48px; box-shadow: 0 8px 24px rgba(0,0,0,0.04); border: 1px solid #eef2f6; }
+        /* Títulos responsivos */
+        .article-header h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #0a2540; margin: 16px 0; line-height: 1.3; }
+        .article-content h2 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); margin: 40px 0 20px; color: #0a2540; border-bottom: 2px solid #eef2f6; padding-bottom: 10px; }
+        .article-content h3 { font-size: clamp(1.1rem, 1.8vw, 1.3rem); margin: 30px 0 15px; color: #1e3a5f; }
+        .article-content h4 { font-size: clamp(1rem, 1.5vw, 1.1rem); margin: 25px 0 12px; color: #334155; font-weight: 600; }
+        .page-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); color: #0a2540; margin-bottom: 16px; }
+        .section-title { font-size: clamp(1.4rem, 2.5vw, 1.7rem); font-weight: 600; margin: 40px 0 24px; color: #0a2540; border-left: 6px solid #2563eb; padding-left: 20px; }
+        .newsletter-text h3 { font-size: 1.6rem; margin-bottom: 8px; }
+        .card-content h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; color: #0f2b45; }
+        .service-card h3, .project-card h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; color: #0a2540; }
+
+        .article-full { background: white; border-radius: 24px; padding: clamp(20px, 4vw, 48px); margin: 24px 0 48px; box-shadow: 0 8px 24px rgba(0,0,0,0.04); border: 1px solid #eef2f6; }
         .article-header { margin-bottom: 32px; border-bottom: 1px solid #eef2f6; padding-bottom: 24px; }
-        .article-header h1 { font-size: 2.5rem; font-weight: 700; color: #0a2540; margin: 16px 0; line-height: 1.3; }
         .article-meta { display: flex; gap: 24px; color: #64748b; font-size: 0.95rem; flex-wrap: wrap; }
-        .article-content h2 { font-size: 1.8rem; margin: 40px 0 20px; color: #0a2540; border-bottom: 2px solid #eef2f6; padding-bottom: 10px; }
-        .article-content h3 { font-size: 1.4rem; margin: 30px 0 15px; color: #1e3a5f; }
-        .article-content h4 { font-size: 1.2rem; margin: 25px 0 12px; color: #334155; font-weight: 600; }
         .article-content p { margin-bottom: 20px; text-align: justify; }
         .article-content ul, .article-content ol { margin: 20px 0 30px 30px; }
         .article-content li { margin-bottom: 12px; }
@@ -54,7 +62,8 @@
         .article-content tr:hover { background: #f8fafc; }
         
         .article-icon { margin: 30px 0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: linear-gradient(145deg, #0a2540, #1e3a5f); }
-        .article-icon .icon-display { display: flex; align-items: center; justify-content: center; min-height: 300px; color: white; font-size: 6rem; }
+        .article-icon .icon-display { display: flex; align-items: center; justify-content: center; min-height: 260px; color: white; font-size: 6rem; position: relative; }
+        .article-icon img { width: 100%; height: auto; max-height: 400px; object-fit: cover; display: block; }
         .article-icon figcaption { background: #f8fafc; padding: 12px 16px; font-size: 0.9rem; color: #64748b; border-top: 1px solid #eef2f6; }
 
         .article-footer { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eef2f6; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
@@ -65,69 +74,55 @@
         .share-btn.linkedin { background: #0077b5; }
         .share-btn.whatsapp { background: #25d366; }
 
-        .section-title { font-size: 1.8rem; font-weight: 600; margin: 40px 0 24px; color: #0a2540; border-left: 6px solid #2563eb; padding-left: 20px; }
-        
-        .carousel-section { position: relative; margin-bottom: 40px; }
-        .carousel-container { position: relative; overflow: hidden; padding: 10px 0 20px; }
-        .carousel-track { display: flex; gap: 24px; transition: transform 0.4s ease; cursor: grab; }
-        .carousel-track:active { cursor: grabbing; }
-        .carousel-track .blog-card { flex: 0 0 calc(33.333% - 16px); min-width: 280px; }
-        
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; background: white; border: 1px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 10; transition: all 0.2s; color: #2563eb; font-size: 1.2rem; }
-        .carousel-btn:hover { background: #2563eb; color: white; border-color: #2563eb; }
-        .carousel-btn.prev { left: -20px; }
-        .carousel-btn.next { right: -20px; }
-        .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        
-        .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
-        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; border: none; cursor: pointer; }
-        .carousel-dot.active { background: #2563eb; width: 28px; border-radius: 12px; }
-
-        .blog-card { background: white; border-radius: 18px; border: 1px solid #eef2f6; transition: transform 0.2s; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
-        .blog-card:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.06); }
-        .card-img { height: 160px; background: linear-gradient(145deg, #0a2540, #1e3a5f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; position: relative; }
-        .card-img i { position: relative; z-index: 1; }
-        .card-content { padding: 20px 18px 22px; flex: 1; }
-        .card-content h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; color: #0f2b45; }
-        .category-badge { display: inline-block; background: #e6f0ff; color: #1d4ed8; font-weight: 600; font-size: 0.75rem; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; margin-bottom: 12px; }
-        .post-meta { color: #64748b; font-size: 0.9rem; margin: 12px 0 8px; display: flex; gap: 16px; }
+        /* Lista de artigos */
+        .article-list { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
+        .article-list-item { display: flex; background: white; border-radius: 18px; border: 1px solid #eef2f6; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .article-list-item:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.06); }
+        .article-list-img { flex: 0 0 260px; background: linear-gradient(145deg, #0a2540, #1e3a5f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; position: relative; overflow: hidden; min-height: 180px; }
+        .article-list-img img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+        .article-list-img i { position: relative; z-index: 1; }
+        .article-list-content { flex: 1; padding: 20px 24px; display: flex; flex-direction: column; }
+        .article-list-content h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: #0f2b45; }
+        .article-list-content p { color: #475569; margin-bottom: 12px; flex: 1; }
+        .article-list-meta { display: flex; gap: 16px; color: #64748b; font-size: 0.9rem; margin-bottom: 8px; flex-wrap: wrap; }
+        .article-list-meta span { display: inline-flex; align-items: center; gap: 6px; }
         .read-more { font-weight: 600; color: #2563eb; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-primary { display: inline-block; background: #0a2540; color: white; font-weight: 600; padding: 12px 28px; border-radius: 40px; border: none; cursor: pointer; }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 30px 0 50px; flex-wrap: wrap; }
+        .pagination button { background: white; border: 1px solid #e2e8f0; color: #334155; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .pagination button:hover { background: #f1f5f9; }
+        .pagination button.active { background: #2563eb; color: white; border-color: #2563eb; }
+        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .pagination .page-info { color: #64748b; font-size: 0.9rem; }
 
-        /* ========== PÁGINAS DE SERVIÇOS - LAYOUT MELHORADO ========== */
+        .category-badge { display: inline-block; background: #e6f0ff; color: #1d4ed8; font-weight: 600; font-size: 0.75rem; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; margin-bottom: 12px; }
+
+        /* Páginas de serviços */
         .page-header { padding: 40px 0 20px; text-align: center; }
-        .page-header h2 { font-size: 2.8rem; color: #0a2540; margin-bottom: 16px; }
         .page-header h2 i { color: #2563eb; margin-right: 16px; }
-        .page-header p { font-size: 1.2rem; color: #64748b; max-width: 700px; margin: 0 auto; }
-        
+        .page-header p { font-size: 1.1rem; color: #64748b; max-width: 700px; margin: 0 auto; }
         .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin: 40px 0; }
         .service-card { background: white; padding: 32px; border-radius: 20px; border: 1px solid #eef2f6; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; text-align: center; }
         .service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.08); border-color: #d0ddee; }
         .service-card .icon-wrapper { width: 80px; height: 80px; background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
         .service-card .icon-wrapper i { font-size: 2.5rem; color: white; }
-        .service-card h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; color: #0a2540; }
         .service-card p { color: #475569; margin-bottom: 20px; }
         .service-card ul { list-style: none; text-align: left; margin-top: 20px; }
         .service-card ul li { margin-bottom: 10px; color: #334155; }
         .service-card ul li i { color: #10b981; margin-right: 8px; }
-        
         .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin: 40px 0; }
         .project-card { background: white; padding: 32px; border-radius: 20px; border: 1px solid #eef2f6; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
         .project-card:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.08); border-color: #d0ddee; }
         .project-card .icon-wrapper { width: 70px; height: 70px; background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .project-card .icon-wrapper i { font-size: 2rem; color: white; }
-        .project-card h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; color: #0a2540; }
         .project-card p { color: #475569; margin-bottom: 20px; }
         .project-card .features { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
         .project-card .feature-tag { background: #e6f0ff; color: #1d4ed8; padding: 6px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 500; }
-
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0; }
         .contact-form input, .contact-form textarea { width: 100%; padding: 14px; margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Inter', sans-serif; }
 
-        /* Newsletter - CORRIGIDO PARA MOBILE */
         .newsletter-section { background: #0a2540; border-radius: 28px; padding: 48px 40px; margin: 40px 0 50px; color: white; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
         .newsletter-text { flex: 1; min-width: 250px; }
-        .newsletter-text h3 { font-size: 1.8rem; margin-bottom: 8px; }
+        .newsletter-text h3 { font-size: 1.6rem; margin-bottom: 8px; }
         .newsletter-text p { opacity: 0.9; }
         .newsletter-form { display: flex; gap: 12px; flex: 1; min-width: 300px; justify-content: flex-end; }
         .newsletter-form input { padding: 16px 20px; border-radius: 50px; border: none; min-width: 260px; background: #1e3a5f; color: white; font-size: 1rem; flex: 1; }
@@ -140,47 +135,57 @@
         .footer-links ul { list-style: none; }
         .footer-links a { color: #475569; cursor: pointer; text-decoration: none; }
         .copyright { text-align: center; padding-top: 24px; border-top: 1px solid #e2e8f0; }
-
         .related-articles { margin: 48px 0; }
         .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-
         .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 999; }
         .whatsapp-button { display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; text-decoration: none; font-size: 32px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } 50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); } 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } }
 
+        /* Overlay menu mobile */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+
         @media (max-width: 900px) {
             .menu-toggle { display: block; }
-            .nav-menu { width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.3s; }
-            .nav-menu.active { max-height: 300px; }
-            .nav-menu ul { flex-direction: column; gap: 16px; padding: 20px 0; text-align: center; }
-            .carousel-track .blog-card { flex: 0 0 calc(50% - 12px); }
+            .nav-menu { position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh; background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.1); transition: right 0.3s ease; z-index: 100; padding: 80px 30px 30px; overflow-y: auto; }
+            .nav-menu.active { right: 0; }
+            .nav-menu ul { flex-direction: column; gap: 24px; padding: 0; text-align: left; }
+            .nav-menu a { font-size: 1.2rem; display: block; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
             .footer-grid { grid-template-columns: 1fr; }
             .service-grid, .project-grid, .contact-grid { grid-template-columns: 1fr; }
             .newsletter-section { flex-direction: column; text-align: center; padding: 36px 24px; }
             .newsletter-form { justify-content: center; width: 100%; }
             .newsletter-form input { min-width: 200px; }
+            .article-list-item { flex-direction: column; }
+            .article-list-img { flex: none; height: 180px; }
         }
         @media (max-width: 600px) {
-            .carousel-track .blog-card { flex: 0 0 100%; }
             .contact-info span { display: block; margin-bottom: 5px; }
             .newsletter-form { flex-direction: column; align-items: stretch; }
             .newsletter-form input { width: 100%; }
             .newsletter-form button { padding: 16px 20px; text-align: center; }
-            .page-header h2 { font-size: 2rem; }
+            .page-header h2 { font-size: 1.6rem; }
             .service-card .icon-wrapper { width: 60px; height: 60px; }
             .service-card .icon-wrapper i { font-size: 2rem; }
+            .article-header h1 { font-size: 1.5rem; }
+            .article-content h2 { font-size: 1.3rem; }
+            .article-content h3 { font-size: 1.15rem; }
+            .article-content h4 { font-size: 1rem; }
+            .article-content table { display: block; overflow-x: auto; white-space: nowrap; }
+            .article-content .highlight-box { padding: 15px 10px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Top Bar e Header (mantidos exatamente iguais) -->
-<div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-phone-alt"></i> +55 (35) 984067208</span><span><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</span><span><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí -MG </span></div><div class="social-top"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+<!-- Top Bar e Header -->
+<div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-phone-alt"></i> +55 (41) 3239-8888</span><span><i class="fas fa-envelope"></i> contato@techmounter.com.br</span><span><i class="fas fa-map-marker-alt"></i> Curitiba - PR | Pato Branco - PR</span></div><div class="social-top"><a href="https://www.linkedin.com/company/techmounter" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
 <header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
+<div class="menu-overlay" id="menuOverlay"></div>
 
 <main id="page-content" class="container"></main>
 
-<!-- Newsletter - CORRIGIDO -->
+<!-- Newsletter -->
 <div class="container">
     <div class="newsletter-section">
         <div class="newsletter-text">
@@ -195,24 +200,42 @@
     </div>
 </div>
 
-<!-- Footer (mantido igual) -->
-<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p><div class="social-footer"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener" class="linkedin"><i class="fab fa-linkedin-in"></i></a></div></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Rua Pedro Seda, 269 - Santa Rita do sapucaí/MG</p><p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p><p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p><p><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2026 TechMounter – Todos os direitos reservados.</div></div></footer>
-<div class="whatsapp-float"><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i></a></div>
+<!-- Footer -->
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p><div class="social-footer"><a href="https://www.linkedin.com/company/techmounter" target="_blank" rel="noopener" class="linkedin"><i class="fab fa-linkedin-in"></i></a></div></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Rua José Altair Possebom, 130 - Curitiba/PR</p><p><i class="fas fa-phone-alt"></i> +55 (41) 3239-8888</p><p><i class="fas fa-envelope"></i> contato@techmounter.com.br</p><p><a href="https://api.whatsapp.com/send?phone=554132398888" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2025 TechMounter – Todos os direitos reservados.</div></div></footer>
+<div class="whatsapp-float"><a href="https://api.whatsapp.com/send?phone=554132398888" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i></a></div>
 
 <script>
     (function() {
         'use strict';
         
-        const socialConfig = { whatsapp: { number: '5535984067208', message: 'Olá! Gostaria de saber mais sobre a Fênix Indústria de Eletrônicos.' }, email: 'cresiodiaz@gmail.com' };
+        const socialConfig = { whatsapp: { number: '554132398888', message: 'Olá! Gostaria de saber mais sobre a Fênix Indústria de Eletrônicos.' }, email: 'cresiodiaz@gmail.com' };
         function getWhatsAppLink(m = null) { return `https://api.whatsapp.com/send?phone=${socialConfig.whatsapp.number}&text=${encodeURIComponent(m || socialConfig.whatsapp.message)}`; }
         
-        // Link da Fênix Indústria
         const fenixUrl = 'https://www.fenixindustria.net.br';
         
+        // Mapeamento de imagens (pasta assets/img/)
+        const imageMap = {
+            'fa-microchip': 'assets/img/microchip.jpg',
+            'fa-industry': 'assets/img/industry.jpg',
+            'fa-lightbulb': 'assets/img/lightbulb.jpg',
+            'fa-layer-group': 'assets/img/layer-group.jpg',
+            'fa-chart-bar': 'assets/img/chart-bar.jpg',
+            'fa-clipboard-check': 'assets/img/clipboard-check.jpg',
+            'fa-chart-line': 'assets/img/chart-line.jpg',
+            'fa-chalkboard': 'assets/img/chalkboard.jpg',
+            'fa-users-cog': 'assets/img/users-cog.jpg',
+            'fa-certificate': 'assets/img/certificate.jpg',
+            'fa-qrcode': 'assets/img/qrcode.jpg'
+        };
+        
         function iconFigure(iconClass, caption) {
+            const imgPath = imageMap[iconClass] || '';
             return `
                 <figure class="article-icon">
-                    <div class="icon-display"><i class="fas ${iconClass}"></i></div>
+                    <div class="icon-display">
+                        ${imgPath ? `<img src="${imgPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">` : ''}
+                        <i class="fas ${iconClass}" style="${imgPath ? 'display: none;' : ''}"></i>
+                    </div>
                     <figcaption>${caption}</figcaption>
                 </figure>
             `;
@@ -222,7 +245,7 @@
         const articlesDB = {
             'artigo-smt-1': {
                 id: 'artigo-smt-1', title: 'Otimização de linha SMT: redução de setup e aumento de OEE',
-                category: 'Montagem SMT', date: '20 Fev 2026', readTime: '22 min',
+                category: 'Montagem SMT', date: '08 Out 2025', readTime: '22 min',
                 imageIcon: 'fa-robot',
                 summary: 'Estratégias avançadas de melhoria contínua baseadas em dados IPC para maximizar produtividade.',
                 content: `
@@ -390,7 +413,7 @@
             },
             'artigo-auto-1': {
                 id: 'artigo-auto-1', title: 'PCBs para faróis LED: desafios térmicos segundo AEC-Q102',
-                category: 'Iluminação automotiva', date: '02 Fev 2026', readTime: '24 min',
+                category: 'Iluminação automotiva', date: '02 Out 2025', readTime: '24 min',
                 imageIcon: 'fa-car-side',
                 summary: 'Análise aprofundada de normas AEC-Q102, seleção de materiais, design térmico e validação para máxima confiabilidade.',
                 content: `
@@ -553,7 +576,7 @@
             },
             'artigo-core-1': {
                 id: 'artigo-core-1', title: 'APQP, PFMEA e SPC na manufatura eletrônica',
-                category: 'Core Tools', date: '03 Mar 2026', readTime: '20 min',
+                category: 'Core Tools', date: '25 Set 2025', readTime: '20 min',
                 imageIcon: 'fa-chart-line',
                 summary: 'Aplicação prática das core tools IATF 16949 para zero defeitos em montagem de placas.',
                 content: `
@@ -652,7 +675,7 @@
             },
             'artigo-kaizen-1': {
                 id: 'artigo-kaizen-1', title: 'Kaizen na linha de montagem: cases IPC de redução de retrabalho',
-                category: 'Melhoria contínua', date: '31 Mar 2026', readTime: '18 min',
+                category: 'Melhoria contínua', date: '10 Set 2025', readTime: '18 min',
                 imageIcon: 'fa-sync-alt',
                 summary: 'Pequenas mudanças com grandes resultados - dados reais de redução de defeitos.',
                 content: `
@@ -744,7 +767,7 @@
             },
             'artigo-iso-1': {
                 id: 'artigo-iso-1', title: 'ISO 9001 e IPC na prática: rastreabilidade classe 3',
-                category: 'Manufatura eletrônica', date: '15 Mar 2026', readTime: '18 min',
+                category: 'Manufatura eletrônica', date: '01 Set 2025', readTime: '18 min',
                 imageIcon: 'fa-certificate',
                 summary: 'Implementação de sistema de qualidade baseado em IPC-A-610 Classe 3 e IPC-1782.',
                 content: `
@@ -833,59 +856,191 @@
                     
                     <blockquote>"A rastreabilidade Nível 3 reduz o custo de recalls em 87% e o escopo de recall em 94%." — IPC-1782 White Paper</blockquote>
                 `
-            }
+            }, 
+ 'artigo-rastreabilidade-1': {
+    id: 'artigo-rastreabilidade-1',
+    title: 'Rastreabilidade nível 4 com CFX: o futuro da manufatura eletrônica',
+    category: 'Rastreabilidade',
+    date: '15 Nov 2025',
+    readTime: '16 min',
+    imageIcon: 'fa-qrcode',
+    summary: 'Como o padrão IPC-2591 CFX permite rastrear cada placa e cada componente em tempo real, reduzindo recalls e melhorando a qualidade.',
+    content: `
+        ${iconFigure('fa-qrcode', 'Código Data Matrix em placa eletrônica – base da rastreabilidade nível 4')}
+        
+        <h2>Introdução: Por Que a Rastreabilidade se Tornou Crítica?</h2>
+        <p>No cenário atual da manufatura eletrônica, a rastreabilidade deixou de ser um diferencial competitivo para se tornar uma exigência regulatória e de mercado. Setores como o automotivo (IATF 16949), o aeroespacial (AS9100) e o de dispositivos médicos (ISO 13485) exigem sistemas capazes de reconstruir a história completa de cada produto, desde o recebimento dos componentes até a expedição.</p>
+        <p>Segundo o <strong>IPC-1782</strong> (Standard for Traceability of Electronic Components, Assemblies, and Systems), a rastreabilidade eficaz pode reduzir o custo de recalls em até 87% e o escopo de recall em 94%. Estes números são cruciais em um mercado onde um único recall pode custar milhões de dólares e danificar irreversivelmente a reputação da marca.</p>
+        <p>Mas o que significa, na prática, atingir o <strong>nível 4 de rastreabilidade</strong>? E como o padrão <strong>IPC-2591 CFX</strong> (Connected Factory Exchange) viabiliza essa implementação em larga escala? Este artigo explora essas questões com base em dados de estudos da indústria e nas próprias normas IPC.</p>
+        
+        <h2>Os Quatro Níveis de Rastreabilidade da IPC-1782</h2>
+        <p>A norma <strong>IPC-1782</strong> define quatro níveis progressivos de maturidade em rastreabilidade, cada um adicionando maior granularidade e capacidade de investigação.</p>
+        
+        <div class="highlight-box">
+            <h3>📊 Tabela comparativa dos níveis de rastreabilidade (conforme IPC-1782)</h3>
+            <table>
+                <tr><th>Nível</th><th>Descrição</th><th>Escopo</th><th>Benefícios Principais</th></tr>
+                <tr><td><strong>1</strong></td><td>Rastreabilidade por lote</td><td>Lote de produção da placa</td><td>Atende requisitos mínimos ISO 9001</td></tr>
+                <tr><td><strong>2</strong></td><td>Rastreabilidade por placa individual</td><td>Cada placa recebe identificação única (ex.: Data Matrix)</td><td>Recalls cirúrgicos; redução de escopo em até 90%</td></tr>
+                <tr><td><strong>3</strong></td><td>Rastreabilidade de componentes críticos</td><td>Cada componente tem lote/date code vinculado à placa</td><td>Identificação precisa da fonte de falhas; exigência IATF 16949</td></tr>
+                <tr><td><strong>4</strong></td><td>Rastreabilidade completa de processo</td><td>Inclui parâmetros de processo (temperatura, vácuo, etc.) por placa</td><td>Análise de causa raiz avançada; manufatura preditiva</td></tr>
+            </table>
+        </div>
+        
+        <p>No nível 4, cada placa carrega consigo não apenas a identificação dos componentes, mas também o registro de todos os parâmetros de processo a que foi submetida: temperaturas do forno de refusão, pressão de vácuo do pick-and-place, volume de pasta de solda medido pelo SPI, resultado da inspeção óptica automatizada (AOI) e até mesmo o operador responsável por cada etapa. Essa visibilidade total permite análises de confiabilidade sem precedentes.</p>
+        
+        ${iconFigure('fa-microchip', 'Linha SMT com sensores e sistemas conectados via CFX')}
+        
+        <h2>O Papel do IPC-2591 CFX na Rastreabilidade Nível 4</h2>
+        <p>O <strong>IPC-2591 CFX</strong> (Connected Factory Exchange) é um padrão aberto de comunicação máquina-a-máquina (M2M) e máquina-para-sistema (M2S). Ele define um modelo de dados unificado e protocolos de troca de informações em tempo real entre equipamentos de diferentes fabricantes. Antes do CFX, integrar dados de processo de máquinas heterogêneas exigia customizações caras e propensas a erros.</p>
+        <p>Com o CFX, todas as máquinas da linha de produção – impressoras de pasta, máquinas de pick-and-place, fornos de refusão, AOI, SPI, testadores – publicam eventos e dados padronizados em uma rede comum. Isso permite que um sistema MES (Manufacturing Execution System) colete e correlacione automaticamente os dados de cada placa, criando o "gêmeo digital" do processo.</p>
+        
+        <h3>Como Funciona na Prática?</h3>
+        <ol>
+            <li><strong>Cada placa recebe um identificador único</strong> (geralmente um Data Matrix 2D gravado a laser) logo no início da linha SMT.</li>
+            <li><strong>Os equipamentos leem esse identificador</strong> a cada etapa, associando os parâmetros de processo ao ID da placa.</li>
+            <li><strong>O CFX padroniza a troca dessas informações</strong>, permitindo que qualquer máquina envie dados para o MES em tempo real.</li>
+            <li><strong>O MES registra um histórico completo</strong> para cada placa, incluindo dados de componentes, máquinas, parâmetros e resultados de inspeção.</li>
+        </ol>
+        
+        <p>Segundo o <strong>IPC CFX Implementation Guide</strong>, fábricas que adotam o CFX relatam uma redução média de 30% no tempo de implementação de novas linhas e um aumento de 23% no OEE em 12 meses. A rastreabilidade nível 4 torna-se, assim, uma consequência natural da digitalização da fábrica.</p>
+        
+        <div class="highlight-box">
+            <h3>📈 Benefícios comprovados da rastreabilidade nível 4 (estudos IPC e indústria)</h3>
+            <ul>
+                <li><strong>Redução de custo de recall em 87%</strong> – limita o recall apenas às placas com o lote de componente afetado (fonte: IPC-1782).</li>
+                <li><strong>Redução de escopo de recall em 94%</strong> – evita recall de todo um período de produção (fonte: IPC-1782).</li>
+                <li><strong>Redução de 68% no tempo de investigação de falhas</strong> – a correlação entre parâmetros de processo e defeitos acelera a análise de causa raiz (fonte: IPC CFX White Paper).</li>
+                <li><strong>Aumento de produtividade em até 25%</strong> – a visibilidade em tempo real permite ajustes proativos, reduzindo paradas e retrabalho.</li>
+                <li><strong>Conformidade com normas automotivas e aeroespaciais</strong> – atende aos requisitos de rastreabilidade da IATF 16949 e AS9100 sem custos adicionais de TI.</li>
+            </ul>
+        </div>
+        
+        <h2>Implementação Passo a Passo da Rastreabilidade Nível 4</h2>
+        <p>Muitos fabricantes imaginam que a rastreabilidade nível 4 exige investimentos colossais. Na realidade, a evolução pode ser gradual, aproveitando a infraestrutura existente.</p>
+        
+        <h3>Fase 1: Marcação e Identificação</h3>
+        <p>O primeiro passo é implementar a identificação única de cada placa. A gravação a laser de um código Data Matrix 2D é o método mais comum por ser indelével e legível por máquina. A norma <strong>IPC-1782</strong> recomenda que o código seja posicionado na borda da placa, fora da área de montagem.</p>
+        
+        <h3>Fase 2: Coleta de Dados de Componentes</h3>
+        <p>Para atingir o nível 3, é necessário registrar o lote e o date code de cada componente. Isso pode ser feito através da leitura de etiquetas nos alimentadores (feeders) e da integração com o sistema ERP/MES. O CFX padroniza essas informações, facilitando a troca automática.</p>
+        
+        <h3>Fase 3: Integração de Parâmetros de Processo</h3>
+        <p>Aqui entra o CFX: todos os equipamentos críticos passam a reportar em tempo real os parâmetros de processo. Um MES com suporte a CFX coleta e correlaciona esses dados. A norma <strong>IPC-9850</strong> define os padrões de comunicação para máquinas de SMT, enquanto o <strong>IPC-2591</strong> amplia para toda a linha.</p>
+        
+        <h3>Fase 4: Análise e Melhoria Contínua</h3>
+        <p>Com os dados centralizados, equipes de qualidade podem usar ferramentas de análise estatística (SPC) para identificar correlações entre desvios de processo e defeitos. A rastreabilidade nível 4 permite, por exemplo, identificar que um lote específico de pasta de solda apresentou maior incidência de vazios em BGAs, associado a uma variação de temperatura no forno.</p>
+        
+        <h2>Desafios e Considerações</h2>
+        <p>Apesar dos benefícios, a implementação da rastreabilidade nível 4 apresenta desafios:</p>
+        <ul>
+            <li><strong>Custo de infraestrutura</strong> – marcadores a laser, leitores em cada estação e um MES robusto demandam investimento inicial.</li>
+            <li><strong>Volume de dados</strong> – uma linha de alta velocidade pode gerar centenas de megabytes por dia; é necessário planejar o armazenamento.</li>
+            <li><strong>Padronização</strong> – equipamentos legados podem não suportar CFX; pode ser necessário utilizar adaptadores ou substituir máquinas.</li>
+            <li><strong>Treinamento</strong> – operadores e equipe de qualidade precisam entender como interpretar os dados.</li>
+        </ul>
+        
+        <blockquote>"A rastreabilidade total não é mais um luxo. É uma questão de sobrevivência em mercados onde a confiabilidade é inegociável." — Adaptado de publicação da IPC, 2024</blockquote>
+        
+        <h2>Conclusão</h2>
+        <p>A rastreabilidade nível 4, impulsionada pelo padrão CFX, representa o estado da arte na manufatura eletrônica. Ela transforma a fábrica em um ambiente transparente, onde cada placa conta sua própria história. Os números comprovam: redução drástica em recalls, investigação de falhas acelerada e maior confiança do cliente.</p>
+        <p>Para empresas que atendem aos setores automotivo, aeroespacial ou médico, investir em rastreabilidade nível 4 não é apenas uma vantagem competitiva – é uma obrigação. E com o CFX, esse caminho tornou-se mais acessível e padronizado do que nunca.</p>
+        
+        <blockquote>"O CFX é o elo que faltava para conectar máquinas, pessoas e dados em uma única rede de produção inteligente." — IPC-2591 CFX Implementation Guide</blockquote>
+    `
+}, 
+'artigo-soldagem-leadfree-1': {
+    id: 'artigo-soldagem-leadfree-1',
+    title: 'Soldagem sem chumbo: desafios térmicos e soluções para alta confiabilidade',
+    category: 'Processos de Soldagem',
+    date: '22 Nov 2025',
+    readTime: '20 min',
+    imageIcon: 'fa-temperature-high',
+    summary: 'Entenda os desafios da soldagem lead-free, requisitos da RoHS e as melhores práticas para garantir juntas de solda confiáveis em eletrônicos de alta exigência.',
+    content: `
+        ${iconFigure('fa-temperature-high', 'Perfil térmico de soldagem sem chumbo exige temperaturas mais altas e controle rigoroso')}
+        
+        <h2>Introdução: A Era da Soldagem Sem Chumbo</h2>
+        <p>A Diretiva Europeia <strong>RoHS (2011/65/EU)</strong> e legislações similares em todo o mundo restringiram o uso de chumbo em equipamentos eletroeletrônicos, impulsionando a indústria em direção às ligas de solda sem chumbo. A transição, no entanto, trouxe desafios significativos para a manufatura eletrônica, especialmente no que diz respeito ao processo térmico e à confiabilidade das juntas de solda.</p>
+        <p>Enquanto a solda tradicional à base de estanho-chumbo (Sn63/Pb37) fundia a 183°C, as ligas sem chumbo mais comuns, como a <strong>SAC305 (Sn96,5/Ag3,0/Cu0,5)</strong>, exigem temperaturas de pico entre 235°C e 245°C. Esse aumento de 50°C ou mais impacta diretamente os componentes, a placa de circuito impresso e o próprio processo de soldagem.</p>
+        <p>Segundo a <strong>IPC</strong> (Association Connecting Electronics Industries), mais de 90% dos fabricantes globais já adotaram ligas sem chumbo em suas linhas de produção. No entanto, muitos ainda enfrentam desafios relacionados a defeitos como vazios, trincas e molhabilidade insuficiente.</p>
+        
+        <div class="highlight-box">
+            <h3>📊 Comparativo de Ligas de Solda Comuns</h3>
+            <table>
+                <tr><th>Liga</th><th>Composição</th><th>Ponto de Fusão</th><th>Vantagens</th><th>Desvantagens</th></tr>
+                <tr><td>SAC305</td><td>Sn96,5/Ag3,0/Cu0,5</td><td>217-220°C</td><td>Boa resistência mecânica e térmica</td><td>Maior propensão a vazios em BGAs</td></tr>
+                <tr><td>SN100C</td><td>Sn/Cu0,7/Ni0,05</td><td>227°C</td><td>Baixo custo, boa fluidez</td><td>Menor resistência à fadiga térmica</td></tr>
+                <tr><td>SAC405</td><td>Sn95,5/Ag4,0/Cu0,5</td><td>217-225°C</td><td>Excelente confiabilidade em ciclos térmicos</td><td>Custo mais elevado</td></tr>
+                <tr><td>Sn63/Pb37 (legada)</td><td>Sn63/Pb37</td><td>183°C</td><td>Baixa temperatura, excelente molhabilidade</td><td>Restrita pela RoHS</td></tr>
+            </table>
+        </div>
+        
+        <h2>Desafios Térmicos da Soldagem Lead-Free</h2>
+        <p>O aumento da temperatura de processo afeta todo o sistema de soldagem. Os principais desafios incluem:</p>
+        
+        <h3>1. Estresse Térmico em Componentes</h3>
+        <p>Componentes sensíveis, como capacitores cerâmicos, LEDs e circuitos integrados de alta densidade, podem sofrer danos quando expostos a temperaturas acima de 245°C. A <strong>IPC-J-STD-001</strong> recomenda que o pico de temperatura não exceda 260°C por mais de 10 segundos, e que a taxa de aquecimento seja controlada entre 2°C/s e 4°C/s.</p>
+        
+        <h3>2. Formação de Vazios em Juntas BGA</h3>
+        <p>Vazios (voids) são mais comuns em soldas sem chumbo devido à menor molhabilidade e à formação de óxidos na superfície da liga. A norma <strong>IPC-7095</strong> estabelece que a área total de vazios em uma junta BGA não deve exceder 25% para aplicações de Classe 3 (alta confiabilidade).</p>
+        
+        <h3>3. Oxidação e Molhabilidade</h3>
+        <p>A solda sem chumbo apresenta maior tensão superficial e menor capacidade de molhamento, o que pode resultar em juntas mal formadas. O uso de atmosfera controlada com nitrogênio (N₂) é uma prática recomendada para reduzir a oxidação e melhorar a qualidade da solda.</p>
+        
+        ${iconFigure('fa-microchip', 'Inspeção por raio-X é essencial para detectar vazios em juntas BGA')}
+        
+        <h2>Estratégias para Soldagem Lead-Free Confiável</h2>
+        <p>Para mitigar os desafios, os fabricantes devem adotar uma abordagem integrada que combine controle de processo, seleção de materiais e inspeção avançada.</p>
+        
+        <h3>Otimização do Perfil Térmico</h3>
+        <p>Um perfil térmico bem ajustado é o primeiro passo. Recomenda-se um <strong>pré-aquecimento gradual</strong> (rampa de 2°C/s a 3°C/s) para evitar choque térmico, seguido de um patamar de ativação do fluxo entre 150°C e 180°C por 60 a 120 segundos. O pico deve ser limitado a 245°C ±5°C, com tempo acima da temperatura líquida (TAL) de 60 a 90 segundos.</p>
+        
+        <h3>Uso de Fluxos de Alta Atividade</h3>
+        <p>Fluxos desenvolvidos especificamente para solda sem chumbo oferecem melhor ativação e remoção de óxidos. A escolha do fluxo deve considerar o tipo de componente, o acabamento superficial da placa (HASL lead-free, ENIG, OSP) e os requisitos de limpeza pós-soldagem.</p>
+        
+        <h3>Atmosfera de Nitrogênio</h3>
+        <p>A soldagem em forno com injeção de nitrogênio reduz a oxidação da solda e melhora a molhabilidade, especialmente em componentes de passo fino e BGA. Embora aumente o custo operacional, o benefício em termos de redução de defeitos justifica o investimento em aplicações de alta confiabilidade.</p>
+        
+        <h3>Inspeção por Raio-X e AOI</h3>
+        <p>A detecção de vazios e defeitos internos exige inspeção por raio-X (AXI). A combinação de inspeção óptica automatizada (AOI) para defeitos superficiais e AXI para análise interna garante uma cobertura completa da qualidade das juntas.</p>
+        
+        <div class="highlight-box">
+            <h3>📈 Defeitos Comuns e Causas na Soldagem Lead-Free</h3>
+            <table>
+                <tr><th>Defeito</th><th>Causa Provável</th><th>Solução</th></tr>
+                <tr><td>Vazios em BGA</td><td>Oxidação, perfil térmico inadequado, fluxo insuficiente</td><td>Otimizar perfil, usar N₂, fluxo com maior atividade</td></tr>
+                <tr><td>Tombstoning (efeito lápide)</td><td>Desequilíbrio de umectação entre terminais</td><td>Ajustar padrão de pasta, controlar diferença de temperatura</td></tr>
+                <tr><td>Solder balls (esferas de solda)</td><td>Contaminação, pasta com umidade, perfil agressivo</td><td>Controlar armazenamento da pasta, revisar perfil</td></tr>
+                <tr><td>Trincas em juntas</td><td>Fadiga térmica, choque mecânico</td><td>Usar ligas com dopantes (ex.: Innolot), melhorar design</td></tr>
+                <tr><td>Molhabilidade insuficiente</td><td>Oxidação excessiva, acabamento inadequado da placa</td><td>Aumentar fluxo, trocar acabamento (ENIG, OSP)</td></tr>
+            </table>
+        </div>
+        
+        <h2>Bigodes de Estanho: Um Risco Oculto</h2>
+        <p>Um fenômeno particular das soldas sem chumbo com alto teor de estanho é o crescimento de <strong>bigodes de estanho</strong> (tin whiskers). Trata-se de filamentos microscópicos que podem se formar espontaneamente na superfície da solda e causar curtos-circuitos em equipamentos de alta densidade.</p>
+        <p>Embora a incidência seja rara, o risco é maior em ambientes com estresse térmico e mecânico. A indústria tem mitigado o problema com a adição de pequenos percentuais de bismuto ou níquel à liga, e com a aplicação de revestimentos conformais que inibem o crescimento dos filamentos.</p>
+        
+        <h2>Conclusão: A Soldagem Sem Chumbo é o Novo Padrão</h2>
+        <p>A soldagem sem chumbo não é mais uma opção, mas uma realidade consolidada na indústria eletrônica. Com os desafios térmicos e de confiabilidade mapeados, as soluções passam por um controle de processo rigoroso, uso de materiais adequados e inspeção avançada. Os fabricantes que dominam essas práticas obtêm juntas de solda com qualidade equivalente ou até superior à solda tradicional, atendendo às exigências regulatórias e de mercado.</p>
+        <p>Na Fênix Indústria de Eletrônicos, a experiência com soldagem lead-free em setores como automotivo e aeroespacial garante conformidade com normas IPC e IATF 16949, entregando produtos de alta confiabilidade.</p>
+        
+        <blockquote>"A soldagem sem chumbo exige disciplina técnica, mas os benefícios para a saúde humana e o meio ambiente são inegáveis." — Adaptado de relatório da IPC, 2023</blockquote>
+    `
+}
         };
         
-        // ========== PÁGINAS (COM REFERÊNCIAS À FÊNIX) ==========
+        // ========== PÁGINAS ==========
         const pages = {
             blog: () => {
-                const allIds = Object.keys(articlesDB);
-                const featuredId = 'artigo-smt-1';
-                const carouselIds = allIds.filter(id => id !== featuredId).slice(0, 5);
-                
                 return `
-                    <section style="padding: 40px 0 20px;">
-                        <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.04); display: grid; grid-template-columns: 1.2fr 1fr; border: 1px solid #e9eef4;">
-                            <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); min-height: 260px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;"><i class="fas ${articlesDB[featuredId].imageIcon}"></i></div>
-                            <div style="padding: 32px;">
-                                <span class="category-badge">Manufatura eletrônica</span>
-                                <h2 style="font-size: 1.9rem; font-weight: 700; margin: 16px 0; color: #0a2540;">Parceria estratégica: do conceito à montagem SMT de alta confiabilidade</h2>
-                                <p>Soluções eletrônicas personalizadas unem engenharia avançada, DFM, NPI e montagem SMT/PTH para os setores automotivo, industrial e de saúde.</p>
-                                <div class="post-meta"><span><i class="far fa-calendar-alt"></i> 15 Out 2025</span><span><i class="far fa-clock"></i> 15 min</span></div>
-                                <button class="btn-primary" data-article="${featuredId}">Ler artigo <i class="fas fa-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <h2 class="section-title">Insights técnicos & melhoria contínua</h2>
-                    
-                    <div class="carousel-section">
-                        <div class="carousel-container" id="carouselContainer">
-                            <button class="carousel-btn prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
-                            <button class="carousel-btn next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
-                            <div class="carousel-track" id="carouselTrack">
-                                ${carouselIds.map(id => {
-                                    const art = articlesDB[id];
-                                    return `
-                                        <article class="blog-card" data-article="${art.id}">
-                                            <div class="card-img"><i class="fas ${art.imageIcon}"></i></div>
-                                            <div class="card-content">
-                                                <span class="category-badge">${art.category}</span>
-                                                <h3>${art.title}</h3>
-                                                <p>${art.summary}</p>
-                                                <div class="post-meta"><span>${art.date}</span></div>
-                                                <span class="read-more">Ler mais <i class="fas fa-chevron-right"></i></span>
-                                            </div>
-                                        </article>
-                                    `;
-                                }).join('')}
-                            </div>
-                        </div>
-                        <div class="carousel-dots" id="carouselDots"></div>
+                    <div class="page-header">
+                        <h2><i class="fas fa-newspaper"></i> Blog TechMounter</h2>
+                        <p>Artigos técnicos sobre manufatura eletrônica, qualidade e melhoria contínua</p>
                     </div>
+                    <div id="blogListContainer"></div>
                 `;
             },
-            
             article: (articleId) => {
                 const art = articlesDB[articleId];
                 if (!art) return '<p>Artigo não encontrado</p>';
@@ -917,7 +1072,10 @@
                         <div class="related-grid">
                             ${relatedArticles.map(rel => `
                                 <article class="blog-card" data-article="${rel.id}">
-                                    <div class="card-img" style="height:120px;"><i class="fas ${rel.imageIcon}" style="font-size:2.5rem;"></i></div>
+                                    <div class="card-img" style="height:120px;">
+                                        <i class="fas ${rel.imageIcon}" style="font-size:2.5rem;"></i>
+                                        <img src="assets/img/${rel.id}.jpg" alt="${rel.title}" onerror="this.style.display='none'">
+                                    </div>
                                     <div class="card-content">
                                         <span class="category-badge">${rel.category}</span>
                                         <h3>${rel.title}</h3>
@@ -930,8 +1088,6 @@
                     </div>` : ''}
                 `;
             },
-            
-            // PÁGINA SMT & PTH - COM LINK PARA FÊNIX
             smt: () => `
                 <div class="page-header">
                     <h2><i class="fas fa-microchip"></i> SMT & PTH</h2>
@@ -977,8 +1133,6 @@
                     <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Visitar Fênix Indústria <i class="fas fa-arrow-right"></i></a>
                 </div>
             `,
-            
-            // PÁGINA QUALIDADE - COM LINK PARA FÊNIX
             qualidade: () => `
                 <div class="page-header">
                     <h2><i class="fas fa-clipboard-check"></i> Core Tools da Qualidade</h2>
@@ -1036,8 +1190,6 @@
                     <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Conheça a Fênix Indústria <i class="fas fa-arrow-right"></i></a>
                 </div>
             `,
-            
-            // PÁGINA PROJETOS - COM LINK PARA FÊNIX
             projetos: () => `
                 <div class="page-header">
                     <h2><i class="fas fa-tasks"></i> Gestão de Projetos</h2>
@@ -1082,17 +1234,17 @@
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0;">
                     <div style="background: white; padding: 24px; border-radius: 16px; text-align: center; border: 1px solid #eef2f6;">
                         <i class="fas fa-clock" style="font-size: 2rem; color: #2563eb; margin-bottom: 12px;"></i>
-                        <h4 style="margin-bottom: 8px;">Time-to-Market</h4>
+                        <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Time-to-Market</h4>
                         <p style="color: #64748b;">Redução de até 40% no tempo de lançamento</p>
                     </div>
                     <div style="background: white; padding: 24px; border-radius: 16px; text-align: center; border: 1px solid #eef2f6;">
                         <i class="fas fa-chart-pie" style="font-size: 2rem; color: #2563eb; margin-bottom: 12px;"></i>
-                        <h4 style="margin-bottom: 8px;">Redução de Custos</h4>
+                        <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Redução de Custos</h4>
                         <p style="color: #64748b;">Otimização de BOM e processo</p>
                     </div>
                     <div style="background: white; padding: 24px; border-radius: 16px; text-align: center; border: 1px solid #eef2f6;">
                         <i class="fas fa-shield-alt" style="font-size: 2rem; color: #2563eb; margin-bottom: 12px;"></i>
-                        <h4 style="margin-bottom: 8px;">Gestão de Riscos</h4>
+                        <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Gestão de Riscos</h4>
                         <p style="color: #64748b;">Mitigação proativa com FMEA</p>
                     </div>
                 </div>
@@ -1102,7 +1254,6 @@
                     <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Visitar Fênix Indústria <i class="fas fa-arrow-right"></i></a>
                 </div>
             `,
-            
             contato: () => `
                 <div class="page-header">
                     <h2><i class="fas fa-address-card"></i> Fale Conosco</h2>
@@ -1122,9 +1273,9 @@
                     </div>
                     <div style="background: #f8fafc; padding: 32px; border-radius: 20px;">
                         <h3 style="margin-bottom: 24px;">Nossos contatos</h3>
-                        <p style="margin-bottom: 20px;"><i class="fas fa-phone-alt" style="color: #2563eb; width: 24px;"></i> <strong>Comercial:</strong> +55 (35) 984067208</p>
+                        <p style="margin-bottom: 20px;"><i class="fas fa-phone-alt" style="color: #2563eb; width: 24px;"></i> <strong>Comercial:</strong> +55 (41) 3239-8888</p>
                         <p style="margin-bottom: 20px;"><i class="fas fa-envelope" style="color: #2563eb; width: 24px;"></i> <strong>E-mail:</strong> ${socialConfig.email}</p>
-                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i>Vale da Eletrônica<strong>:</strong><br>Rua Pedro Seda, 269 - Santa Rita do Sapucaí</p>
+                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i> <strong>Matriz Curitiba:</strong><br>Rua José Altair Possebom, 130 - Parque do Software</p>
                         <p style="margin-top: 28px;">
                             <a href="${fenixUrl}" target="_blank" style="background: #0a2540; color: white; padding: 14px 28px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block; width: 100%; text-align: center; margin-bottom: 12px;">
                                 Visitar Fênix Indústria <i class="fas fa-external-link-alt"></i>
@@ -1138,68 +1289,118 @@
             `
         };
         
+        // ========== RENDERIZAÇÃO DO BLOG COM PAGINAÇÃO ==========
+        const ITEMS_PER_PAGE = 5;
+        let blogCurrentPage = 0;
+        
+        function renderBlogArticles(page) {
+            const container = document.getElementById('blogListContainer');
+            if (!container) return;
+            
+            const allArticles = Object.values(articlesDB);
+            // Ordenar por data (mais recentes primeiro) – opcional
+            // allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const totalPages = Math.ceil(allArticles.length / ITEMS_PER_PAGE);
+            blogCurrentPage = Math.max(0, Math.min(page, totalPages - 1));
+            const start = blogCurrentPage * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const pageArticles = allArticles.slice(start, end);
+            
+            let html = `<div class="article-list">`;
+            pageArticles.forEach(art => {
+                html += `
+                    <article class="article-list-item" data-article="${art.id}">
+                        <div class="article-list-img">
+                            <i class="fas ${art.imageIcon}"></i>
+                            <img src="assets/img/${art.id}.jpg" alt="${art.title}" onerror="this.style.display='none'">
+                        </div>
+                        <div class="article-list-content">
+                            <span class="category-badge">${art.category}</span>
+                            <h3>${art.title}</h3>
+                            <div class="article-list-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${art.date}</span>
+                                <span><i class="far fa-clock"></i> ${art.readTime}</span>
+                            </div>
+                            <p>${art.summary}</p>
+                            <span class="read-more">Ler artigo completo <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                    </article>
+                `;
+            });
+            html += `</div>`;
+            
+            // Paginação
+            html += `<div class="pagination">`;
+            html += `<button ${blogCurrentPage === 0 ? 'disabled' : ''} data-page-num="${blogCurrentPage - 1}"><i class="fas fa-chevron-left"></i> Anterior</button>`;
+            for (let i = 0; i < totalPages; i++) {
+                html += `<button class="${i === blogCurrentPage ? 'active' : ''}" data-page-num="${i}">${i + 1}</button>`;
+            }
+            html += `<button ${blogCurrentPage === totalPages - 1 ? 'disabled' : ''} data-page-num="${blogCurrentPage + 1}">Próxima <i class="fas fa-chevron-right"></i></button>`;
+            html += `<span class="page-info">Página ${blogCurrentPage + 1} de ${totalPages}</span>`;
+            html += `</div>`;
+            
+            container.innerHTML = html;
+            
+            // Event listeners
+            container.querySelectorAll('[data-article]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if (!e.target.closest('a')) {
+                        loadPage('blog', el.dataset.article);
+                    }
+                });
+            });
+            container.querySelectorAll('[data-page-num]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    renderBlogArticles(parseInt(btn.dataset.pageNum));
+                });
+            });
+        }
+        
+        // ========== NAVEGAÇÃO ==========
         const contentDiv = document.getElementById('page-content');
         const navLinks = document.querySelectorAll('.nav-link');
         const footerNavs = document.querySelectorAll('.footer-nav');
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
         
-        function initCarousel() {
-            const track = document.getElementById('carouselTrack');
-            if (!track) return;
-            const cards = track.querySelectorAll('.blog-card');
-            const prevBtn = document.getElementById('carouselPrev');
-            const nextBtn = document.getElementById('carouselNext');
-            const dotsContainer = document.getElementById('carouselDots');
-            
-            const cardsPerView = () => window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
-            let currentPage = 0;
-            
-            const updateDots = () => {
-                const perView = cardsPerView();
-                const totalPages = Math.ceil(cards.length / perView);
-                dotsContainer.innerHTML = '';
-                for (let i = 0; i < totalPages; i++) {
-                    const dot = document.createElement('button');
-                    dot.className = 'carousel-dot' + (i === currentPage ? ' active' : '');
-                    dot.addEventListener('click', () => goToPage(i));
-                    dotsContainer.appendChild(dot);
-                }
-                if(prevBtn) prevBtn.disabled = currentPage === 0;
-                if(nextBtn) nextBtn.disabled = currentPage >= totalPages - 1;
-            };
-            
-            const goToPage = (page) => {
-                const perView = cardsPerView();
-                const maxPage = Math.ceil(cards.length / perView) - 1;
-                currentPage = Math.max(0, Math.min(page, maxPage));
-                const cardWidth = cards[0]?.offsetWidth || 300;
-                track.style.transform = `translateX(-${currentPage * (cardWidth + 24) * perView}px)`;
-                updateDots();
-            };
-            
-            prevBtn?.addEventListener('click', () => goToPage(currentPage - 1));
-            nextBtn?.addEventListener('click', () => goToPage(currentPage + 1));
-            
-            window.addEventListener('resize', () => goToPage(currentPage));
-            updateDots();
+        function toggleMenu(forceClose = false) {
+            const isActive = navMenu.classList.contains('active');
+            if (forceClose || isActive) {
+                navMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                navMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                menuToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
         
         function loadPage(pageId, articleId = null) {
             contentDiv.innerHTML = articleId ? pages.article(articleId) : pages[pageId]();
             navLinks.forEach(l => { l.classList.remove('active'); if ((articleId && l.dataset.page === 'blog') || (!articleId && l.dataset.page === pageId)) l.classList.add('active'); });
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            navMenu.classList.remove('active');
+            toggleMenu(true);
+            
+            if (!articleId && pageId === 'blog') {
+                renderBlogArticles(blogCurrentPage);
+            }
             
             document.querySelectorAll('[data-article]').forEach(el => el.addEventListener('click', e => { if (!e.target.closest('a') && !e.target.closest('.btn-primary')) loadPage('blog', el.dataset.article); }));
             document.querySelectorAll('[data-article] .btn-primary, .btn-primary[data-article]').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); loadPage('blog', btn.dataset.article); }));
             document.querySelectorAll('[data-page]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); loadPage(el.dataset.page); }));
-            if (!articleId && pageId === 'blog') setTimeout(initCarousel, 50);
         }
         
         navLinks.forEach(l => l.addEventListener('click', e => { e.preventDefault(); loadPage(l.dataset.page); }));
         footerNavs.forEach(l => l.addEventListener('click', e => { e.preventDefault(); loadPage(l.dataset.page); }));
-        menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+        menuToggle.addEventListener('click', () => toggleMenu());
+        menuOverlay.addEventListener('click', () => toggleMenu(true));
+        
+        // Carregar página inicial
         loadPage('blog');
     })();
 </script>
