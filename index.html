@@ -246,7 +246,7 @@
             'artigo-smt-1': {
                 id: 'artigo-smt-1', title: 'Otimização de linha SMT: redução de setup e aumento de OEE',
                 category: 'Montagem SMT', date: '08 Out 2025', readTime: '22 min',
-                imageIcon: 'assets/img/lightbulb.jpg',
+                imageIcon: 'fa-robot',
                 summary: 'Estratégias avançadas de melhoria contínua baseadas em dados IPC para maximizar produtividade.',
                 content: `
                     ${iconFigure('fa-microchip', 'Placa eletrônica com componentes SMT de alta densidade')}
@@ -1073,9 +1073,8 @@
                             ${relatedArticles.map(rel => `
                                 <article class="blog-card" data-article="${rel.id}">
                                     <div class="card-img" style="height:120px;">
-                                       ${rel.imageIcon && rel.imageIcon.includes('/') 
-                                       ? <img src="${rel.imageIcon}" alt="${rel.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">
-                                       : <i class="fas ${rel.imageIcon || 'fa-image'}" style="font-size:2.5rem;"></i>}
+                                        <i class="fas ${rel.imageIcon}" style="font-size:2.5rem;"></i>
+                                        <img src="assets/img/${rel.id}.jpg" alt="${rel.title}" onerror="this.style.display='none'">
                                     </div>
                                     <div class="card-content">
                                         <span class="category-badge">${rel.category}</span>
@@ -1313,10 +1312,9 @@
                 html += `
                     <article class="article-list-item" data-article="${art.id}">
                         <div class="article-list-img">
-                          ${art.imageIcon && art.imageIcon.includes('/') 
-                          ? <img src="${art.imageIcon}" alt="${art.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">
-                          : <i class="fas ${art.imageIcon || 'fa-image'}"></i>}
-                    </div>
+                            <i class="fas ${art.imageIcon}"></i>
+                            <img src="assets/img/${art.id}.jpg" alt="${art.title}" onerror="this.style.display='none'">
+                        </div>
                         <div class="article-list-content">
                             <span class="category-badge">${art.category}</span>
                             <h3>${art.title}</h3>
