@@ -1073,8 +1073,9 @@
                             ${relatedArticles.map(rel => `
                                 <article class="blog-card" data-article="${rel.id}">
                                     <div class="card-img" style="height:120px;">
-                                        <i class="fas ${rel.imageIcon}" style="font-size:2.5rem;"></i>
-                                        <img src="assets/img/${rel.id}.jpg" alt="${rel.title}" onerror="this.style.display='none'">
+                                       ${rel.imageIcon && rel.imageIcon.includes('/') 
+                                       ? <img src="${rel.imageIcon}" alt="${rel.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">
+                                       : <i class="fas ${rel.imageIcon || 'fa-image'}" style="font-size:2.5rem;"></i>}
                                     </div>
                                     <div class="card-content">
                                         <span class="category-badge">${rel.category}</span>
