@@ -263,18 +263,35 @@
             'fa-qrcode': 'assets/img/qrcode.jpg'
         };
         
-        function iconFigure(iconClass, caption) {
-            const imgPath = imageMap[iconClass] || '';
-            return `
-                <figure class="article-icon">
-                    <div class="icon-display">
-                        ${imgPath ? `<img src="${imgPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">` : ''}
-                        <i class="fas ${iconClass}" style="${imgPath ? 'display: none;' : ''}"></i>
-                    </div>
-                    <figcaption>${caption}</figcaption>
-                </figure>
-            `;
-        }
+        function iconFigure(iconOrPath, caption) {
+    // Verifica se é um caminho de imagem (contém '/' ou extensão de imagem)
+    const isImagePath = iconOrPath.includes('/') || iconOrPath.includes('.jpg') || iconOrPath.includes('.png') || iconOrPath.includes('.webp');
+    
+    if (isImagePath) {
+        // É uma imagem real
+        return `
+            <figure class="article-icon">
+                <div class="icon-display">
+                    <img src="${iconOrPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">
+                    <i class="fas fa-image" style="display: none;"></i>
+                </div>
+                <figcaption>${caption}</figcaption>
+            </figure>
+        `;
+    } else {
+        // É um ícone Font Awesome (comportamento original)
+        const imgPath = imageMap[iconOrPath] || '';
+        return `
+            <figure class="article-icon">
+                <div class="icon-display">
+                    ${imgPath ? `<img src="${imgPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">` : ''}
+                    <i class="fas ${iconOrPath}" style="${imgPath ? 'display: none;' : ''}"></i>
+                </div>
+                <figcaption>${caption}</figcaption>
+            </figure>
+        `;
+    }
+}
         
         // ========== ARTIGOS (CONTEÚDO MANTIDO EXATAMENTE IGUAL) ==========
         const articlesDB = {
