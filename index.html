@@ -23,6 +23,7 @@
         .main-header { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); padding: 16px 0; border-bottom: 1px solid #eef2f6; position: sticky; top: 0; z-index: 100; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
         .logo-area h1 { font-size: clamp(1.5rem, 2.5vw, 1.9rem); font-weight: 700; color: #0a2540; }
+        .logo-area h1 i { color: #2563eb; margin-right: 8px; }
         .logo-area span { font-weight: 400; color: #2563eb; font-size: 0.9rem; display: block; }
         .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: #0a2540; cursor: pointer; transition: transform 0.3s; }
         .menu-toggle.active { transform: rotate(90deg); }
@@ -212,9 +213,9 @@
 </head>
 <body>
 
-<!-- Top Bar e Header (mantidos exatamente iguais) -->
-<div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-phone-alt"></i> +55 (35) 98506-7208</span><span><i class="fas fa-envelope"></i> cresiodias@gmail.com</span><span><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí - MG</span></div><div class="social-top"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
-<header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
+<!-- Top Bar e Header com logotipo de chip -->
+<div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-microchip"></i> Manufatura Eletrônica de Alta Performance</span></div><div class="social-top"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+<header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1><i class="fas fa-microchip"></i>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
 <div class="menu-overlay" id="menuOverlay"></div>
 
 <main id="page-content" class="container"></main>
