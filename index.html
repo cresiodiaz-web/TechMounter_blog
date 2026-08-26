@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ===== ESTILOS (mantidos exatamente como antes) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: #f9fafc; color: #1e293b; line-height: 1.7; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
@@ -38,7 +39,6 @@
         .breadcrumb a { color: #2563eb; text-decoration: none; cursor: pointer; }
         .breadcrumb i { margin: 0 8px; font-size: 0.7rem; }
 
-        /* Títulos responsivos */
         .article-header h1 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #0a2540; margin: 16px 0; line-height: 1.3; }
         .article-content h2 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); margin: 40px 0 20px; color: #0a2540; border-bottom: 2px solid #eef2f6; padding-bottom: 10px; }
         .article-content h3 { font-size: clamp(1.1rem, 1.8vw, 1.3rem); margin: 30px 0 15px; color: #1e3a5f; }
@@ -75,7 +75,6 @@
         .share-btn.linkedin { background: #0077b5; }
         .share-btn.whatsapp { background: #25d366; }
 
-        /* Lista de artigos */
         .article-list { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
         .article-list-item { display: flex; background: white; border-radius: 18px; border: 1px solid #eef2f6; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
         .article-list-item:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.06); }
@@ -97,7 +96,6 @@
 
         .category-badge { display: inline-block; background: #e6f0ff; color: #1d4ed8; font-weight: 600; font-size: 0.75rem; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; margin-bottom: 12px; }
 
-        /* Páginas de serviços */
         .page-header { padding: 40px 0 20px; text-align: center; }
         .page-header h2 i { color: #2563eb; margin-right: 16px; }
         .page-header p { font-size: 1.1rem; color: #64748b; max-width: 700px; margin: 0 auto; }
@@ -142,11 +140,9 @@
         .whatsapp-button { display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; text-decoration: none; font-size: 32px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } 50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); } 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); } }
 
-        /* Overlay menu mobile */
         .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .menu-overlay.active { opacity: 1; visibility: visible; }
 
-        /* ===== CSS CORRIGIDO PARA IMAGENS NOS ARTIGOS RELACIONADOS ===== */
         .related-grid .card-img {
             height: 140px;
             width: 100%;
@@ -243,1256 +239,57 @@
     (function() {
         'use strict';
         
-        const socialConfig = { whatsapp: { number: '5535984067208', message: 'Olá! Gostaria de saber mais sobre a Fênix Indústria de Eletrônicos.' }, email: 'cresiodiaz@gmail.com' };
+        const socialConfig = { whatsapp: { number: '5535984067208', message: 'Olá! Gostaria de saber mais sobre manufatura eletrônica.' }, email: 'cresiodiaz@gmail.com' };
         function getWhatsAppLink(m = null) { return `https://api.whatsapp.com/send?phone=${socialConfig.whatsapp.number}&text=${encodeURIComponent(m || socialConfig.whatsapp.message)}`; }
         
         const fenixUrl = 'https://www.fenixindustria.net.br';
         
-        // Mapeamento de imagens (pasta assets/img/)
-        const imageMap = {
-            'fa-microchip': 'assets/img/microchip.jpg',
-            'fa-industry': 'assets/img/industry.jpg',
-            'fa-lightbulb': 'assets/img/lightbulb.jpg',
-            'fa-layer-group': 'assets/img/layer-group.jpg',
-            'fa-chart-bar': 'assets/img/chart-bar.jpg',
-            'fa-clipboard-check': 'assets/img/clipboard-check.jpg',
-            'fa-chart-line': 'assets/img/chart-line.jpg',
-            'fa-chalkboard': 'assets/img/chalkboard.jpg',
-            'fa-users-cog': 'assets/img/users-cog.jpg',
-            'fa-certificate': 'assets/img/certificate.jpg',
-            'fa-qrcode': 'assets/img/qrcode.jpg'
-        };
-        
-        function iconFigure(iconOrPath, caption) {
-    // Verifica se é um caminho de imagem (contém '/' ou extensão de imagem)
-    const isImagePath = iconOrPath.includes('/') || iconOrPath.includes('.jpg') || iconOrPath.includes('.png') || iconOrPath.includes('.webp');
-    
-    if (isImagePath) {
-        // É uma imagem real
-        return `
-            <figure class="article-icon">
-                <div class="icon-display">
-                    <img src="${iconOrPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">
-                    <i class="fas fa-image" style="display: none;"></i>
-                </div>
-                <figcaption>${caption}</figcaption>
-            </figure>
-        `;
-    } else {
-        // É um ícone Font Awesome (comportamento original)
-        const imgPath = imageMap[iconOrPath] || '';
-        return `
-            <figure class="article-icon">
-                <div class="icon-display">
-                    ${imgPath ? `<img src="${imgPath}" alt="${caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">` : ''}
-                    <i class="fas ${iconOrPath}" style="${imgPath ? 'display: none;' : ''}"></i>
-                </div>
-                <figcaption>${caption}</figcaption>
-            </figure>
-        `;
-    }
-}
-        
-        // ========== ARTIGOS (CONTEÚDO MANTIDO EXATAMENTE IGUAL) ==========
-        const articlesDB = {
-            'artigo-smt-1': {
-                id: 'artigo-smt-1', title: 'Otimização de linha SMT: redução de setup e aumento de OEE',
-                category: 'Montagem SMT', date: '28 Out 2025', readTime: '22 min',
-                imageIcon: 'assets/img/artigo-smt-1.jpg',
-                summary: 'Estratégias avançadas de melhoria contínua baseadas em dados IPC para maximizar produtividade.',
-                content: `
-                    ${iconFigure('assets/img/artigo-smt-1.jpg', 'Placa eletrônica com componentes SMT de alta densidade')}
-                    
-                    <h2>Introdução: O Cenário Competitivo da Manufatura Eletrônica</h2>
-                    <p>O mercado global de Serviços de Manufatura Eletrônica (EMS) atingiu US$ 694 bilhões em 2024, segundo o <strong>IPC Global EMS Statistical Program</strong>, com projeção de US$ 845 bilhões até 2027. Neste ambiente de margens líquidas médias de apenas 3,8%, a eficiência operacional não é uma opção — é questão de sobrevivência.</p>
-                    <p>As linhas de montagem SMT (Surface Mount Technology) representam entre 40% e 60% do custo operacional de uma planta EMS. Uma diferença de 10 pontos percentuais no OEE (Overall Equipment Effectiveness) pode significar a diferença entre lucro e prejuízo operacional. Segundo a <strong>ABINEE</strong> (Associação Brasileira da Indústria Elétrica e Eletrônica), o OEE médio das linhas SMT no Brasil é de apenas 51%, comparado a 58% na média global e 76% nas empresas top 25%.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📊 Benchmark IPC de Performance SMT (2024)</h3>
-                        <table>
-                            <tr><th>Indicador</th><th>Média Global</th><th>Top 25%</th><th>Brasil</th><th>Oportunidade</th></tr>
-                            <tr><td>Tempo médio de setup</td><td>52 min</td><td>18 min</td><td>68 min</td><td>-34 min</td></tr>
-                            <tr><td>OEE</td><td>58%</td><td>76%</td><td>51%</td><td>+25 pp</td></tr>
-                            <tr><td>Defeitos (ppm)</td><td>850</td><td>120</td><td>1.450</td><td>-600 ppm</td></tr>
-                            <tr><td>Custo de retrabalho</td><td>4,2%</td><td>1,1%</td><td>7,8%</td><td>-3,6 pp</td></tr>
-                            <tr><td>Rendimento primeira passagem (FPY)</td><td>91%</td><td>97%</td><td>86%</td><td>+11 pp</td></tr>
-                        </table>
-                        <p style="margin-top:15px"><strong>Fontes:</strong> IPC EMS Statistical Program 2024, ABINEE, IPC-9850</p>
-                    </div>
-                    
-                    <h2>Diagnóstico Aprofundado: Onde o Dinheiro Realmente Escorre</h2>
-                    <p>Antes de implementar melhorias, é essencial quantificar precisamente as perdas. Utilizando a metodologia de <strong>Value Stream Mapping (VSM)</strong> e análise de OEE estratificada, identificamos cinco categorias principais de perdas em linhas SMT:</p>
-                    
-                    <h3>1. Tempo de Setup Excessivo (35-40% das perdas totais)</h3>
-                    <p>O setup de uma linha SMT envolve dezenas de atividades sequenciais. Estudos da <strong>IPC CFX-2591</strong> (Connected Factory Exchange) revelaram que:</p>
-                    <ul>
-                        <li>Operadores caminham em média <strong>4,2 km por dia</strong> apenas para buscar componentes e ferramentas durante setups</li>
-                        <li>O tempo médio de setup no Brasil (68 minutos) é <strong>31% superior</strong> à média global</li>
-                        <li>Cada minuto de setup custa entre <strong>US$ 3,50 e US$ 8,20</strong> dependendo da complexidade da linha</li>
-                        <li>Empresas com 4 trocas diárias perdem aproximadamente <strong>184 minutos produtivos por dia</strong> comparado ao benchmark global</li>
-                    </ul>
-                    
-                    <h3>2. Paradas Não Programadas (25-30% das perdas)</h3>
-                    <p>Segundo o <strong>IPC-7912</strong> (End-User DPMO Calculation), as causas de paradas não programadas se distribuem em:</p>
-                    <ul>
-                        <li><strong>Alimentadores defeituosos:</strong> 34% das paradas (um único alimentador problemático gera 23 paradas/turno)</li>
-                        <li><strong>Nozzles entupidos ou desgastados:</strong> 22% das paradas</li>
-                        <li><strong>Erros de visão/fiduciais:</strong> 18% das paradas</li>
-                        <li><strong>Problemas com pasta de solda:</strong> 12% das paradas</li>
-                        <li><strong>Falhas em sensores e transportadores:</strong> 14% das paradas</li>
-                    </ul>
-                    
-                    <h3>3. Defeitos de Processo e Retrabalho (15-20% das perdas)</h3>
-                    <p>A norma <strong>IPC-A-610</strong> (Acceptability of Electronic Assemblies) estabelece critérios para classe 1, 2 e 3. Os defeitos mais comuns e suas incidências:</p>
-                    <ul>
-                        <li><strong>Tombstoning (efeito lápide):</strong> 0,08% em linhas otimizadas, até 2,3% em processos não controlados</li>
-                        <li><strong>Solder bridges (pontes de solda):</strong> principal causa de retrabalho em QFP e componentes de passo fino</li>
-                        <li><strong>Componentes deslocados:</strong> associado a erro de visão ou vácuo insuficiente</li>
-                        <li><strong>Solda fria/insuficiente:</strong> perfil térmico inadequado ou pasta oxidada</li>
-                        <li><strong>Voids em BGA:</strong> crítico para confiabilidade, limite IPC-7095 de 25% da área da bola</li>
-                    </ul>
-                    <p>Cada placa que entra em retrabalho custa, em média, <strong>4x mais</strong> que uma placa produzida corretamente (fonte: IPC-7711/21).</p>
-                    
-                    ${iconFigure('fa-industry', 'Linha de montagem SMT automatizada em operação')}
-                    
-                    <h2>Metodologia SMED Aplicada ao SMT: Resultados Comprovados</h2>
-                    <p>O SMED (Single-Minute Exchange of Die), desenvolvido por Shigeo Shingo na Toyota, foi adaptado para SMT conforme documentado no <strong>IPC-2591 CFX Implementation Guide</strong>. A metodologia consiste em três fases:</p>
-                    
-                    <h3>Fase 1: Separação de Atividades Internas e Externas</h3>
-                    <p><strong>Atividades Externas</strong> (executadas com máquina em produção):</p>
-                    <ul>
-                        <li>Preparação de feeders em carrinhos auxiliares (kitting) - reduz setup em 47%</li>
-                        <li>Carregamento e validação offline de programas pick-and-place</li>
-                        <li>Verificação de componentes e polaridade na área de preparação</li>
-                        <li>Disponibilização de documentação e instruções no ponto de uso</li>
-                    </ul>
-                    <p><strong>Atividades Internas</strong> (exigem máquina parada - devem ser otimizadas):</p>
-                    <ul>
-                        <li>Remoção dos feeders do lote anterior</li>
-                        <li>Instalação dos novos feeders</li>
-                        <li>Ajuste da largura do transportador</li>
-                        <li>Troca e alinhamento do stencil</li>
-                        <li>Calibração de fiduciais</li>
-                    </ul>
-                    
-                    <h3>Fase 2: Conversão de Atividades Internas em Externas</h3>
-                    <p>Estratégias comprovadas com ROI documentado:</p>
-                    <ul>
-                        <li><strong>Carrinhos de troca rápida:</strong> Investimento ~R$ 12.000, reduz troca de feeders de 12 para 2 minutos. Payback: 2,3 meses</li>
-                        <li><strong>Pré-aquecimento de feeders:</strong> Elimina tempo de espera para componentes MSD (Moisture Sensitive Devices)</li>
-                        <li><strong>Programação offline com simulação:</strong> Softwares como Fuji Flexa ou ASM SiPlace reduzem erros de programa em 85%</li>
-                        <li><strong>Stencils com sistema de troca rápida:</strong> Frames tensionados pneumaticamente - troca em <30s vs 3-5min</li>
-                    </ul>
-                    
-                    <h3>Fase 3: Otimização das Atividades Internas Remanescentes</h3>
-                    <ul>
-                        <li><strong>Padronização de alturas:</strong> Elimina ajustes verticais durante trocas</li>
-                        <li><strong>Sistemas Poka-Yoke:</strong> Conectores à prova de erro eliminam 92% das instalações incorretas de feeders</li>
-                        <li><strong>Ferramentas dedicadas:</strong> Eliminam buscas e trocas de ferramentas</li>
-                        <li><strong>Treinamento cruzado:</strong> Operadores multifuncionais executam tarefas simultâneas</li>
-                    </ul>
-                    
-                    <h2>Estratégias Avançadas para Maximização do OEE</h2>
-                    <p>O OEE é composto por três fatores multiplicativos: Disponibilidade × Performance × Qualidade.</p>
-                    
-                    <h3>Disponibilidade: Combatendo Paradas Não Programadas</h3>
-                    <h4>Manutenção Autônoma (Jishu Hozen)</h4>
-                    <p>Operadores treinados realizam limpeza, inspeção e ajustes diários. Programas bem estruturados reduzem paradas não programadas em até 41% (fonte: IPC CFX-2591).</p>
-                    <h4>Monitoramento Preditivo com IIoT</h4>
-                    <p>Sensores de vibração em alimentadores, monitoramento de vácuo em nozzles e análise de corrente elétrica permitem prever falhas com antecedência de 48-72 horas.</p>
-                    <h4>Gestão de Alimentadores</h4>
-                    <p>Sistema de rastreamento individual com identificação única (código de barras ou RFID), histórico de manutenções e manutenção preventiva baseada em ciclos (a cada 500.000 indexações).</p>
-                    
-                    <h3>Performance: Velocidade e Fluidez</h3>
-                    <h4>Otimização da Sequência de Pick-and-Place</h4>
-                    <p>Algoritmos modernos consideram simultaneidade de movimentos dos múltiplos cabeçotes, restrições de altura de componentes adjacentes e agrupamento para reduzir trocas de nozzle. Otimização bem executada aumenta throughput em <strong>5-12%</strong> sem investimento em hardware.</p>
-                    <h4>Gestão de Nozzles</h4>
-                    <p>Limpeza ultrassônica programada a cada 40 horas, inspeção visual antes de cada turno e substituição preventiva a cada 2 milhões de ciclos.</p>
-                    
-                    <h3>Qualidade: Reduzindo Defeitos na Origem</h3>
-                    <h4>Inspeção SPI 3D</h4>
-                    <p>Dados da <strong>IPC-7095</strong> mostram que cada R$ 1 investido em SPI gera economia de R$ 7 a R$ 12 em retrabalho evitado. Parâmetros críticos: volume de pasta (alvo ±30%), altura (crítica para passo fino <0,5mm), área de cobertura do pad (>75% para Classe 3).</p>
-                    <h4>SPC em Tempo Real</h4>
-                    <table>
-                        <tr><th>Variável</th><th>Carta</th><th>Frequência</th><th>Limites</th></tr>
-                        <tr><td>Volume de pasta</td><td>X-barra/R</td><td>A cada 5 placas</td><td>Calculados dinamicamente</td></tr>
-                        <tr><td>Temperatura de pico</td><td>X/MR</td><td>Cada placa</td><td>±3°C do nominal</td></tr>
-                        <tr><td>Vácuo dos nozzles</td><td>X/MR</td><td>A cada 30 min</td><td>Mínimo 60% da nominal</td></tr>
-                        <tr><td>Defeitos AOI</td><td>p</td><td>Por lote</td><td>Variação >2σ aciona alerta</td></tr>
-                    </table>
-                    
-                    <div class="highlight-box">
-                        <h3>📈 Case Study: Linha Automotiva - 6 Meses de Transformação</h3>
-                        <p><strong>Situação Inicial (Janeiro 2024):</strong></p>
-                        <ul>
-                            <li>Volume: 120.000 placas/ano (módulos ECU)</li>
-                            <li>Tempo de setup: 75 minutos</li>
-                            <li>OEE: 62% (Disp 78% × Perf 85% × Qual 94%)</li>
-                            <li>Defeitos: 1.200 ppm</li>
-                            <li>Custo retrabalho mensal: R$ 47.000</li>
-                        </ul>
-                        <p><strong>Ações Implementadas:</strong></p>
-                        <ul>
-                            <li>Mês 1-2: SMED (carrinhos, kitting, padronização) - setup reduziu para 38 min</li>
-                            <li>Mês 3-4: Otimização de performance (programas, nozzles, perfil térmico) - OEE subiu para 73%</li>
-                            <li>Mês 5-6: Qualidade e sustentação (SPI, AOI IA, SPC) - defeitos caíram para 380 ppm</li>
-                        </ul>
-                        <p><strong>Resultados Finais (Julho 2024):</strong></p>
-                        <ul>
-                            <li>Setup: 22 minutos (-70%)</li>
-                            <li>OEE: 81% (+19 pp)</li>
-                            <li>Defeitos: 380 ppm (-68%)</li>
-                            <li>Custo retrabalho: R$ 12.000/mês (-R$ 35.000/mês)</li>
-                            <li>Capacidade efetiva: 13.800 placas/mês (+50%)</li>
-                        </ul>
-                        <p><strong>ROI Financeiro:</strong> Investimento R$ 127.000 | Economia anual R$ 420.000 (retrabalho) + R$ 180.000 (capacidade) | <strong>ROI 4,7x | Payback 2,6 meses</strong></p>
-                    </div>
-                    
-                    <h2>Implementação do CFX (Connected Factory Exchange)</h2>
-                    <p>O <strong>IPC-2591 CFX</strong> é o padrão global para comunicação máquina-a-máquina e máquina-para-sistema na manufatura eletrônica. Benefícios documentados:</p>
-                    <ul>
-                        <li>Redução de 30% no tempo de implementação de novas linhas</li>
-                        <li>Aumento médio de 23% no OEE em 12 meses</li>
-                        <li>Redução de 40% no tempo de diagnóstico de falhas</li>
-                        <li>Rastreabilidade nível 4 (completa) sem sistemas proprietários</li>
-                    </ul>
-                    
-                    <h2>Conclusão: A Jornada da Melhoria Contínua</h2>
-                    <p>A otimização de linhas SMT não é um projeto com fim definido — é uma jornada contínua. Os dados demonstram que investimentos relativamente modestos em metodologia (SMED, Lean) e tecnologia (SPI, CFX) geram retornos extraordinários. Na Fênix Indústria de Eletrônicos, estas práticas são aplicadas diariamente para garantir a máxima eficiência e qualidade.</p>
-                    
-                    <blockquote>"A excelência operacional não é alcançada por acidente. É o resultado de intenção inteligente, execução disciplinada e melhoria contínua." — Adaptado de Jim Collins, autor de "Empresas Feitas para Vencer"</blockquote>
-                `
-            },
-            'artigo-auto-1': {
-                id: 'artigo-auto-1', title: 'PCBs para faróis LED: desafios térmicos segundo AEC-Q102',
-                category: 'Iluminação automotiva', date: '02 Dez 2025', readTime: '24 min',
-                imageIcon: 'assets/img/artigo-auto-1.jpg',
-                summary: 'Análise aprofundada de normas AEC-Q102, seleção de materiais, design térmico e validação para máxima confiabilidade.',
-                content: `
-                    ${iconFigure('assets/img/artigo-auto-1.jpg', 'Farol Matrix LED com controle adaptativo de iluminação')}
-                    
-                    <h2>A Revolução da Iluminação Automotiva e Seus Desafios Ocultos</h2>
-                    <p>A transição da iluminação halógena para LED no setor automotivo representa uma das mais significativas evoluções tecnológicas das últimas décadas. Os benefícios são amplamente reconhecidos: eficiência energética até 80% superior, vida útil 25 vezes maior (de 1.000 para 25.000+ horas), resposta instantânea e possibilidades de design antes inimagináveis.</p>
-                    <p>Segundo a <strong>OICA</strong> (Organização Internacional de Construtores de Automóveis), aproximadamente 92 milhões de veículos foram produzidos globalmente em 2024. Destes, mais de 65% já utilizam iluminação LED em pelo menos uma função (farol baixo, DRL, setas). Para 2028, projeta-se que 85% dos veículos novos terão faróis full-LED, representando um mercado de US$ 28 bilhões apenas para os módulos de iluminação.</p>
-                    <p>Contudo, esta revolução trouxe consigo desafios térmicos e de confiabilidade que exigem uma abordagem completamente nova no design e fabricação de PCBs. Enquanto um smartphone opera em temperaturas controladas (0°C a 40°C), um farol automotivo deve funcionar perfeitamente de <strong>-40°C a +125°C</strong>, suportando ciclos térmicos diários, vibração constante e exposição a contaminantes.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>🌡️ Norma AEC-Q102: Requisitos para LEDs Automotivos</h3>
-                        <table>
-                            <tr><th>Teste</th><th>Condição</th><th>Duração</th><th>Critério de Aprovação</th></tr>
-                            <tr><td>Ciclagem térmica (TC)</td><td>-40°C a +125°C (Grau 1) / +150°C (Grau 0)</td><td>1000 ciclos</td><td>&lt;10% degradação de fluxo</td></tr>
-                            <tr><td>HTOL</td><td>Tj máxima especificada</td><td>1000 horas</td><td>Sem falha catastrófica</td></tr>
-                            <tr><td>HAST</td><td>130°C / 85% UR</td><td>96 horas</td><td>Sem delaminação</td></tr>
-                            <tr><td>WHTOL (Wet HTOL)</td><td>85°C / 85% UR, ligado</td><td>1000 horas</td><td>&lt;15% degradação</td></tr>
-                            <tr><td>Vibração aleatória</td><td>3-5 Grms, 10-2000 Hz</td><td>8-24h/eixo</td><td>Sem trincas ou falhas</td></tr>
-                            <tr><td>Choque mecânico</td><td>30-50G, 11ms</td><td>5 choques/direção</td><td>Sem danos estruturais</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h2>O Inimigo Silencioso: Gerenciamento Térmico em PCBs Automotivos</h2>
-                    <p>Embora os LEDs sejam muito mais eficientes que lâmpadas incandescentes, eles ainda convertem aproximadamente <strong>60-70% da energia elétrica em calor</strong>. Um LED automotivo típico de alta potência dissipa entre 3W e 10W de calor. Considerando que um farol moderno pode conter de 5 a 20 LEDs, a carga térmica total pode exceder 50W concentrada em poucos centímetros quadrados.</p>
-                    
-                    <h3>Fontes de Calor no Sistema de Iluminação LED</h3>
-                    <h4>1. Calor Gerado pelos Próprios LEDs</h4>
-                    <p>A densidade de fluxo de calor (W/cm²) em LEDs de alta potência pode exceder 100 W/cm² — comparável à superfície do sol! Sem dissipação adequada, a temperatura da junção (Tj) sobe rapidamente.</p>
-                    <h4>2. Calor do Compartimento do Motor</h4>
-                    <p>A temperatura ambiente no compartimento do motor atinge 85°C a 105°C em operação normal. Faróis próximos ao radiador ou turbo podem experimentar temperaturas ainda mais elevadas.</p>
-                    <h4>3. Radiação Solar e Efeito Estufa</h4>
-                    <p>O efeito estufa dentro do conjunto óptico eleva a temperatura interna em 15°C a 25°C acima da ambiente. Superfícies escuras absorvem radiação IV, contribuindo para o aquecimento.</p>
-                    
-                    <h3>Consequências do Gerenciamento Térmico Inadequado</h3>
-                    <p>Quando Tj excede os limites especificados (125°C a 150°C para LEDs automotivos):</p>
-                    <ul>
-                        <li><strong>Depreciação acelerada:</strong> Lei de Arrhenius — cada 10°C acima da nominal reduz vida útil pela metade</li>
-                        <li><strong>Deslocamento cromático:</strong> Variação visível de cor entre faróis esquerdo e direito</li>
-                        <li><strong>Falha catastrófica:</strong> Delaminação da interface chip-substrato</li>
-                        <li><strong>Degradação do encapsulamento:</strong> Amarelecimento e fragilização do silicone</li>
-                        <li><strong>Fadiga térmica da solda:</strong> Ciclos de expansão/contração geram trincas nas juntas</li>
-                    </ul>
-                    
-                    ${iconFigure('fa-layer-group', 'MCPCB com base de alumínio para dissipação térmica superior')}
-                    
-                    <h2>Seleção de Materiais para PCBs de Alta Temperatura</h2>
-                    <p>A escolha do substrato é a decisão mais crítica no design térmico. Cada material apresenta compromisso entre desempenho, custo e processabilidade.</p>
-                    
-                    <h3>FR-4: O Padrão com Limitações Conhecidas</h3>
-                    <h4>FR-4 Standard (Tg 130-140°C)</h4>
-                    <p>Condutividade térmica: ~0,3-0,4 W/m·K. <strong>Não recomendado</strong> para áreas próximas aos LEDs de potência. Aplicação: circuitos de controle apenas.</p>
-                    <h4>FR-4 High Tg (170-180°C)</h4>
-                    <p>Mínimo aceitável para faróis LED com design térmico robusto. Maior estabilidade dimensional em altas temperaturas, reduzindo risco de delaminação durante múltiplos ciclos de refusão. Fornecedores: Isola IS410, Shengyi S1000-2, ITEQ IT-180A.</p>
-                    
-                    <h3>Metal Core PCB (MCPCB / IMS)</h3>
-                    <p>Solução mais adotada para faróis LED de média e alta potência.</p>
-                    <h4>Base de Alumínio (Al MCPCB)</h4>
-                    <ul>
-                        <li>Condutividade térmica do dielétrico: 1,0-3,0 W/m·K (típico), até 8,0 W/m·K (premium)</li>
-                        <li>Espessura da base: 1,0-3,2mm</li>
-                        <li>Vantagens: Excelente relação custo-benefício, boa dissipação</li>
-                        <li>Limitações: Apenas single-sided, CTE do alumínio (23 ppm/°C) diferente do cobre (17) e silício (3)</li>
-                        <li>Fornecedores: Bergquist (Henkel), Laird, Ventec</li>
-                    </ul>
-                    <h4>Base de Cobre (Cu MCPCB)</h4>
-                    <ul>
-                        <li>Condutividade térmica do dielétrico: até 12 W/m·K</li>
-                        <li>Vantagens: Dissipação superior (Cu: 385 W/m·K vs Al: 205 W/m·K)</li>
-                        <li>Desvantagens: Custo 3-5x maior, maior peso, oxidação requer proteção</li>
-                        <li>Aplicações: LEDs de altíssima potência, faróis Matrix LED</li>
-                    </ul>
-                    
-                    <h3>Substratos Cerâmicos (Al₂O₃ e AlN)</h3>
-                    <p>Para aplicações de máxima exigência.</p>
-                    <h4>Alumina (Al₂O₃)</h4>
-                    <ul><li>Condutividade: 20-30 W/m·K</li><li>CTE: 6-8 ppm/°C (excelente compatibilidade com silício)</li><li>Limitações: Frágil, tamanho limitado (~50x50mm)</li></ul>
-                    <h4>Nitreto de Alumínio (AlN)</h4>
-                    <ul><li>Condutividade: 170-230 W/m·K (comparável ao alumínio metálico!)</li><li>CTE: 4-5 ppm/°C (quase idêntico ao silício)</li><li>Custo: 40x+ FR-4, processamento especializado</li><li>Aplicações: LEDs laser, projetores automotivos, militar/aeroespacial</li></ul>
-                    
-                    <div class="highlight-box">
-                        <h3>📋 Tabela Comparativa de Substratos</h3>
-                        <table>
-                            <tr><th>Material</th><th>Cond. Térmica</th><th>Tg</th><th>CTE (ppm/°C)</th><th>Custo Rel.</th><th>Aplicação</th></tr>
-                            <tr><td>FR-4 Std</td><td>0,3 W/m·K</td><td>130°C</td><td>14-17</td><td>1,0x</td><td>Controle</td></tr>
-                            <tr><td>FR-4 High Tg</td><td>0,4</td><td>170°C</td><td>12-14</td><td>1,3x</td><td>Baixa potência</td></tr>
-                            <tr><td>Al MCPCB</td><td>2,2</td><td>130°C</td><td>23</td><td>2,5x</td><td>Média/Alta</td></tr>
-                            <tr><td>Cu MCPCB</td><td>5,0</td><td>150°C</td><td>17</td><td>8x</td><td>Alta potência</td></tr>
-                            <tr><td>Alumina</td><td>24</td><td>N/A</td><td>6,8</td><td>15x</td><td>Premium</td></tr>
-                            <tr><td>AlN</td><td>180</td><td>N/A</td><td>4,5</td><td>40x+</td><td>Extremo</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h2>Estratégias de Design para Confiabilidade Térmica</h2>
-                    <h3>Vias Térmicas (Thermal Vias)</h3>
-                    <p>Principal mecanismo para conduzir calor do LED através da PCB até o dissipador.</p>
-                    <ul>
-                        <li><strong>Diâmetro:</strong> 0,3-0,5mm (compromisso entre área de cobre e fabricabilidade)</li>
-                        <li><strong>Pitch:</strong> 0,8-1,2mm centro a centro</li>
-                        <li><strong>Padrão:</strong> Grid retangular ou radial sob o pad térmico</li>
-                        <li><strong>Regra prática:</strong> Área total da seção das vias ≥ 25% da área do pad térmico</li>
-                    </ul>
-                    <h4>Preenchimento de Vias</h4>
-                    <ul>
-                        <li><strong>Preenchidas com solda:</strong> Custo baixo, eficácia moderada</li>
-                        <li><strong>Preenchidas com pasta térmica:</strong> Melhor condutividade, custo moderado</li>
-                        <li><strong>VIPPO (Via-in-Pad Plated Over):</strong> Preenchidas com cobre eletrolítico. Melhor desempenho, essencial para BGAs/QFNs</li>
-                    </ul>
-                    <p>Vias VIPPO reduzem a resistência térmica (Rth) em até 40% comparado a vias não preenchidas.</p>
-                    
-                    <h3>Espessura e Distribuição do Cobre</h3>
-                    <ul><li><strong>1oz (35μm):</strong> Inadequado para LEDs de potência</li><li><strong>2oz (70μm):</strong> Mínimo recomendado para faróis LED</li><li><strong>3-4oz (105-140μm):</strong> Recomendado para alta potência</li></ul>
-                    <p>Planos de cobre atuam como "espalhadores de calor", distribuindo a carga térmica por área maior.</p>
-                    
-                    <h3>Considerações de DFM</h3>
-                    <h4>Perfil de Refusão para MCPCBs</h4>
-                    <p>MCPCBs têm massa térmica maior que FR-4. Ajustes necessários:</p>
-                    <ul><li>Rampa de pré-aquecimento: 2-3°C/s (vs 1-2°C/s)</li><li>Tempo acima de liquidus (TAL): 60-90s (vs 45-75s)</li><li>Pico: 235-245°C (máximo 260°C por 10s para LEDs)</li></ul>
-                    <h4>Seleção da Liga de Solda</h4>
-                    <p>SAC305 (Sn96.5/Ag3.0/Cu0.5) é padrão. Para aplicações críticas, ligas com dopantes (ex: Innolot) melhoram resistência à fadiga térmica e vibração.</p>
-                    <h4>Conformal Coating</h4>
-                    <p>Proteção obrigatória contra umidade, contaminantes e névoa salina:</p>
-                    <ul><li><strong>Acrílico (AR):</strong> Fácil aplicação, boa proteção</li><li><strong>Poliuretano (UR):</strong> Excelente resistência química</li><li><strong>Silicone (SR):</strong> Ampla faixa de temperatura (-55°C a +200°C)</li><li><strong>Parileno:</strong> Cobertura uniforme por deposição a vácuo, máxima confiabilidade</li></ul>
-                    
-                    <h2>Simulação Térmica e Validação</h2>
-                    <p>Ferramentas de CFD (Computational Fluid Dynamics) como Ansys Icepak ou FloTHERM são essenciais para otimizar o design antes da prototipagem. Uma simulação bem calibrada reduz iterações de protótipo em 60% e acelera o time-to-market.</p>
-                    
-                    <h3>Checklist de Validação AEC-Q102</h3>
-                    <ol>
-                        <li>Definir requisitos térmicos: potência total, T_amb max, Rth j-a máximo</li>
-                        <li>Selecionar material do substrato baseado no orçamento térmico</li>
-                        <li>Dimensionar espessura do cobre (mínimo 2oz)</li>
-                        <li>Projetar padrão de vias térmicas sob cada LED</li>
-                        <li>Incluir termistores NTC para monitoramento de temperatura</li>
-                        <li>Especificar máscara de solda e legendas para alta temperatura</li>
-                        <li>Planejar perfil de refusão considerando massa térmica</li>
-                        <li>Definir tipo de conformal coating</li>
-                        <li>Validar com simulação CFD</li>
-                        <li>Executar testes conforme AEC-Q102</li>
-                    </ol>
-                    
-                    <div class="highlight-box">
-                        <h3>📊 Dados de Confiabilidade - Estudo de Campo</h3>
-                        <p>Análise de 500.000 faróis LED em campo (3 anos):</p>
-                        <ul>
-                            <li>Taxa de falha em MCPCB de alumínio: 0,08% (800 ppm)</li>
-                            <li>Taxa de falha em FR-4 High Tg (mal dimensionado): 2,3% (23.000 ppm)</li>
-                            <li>Principal modo de falha: fadiga térmica da solda (62% dos casos)</li>
-                            <li>Segundo modo: delaminação do dielétrico (18%)</li>
-                        </ul>
-                        <p><strong>Conclusão:</strong> O investimento em MCPCB adequado reduz falhas em campo em 28x.</p>
-                    </div>
-                    
-                    <h2>Conclusão</h2>
-                    <p>O design de PCBs para faróis LED automotivos exige abordagem multidisciplinar integrando engenharia de materiais, transferência de calor, design elétrico e processos de manufatura. As decisões tomadas nas fases iniciais determinam fundamentalmente a confiabilidade e o desempenho do sistema ao longo de sua vida útil de 10-15 anos.</p>
-                    <p>Na Fênix Indústria de Eletrônicos, a experiência no desenvolvimento e fabricação de PCBs para iluminação automotiva garante conformidade com os mais rigorosos padrões AEC-Q102 e IATF 16949.</p>
-                    
-                    <blockquote>"A temperatura de junção é o parâmetro mais crítico para a vida útil do LED. Cada 10°C de redução na Tj dobra a vida útil do componente." — AEC-Q102 Rev. A, 2023</blockquote>
-                `
-            },
-            'artigo-core-1': {
-                id: 'artigo-core-1', title: 'APQP, PFMEA e SPC na manufatura eletrônica',
-                category: 'Core Tools', date: '25 Jan 2026', readTime: '20 min',
-                imageIcon: 'assets/img/artigo-core-1.jpg',
-                summary: 'Aplicação prática das core tools IATF 16949 para zero defeitos em montagem de placas.',
-                content: `
-                    ${iconFigure('assets/img/artigo-core-2.jpg', 'Core Tools em integração na manufatura eletrônica')}
-                    
-                    <h2>Core Tools: A Espinha Dorsal da Qualidade Automotiva</h2>
-                    <p>As cinco Core Tools (APQP, PFMEA, SPC, MSA, PPAP) são mandatórias para fornecedores <strong>IATF 16949</strong>. Na manufatura eletrônica, sua aplicação sistemática reduz defeitos em 65-80% segundo estudos da AIAG (Automotive Industry Action Group). Fornecedores que dominam estas ferramentas têm taxas de PPM 72% menores que a média da indústria.</p>
-                    
-                    <h3>APQP - Planejamento Avançado da Qualidade do Produto (5 Fases)</h3>
-                    <p>Conforme o <strong>AIAG APQP Manual 2ª Edição</strong>:</p>
-                    <ol>
-                        <li><strong>Fase 1 - Planejamento e Definição do Programa:</strong> Voz do cliente (VOC), Desdobramento da Função Qualidade (QFD), requisitos IPC-A-610, definição de escopo e cronograma.</li>
-                        <li><strong>Fase 2 - Projeto e Desenvolvimento do Produto:</strong> Design for Manufacturing (DFM), Design for Testability (DFT), definição de stackup da PCB, simulação térmica preliminar, seleção de materiais.</li>
-                        <li><strong>Fase 3 - Projeto e Desenvolvimento do Processo:</strong> Fluxograma de processo, PFMEA, Plano de Controle preliminar, especificação de equipamentos SMT/PTH, layout de linha.</li>
-                        <li><strong>Fase 4 - Validação do Produto e Processo:</strong> Corrida piloto (Run@Rate), testes funcionais, ensaios de confiabilidade, aprovação PPAP.</li>
-                        <li><strong>Fase 5 - Feedback, Avaliação e Ação Corretiva:</strong> Monitoramento contínuo de indicadores (SPC), ações de melhoria (Kaizen), lições aprendidas.</li>
-                    </ol>
-                    
-                    <h3>PFMEA - Análise de Modos de Falha e Efeitos no Processo</h3>
-                    <p>Conforme o <strong>AIAG-VDA FMEA Handbook</strong>, o PFMEA identifica proativamente o que pode dar errado em cada etapa da montagem eletrônica. A pontuação de risco (RPN = Severidade × Ocorrência × Detecção) prioriza ações de melhoria.</p>
-                    
-                    <h4>Exemplo Prático: Processo de Aplicação de Pasta de Solda</h4>
-                    <table>
-                        <tr><th>Função do Processo</th><th>Modo de Falha Potencial</th><th>Efeito Potencial da Falha</th><th>Severidade (S)</th><th>Causa Potencial</th><th>Ocorrência (O)</th><th>Controle Atual de Detecção</th><th>Detecção (D)</th><th>RPN</th></tr>
-                        <tr><td>Aplicação de pasta de solda via stencil</td><td>Volume de pasta insuficiente</td><td>Solda fria, contato intermitente</td><td>8</td><td>Stencil entupido, pressão do squeegee baixa</td><td>4</td><td>Inspeção visual a cada 2 horas</td><td>7</td><td>224</td></tr>
-                        <tr><td>Aplicação de pasta de solda via stencil</td><td>Pasta em excesso / pontes</td><td>Solder bridges, curto-circuito</td><td>8</td><td>Stencil com espessura incorreta ou desgastado</td><td>3</td><td>Inspeção SPI 3D 100%</td><td>2</td><td>48</td></tr>
-                        <tr><td>Aplicação de pasta de solda via stencil</td><td>Desalinhamento da pasta</td><td>Componentes deslocados, tombstoning</td><td>7</td><td>Setup inadequado da impressora, fiduciais mal definidos</td><td>3</td><td>Verificação de fiduciais a cada lote</td><td>5</td><td>105</td></tr>
-                    </table>
-                    <p><strong>Ações Recomendadas para RPN > 100:</strong> Implementar inspeção SPI 3D 100%, manutenção preventiva programada do stencil, treinamento de operadores em setup de impressora.</p>
-                    
-                    ${iconFigure('fa-clipboard-check', 'Inspeção visual conforme IPC-A-610 Classe 3')}
-                    
-                    <h3>SPC - Controle Estatístico de Processo</h3>
-                    <p>O SPC monitora variáveis críticas do processo SMT para detectar desvios antes que gerem defeitos. Conforme <strong>IPC-9191</strong> (General Requirements for Implementation of Statistical Process Control):</p>
-                    
-                    <h4>Cartas de Controle Aplicadas na Manufatura Eletrônica</h4>
-                    <table>
-                        <tr><th>Variável Monitorada</th><th>Tipo de Carta</th><th>Frequência de Amostragem</th><th>Limites de Controle</th><th>Ação em Caso de Alerta</th></tr>
-                        <tr><td>Volume/altura de pasta de solda (SPI)</td><td>X-barra e R</td><td>A cada 5 placas (subgrupo n=3)</td><td>Calculados dinamicamente (±3σ)</td><td>Verificar stencil, squeegee e pasta</td></tr>
-                        <tr><td>Temperatura de pico do forno de refusão</td><td>X e MR (Individuais e Amplitude Móvel)</td><td>Cada placa (n=1)</td><td>±3°C do valor nominal</td><td>Ajustar perfil térmico, verificar termopares</td></tr>
-                        <tr><td>Vácuo dos nozzles de pick-and-place</td><td>X e MR</td><td>A cada 30 minutos</td><td>Mínimo 60% do vácuo nominal</td><td>Limpar ou substituir nozzles</td></tr>
-                        <tr><td>Taxa de defeitos AOI (por lote)</td><td>p (proporção de defeituosos)</td><td>Por lote de produção (n variável)</td><td>Calculados dinamicamente</td><td>Análise de causa raiz (8D, Ishikawa)</td></tr>
-                        <tr><td>Número de defeitos por placa (AOI)</td><td>c (contagem de defeitos)</td><td>Média móvel de 50 placas</td><td>Calculados dinamicamente</td><td>Revisar parâmetros de processo</td></tr>
-                    </table>
-                    
-                    <h4>Capabilidade do Processo (Cpk e Ppk)</h4>
-                    <p>Para características especiais identificadas no PFMEA, exige-se:</p>
-                    <ul>
-                        <li><strong>Cpk ≥ 1,33</strong> para características de qualidade padrão (ex: altura da pasta de solda)</li>
-                        <li><strong>Cpk ≥ 1,67</strong> para características de segurança (ex: isolamento elétrico em PCBs de alta tensão)</li>
-                        <li>Estudos de capabilidade devem ser refeitos após qualquer alteração significativa no processo (troca de fornecedor de pasta, manutenção maior do equipamento)</li>
-                    </ul>
-                    
-                    <h3>MSA - Análise do Sistema de Medição</h3>
-                    <p>Antes de confiar nos dados do SPC, é preciso validar os equipamentos de medição (cláusula 7.1.5.1.1 da IATF 16949):</p>
-                    <ul>
-                        <li><strong>SPI (Solder Paste Inspection):</strong> Estudo de R&R (repetibilidade e reprodutibilidade) com padrões rastreáveis. %R&R < 10% é considerado aceitável.</li>
-                        <li><strong>AOI (Automated Optical Inspection):</strong> Análise de atributos (concordância entre inspetores e máquina) usando o método de Kappa de Cohen. Kappa > 0,75 indica excelente concordância.</li>
-                        <li><strong>Máquina de medição por coordenadas (CMM):</strong> Calibração periódica conforme ISO 10360 e verificação de linearidade e viés.</li>
-                    </ul>
-                    
-                    <h3>PPAP - Processo de Aprovação de Peça de Produção</h3>
-                    <p>O pacote PPAP (Production Part Approval Process) para uma placa eletrônica automotiva inclui 18 elementos, destacando-se:</p>
-                    <ol>
-                        <li>Registros de projeto (gerber files, BOM, desenhos técnicos)</li>
-                        <li>Documentação de alterações de engenharia (se aplicável)</li>
-                        <li>PFMEA e Plano de Controle aprovados</li>
-                        <li>Estudos de capabilidade (Cpk) para características especiais</li>
-                        <li>Relatório de aprovação de aparência (para PCBs visíveis)</li>
-                        <li>Amostras iniciais (PSW - Part Submission Warrant)</li>
-                        <li>Relatório de validação de embalagem (proteção ESD, resistência a vibração no transporte)</li>
-                    </ol>
-                    
-                    <div class="highlight-box">
-                        <h3>📈 Resultados da Implementação das Core Tools - Case Real</h3>
-                        <p><strong>Situação Inicial (Fornecedor de Módulos de Controle Automotivo):</strong></p>
-                        <ul>
-                            <li>PPM médio: 1.850 (contra benchmark de 850)</li>
-                            <li>FPY (First Pass Yield): 82%</li>
-                            <li>3 reclamações de cliente por trimestre</li>
-                        </ul>
-                        <p><strong>Após 12 meses de implementação sistemática:</strong></p>
-                        <ul>
-                            <li>PPM médio: 320 (redução de 83%)</li>
-                            <li>FPY: 94% (+12 pp)</li>
-                            <li>Zero reclamações de cliente nos últimos 2 trimestres</li>
-                            <li>Certificação IATF 16949 obtida sem não-conformidades maiores</li>
-                        </ul>
-                    </div>
-                    
-                    <h2>Conclusão</h2>
-                    <p>A aplicação disciplinada das Core Tools na manufatura eletrônica não é apenas um requisito contratual para o setor automotivo, mas uma filosofia de trabalho que previne defeitos, reduz custos da não-qualidade e constrói relacionamentos de confiança com os clientes. A maturidade nessas ferramentas é um diferencial competitivo que abre portas para os mercados mais exigentes.</p>
-                    
-                    <blockquote>"Fornecedores que dominam as Core Tools têm taxas de PPM 72% menores que a média da indústria." — AIAG Quality Summit 2024</blockquote>
-                `
-            },
-            'artigo-kaizen-1': {
-                id: 'artigo-kaizen-1', title: 'Kaizen na linha de montagem: cases IPC de redução de retrabalho',
-                category: 'Melhoria contínua', date: '10 Fev 2026', readTime: '18 min',
-                imageIcon: 'assets/img/artigo-kaizen-1.jpg',
-                summary: 'Pequenas mudanças com grandes resultados - dados reais de redução de defeitos.',
-                content: `
-                    ${iconFigure('assets/img/artigo-kaizen-1.jpg', 'Quadro de gestão visual com indicadores de OEE e qualidade')}
-                    
-                    <h2>Kaizen: A Filosofia da Melhoria Contínua na Manufatura Eletrônica</h2>
-                    <p>Kaizen, termo japonês que significa "mudança para melhor" (Kai = mudança, Zen = bom/para melhor), é uma filosofia que envolve todos os colaboradores na busca constante por melhorias incrementais. Na manufatura eletrônica, onde a precisão é crítica e as margens são apertadas, pequenos ajustes podem gerar economias significativas.</p>
-                    <p>Segundo o <strong>IPC CFX-2591 Implementation Guide</strong>, empresas que adotam eventos Kaizen regulares reportam redução média de 34% em custos de retrabalho em 12 meses. O retorno sobre investimento (ROI) médio de eventos Kaizen em linhas SMT é de 7:1.</p>
-                    
-                    <h2>Case 1: Redução de Falsos Rejeitos no AOI</h2>
-                    <h3>Situação Inicial</h3>
-                    <p>Uma linha SMT de módulos de controle apresentava taxa de falsos rejeitos de 14,5% na inspeção óptica automatizada (AOI). O benchmark da IPC para este indicador é de 3-8%. Cada falso rejeito gerava:</p>
-                    <ul>
-                        <li>Retrabalho desnecessário (média de 4,2 minutos por placa)</li>
-                        <li>Atrasos na linha (buffer cheio aguardando inspeção)</li>
-                        <li>Risco de danos por manuseio excessivo</li>
-                        <li>Custo estimado: R$ 12.500/mês apenas em mão de obra de retrabalho</li>
-                    </ul>
-                    
-                    <h3>Evento Kaizen de 3 Dias</h3>
-                    <p><strong>Dia 1 - Mapeamento e Análise:</strong> Equipe multifuncional (operadores AOI, engenheiro de qualidade, técnico de manutenção) mapeou o fluxo atual. Identificou-se que 62% dos falsos rejeitos eram em componentes específicos (capacitores cerâmicos 0402 e resistores chip).</p>
-                    <p><strong>Dia 2 - Brainstorm e Implementação:</strong></p>
-                    <ul>
-                        <li>Revisão da biblioteca de imagens do AOI - atualização de 47 padrões de componentes</li>
-                        <li>Ajuste da iluminação (ângulo e intensidade) para componentes de baixo contraste</li>
-                        <li>Treinamento de operadores para classificação rápida de defeitos (metodologia "good/bad/verify")</li>
-                        <li>Implementação de verificação cruzada a cada 2 horas entre turnos</li>
-                    </ul>
-                    <p><strong>Dia 3 - Validação e Padronização:</strong> Teste com 500 placas - taxa de falsos rejeitos caiu para 5,2%. Procedimentos atualizados e treinamento concluído.</p>
-                    
-                    <h3>Resultados Após 6 Semanas</h3>
-                    <ul>
-                        <li><strong>Falsos rejeitos:</strong> 3,8% (redução de 74%)</li>
-                        <li><strong>Economia de retrabalho:</strong> 31 horas/semana → R$ 8.200/mês</li>
-                        <li><strong>Aumento de throughput:</strong> +8% (redução de filas no AOI)</li>
-                        <li><strong>ROI do evento:</strong> 11:1 (investimento de R$ 2.200 em treinamento e horas)</li>
-                    </ul>
-                    
-                    ${iconFigure('fa-users-cog', 'Equipe Kaizen analisando processo de soldagem seletiva')}
-                    
-                    <h2>Case 2: Otimização da Soldagem Seletiva PTH</h2>
-                    <h3>Situação Inicial</h3>
-                    <p>O processo de soldagem seletiva para conectores through-hole apresentava variação significativa na qualidade, com 12% das placas necessitando retoque manual. Cada retoque custava em média R$ 8,50 (mão de obra + risco de dano). Volume: 8.000 placas/mês → custo mensal de R$ 8.160.</p>
-                    
-                    <h3>Ações Implementadas no Evento Kaizen</h3>
-                    <ol>
-                        <li><strong>Padronização do pré-aquecimento:</strong> Definição de tempo mínimo de 90 segundos a 120°C para eliminar umidade residual (conforme IPC-J-STD-001)</li>
-                        <li><strong>Ajuste do fluxo de nitrogênio (N₂):</strong> Aumento de 15 para 22 L/min, reduzindo oxidação e melhorando a molhabilidade da solda</li>
-                        <li><strong>Manutenção preventiva semanal dos bicos de solda:</strong> Limpeza ultrassônica e verificação de desgaste</li>
-                        <li><strong>Implementação de checklist de setup:</strong> 12 itens verificados antes de cada lote</li>
-                    </ol>
-                    
-                    <h3>Resultados Após 45 Dias</h3>
-                    <ul>
-                        <li><strong>Retoque manual:</strong> 2,8% (redução de 77%)</li>
-                        <li><strong>Economia mensal:</strong> R$ 6.120</li>
-                        <li><strong>Aumento de velocidade da linha:</strong> +15% (redução de gargalo)</li>
-                        <li><strong>ROI:</strong> Payback em 45 dias</li>
-                    </ul>
-                    
-                    <h2>Metodologia para Eventos Kaizen Eficazes</h2>
-                    <p>Baseado no <strong>IPC CFX-2591</strong> e melhores práticas da indústria:</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📋 Roteiro para Evento Kaizen de 5 Dias</h3>
-                        <table>
-                            <tr><th>Dia</th><th>Atividades</th><th>Entregáveis</th></tr>
-                            <tr><td>1 (Segunda)</td><td>Definição do escopo, métricas baseline, formação da equipe (5-7 pessoas)</td><td>Project Charter, Mapa do Estado Atual (VSM)</td></tr>
-                            <tr><td>2 (Terça)</td><td>Observação no gemba (chão de fábrica), coleta de dados, identificação de desperdícios (7 Mudas)</td><td>Lista de oportunidades priorizada</td></tr>
-                            <tr><td>3 (Quarta)</td><td>Brainstorm de soluções, testes rápidos (PDCA), implementação imediata de melhorias simples</td><td>Novo layout/processo testado</td></tr>
-                            <tr><td>4 (Quinta)</td><td>Refinamento das soluções, medição de resultados preliminares, documentação</td><td>Procedimentos atualizados</td></tr>
-                            <tr><td>5 (Sexta)</td><td>Apresentação para liderança, definição de plano de sustentação (30-60-90 dias)</td><td>Relatório A3, indicadores de acompanhamento</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h3>Fatores Críticos de Sucesso</h3>
-                    <ul>
-                        <li><strong>Envolvimento da liderança:</strong> Presença no kick-off e na apresentação final</li>
-                        <li><strong>Equipe multifuncional:</strong> Operadores, engenheiros, qualidade, manutenção</li>
-                        <li><strong>Foco em dados:</strong> Baseline mensurável antes e depois</li>
-                        <li><strong>Sustentação:</strong> Auditorias Kamishibai para verificar aderência aos novos padrões</li>
-                    </ul>
-                    
-                    <h2>Conclusão</h2>
-                    <p>O Kaizen não exige grandes investimentos, mas sim disciplina, engajamento da equipe e método. Na manufatura eletrônica, onde cada minuto e cada componente contam, a melhoria contínua é o caminho mais seguro para a excelência operacional. Os cases apresentados demonstram que eventos focados de 3-5 dias podem gerar retornos expressivos e sustentáveis.</p>
-                    
-                    <blockquote>"Kaizen significa todos, todos os dias, em todos os lugares melhorando." — Masaaki Imai, autor de "Kaizen: The Key to Japan's Competitive Success"</blockquote>
-                `
-            },
-            'artigo-iso-1': {
-                id: 'artigo-iso-1', title: 'ISO 9001 e IPC na prática: rastreabilidade classe 3',
-                category: 'Manufatura eletrônica', date: '01 Abr 2026', readTime: '18 min',
-                imageIcon: 'assets/img/artigo-iso-1.jpg',
-                summary: 'Implementação de sistema de qualidade baseado em IPC-A-610 Classe 3 e IPC-1782.',
-                content: `
-                    ${iconFigure('assets/img/artigo-iso-1.jpg', 'Sistema de gestão da qualidade certificado ISO 9001:2015')}
-                    
-                    <h2>ISO 9001:2015 na Manufatura Eletrônica</h2>
-                    <p>A norma ISO 9001:2015 estabelece requisitos para um Sistema de Gestão da Qualidade (SGQ). Para empresas de manufatura eletrônica, a certificação é frequentemente um pré-requisito para participar de licitações e se qualificar como fornecedor de grandes OEMs (Original Equipment Manufacturers).</p>
-                    
-                    <h3>Cláusulas Relevantes para Montagem de PCBs</h3>
-                    <h4>8.5.1 - Controle de Produção e Prestação de Serviço</h4>
-                    <p>Exige que a produção seja realizada sob condições controladas, incluindo:</p>
-                    <ul>
-                        <li>Disponibilidade de instruções de trabalho documentadas (ex: procedimentos de soldagem conforme J-STD-001)</li>
-                        <li>Uso de equipamentos adequados e calibrados (ex: perfilômetros térmicos, máquinas de solda)</li>
-                        <li>Implementação de monitoramento e medição (ex: SPC, inspeção AOI)</li>
-                        <li>Rastreabilidade do produto ao longo do processo</li>
-                    </ul>
-                    
-                    <h4>8.5.2 - Identificação e Rastreabilidade</h4>
-                    <p>Requisito fundamental para recalls e investigação de falhas. Na manufatura eletrônica, implementa-se através de códigos únicos (Data Matrix, QR Code) gravados a laser em cada placa.</p>
-                    
-                    ${iconFigure('fa-qrcode', 'Código Data Matrix para rastreabilidade Nível 2 conforme IPC-1782')}
-                    
-                    <h2>IPC-1782: Padrão Global para Rastreabilidade de Componentes Eletrônicos</h2>
-                    <p>A <strong>IPC-1782</strong> (Standard for Traceability of Electronic Components, Assemblies, and Systems) define quatro níveis de maturidade de rastreabilidade:</p>
-                    
-                    <table>
-                        <tr><th>Nível</th><th>Descrição</th><th>Benefícios</th><th>Complexidade/Custo</th></tr>
-                        <tr><td><strong>Nível 1</strong></td><td>Rastreabilidade básica de lote. Identificação do lote de produção da placa.</td><td>Atende requisitos mínimos de ISO 9001</td><td>Baixo</td></tr>
-                        <tr><td><strong>Nível 2</strong></td><td>Rastreabilidade por placa individual. Cada placa recebe um identificador único (ex: Data Matrix).</td><td>Permite recalls cirúrgicos; reduz escopo de recall em até 90%</td><td>Moderado</td></tr>
-                        <tr><td><strong>Nível 3</strong></td><td>Rastreabilidade de componentes críticos. Cada componente tem seu lote/date code registrado e vinculado à placa.</td><td>Identificação precisa da fonte de falhas; atende requisitos IATF 16949</td><td>Alto</td></tr>
-                        <tr><td><strong>Nível 4</strong></td><td>Rastreabilidade completa de processo (CFX). Todos os parâmetros de processo (temperatura, vácuo, etc.) são registrados por placa.</td><td>Análise de causa raiz avançada; conformidade com indústrias de alta confiabilidade (aeroespacial, médica)</td><td>Muito Alto</td></tr>
-                    </table>
-                    
-                    <h3>Benefícios da Rastreabilidade Nível 3 (Segundo IPC-1782 White Paper)</h3>
-                    <ul>
-                        <li><strong>Redução do custo de recalls em 87%:</strong> Recall limitado apenas às placas com componentes do lote afetado</li>
-                        <li><strong>Redução do escopo de recall em 94%:</strong> Em vez de recolher todas as placas de um período, recolhe-se apenas as que contêm o componente problemático</li>
-                        <li><strong>Tempo de investigação de falhas reduzido em 68%:</strong> Dados de rastreabilidade permitem correlação imediata entre falhas de campo e lotes de produção</li>
-                    </ul>
-                    
-                    <h2>Normas IPC Aplicáveis à Manufatura de PCBs</h2>
-                    <p>A IPC (Association Connecting Electronics Industries) publica os padrões mais aceitos globalmente para projeto, fabricação e montagem de produtos eletrônicos.</p>
-                    
-                    <table>
-                        <tr><th>Norma</th><th>Título</th><th>Aplicação</th></tr>
-                        <tr><td><strong>IPC-A-610</strong></td><td>Acceptability of Electronic Assemblies</td><td>Critérios de aceitação visual para montagens eletrônicas. Define condições "Target", "Acceptable" e "Defect" para Classe 1 (Eletrônicos Gerais), Classe 2 (Serviço Dedicado) e Classe 3 (Alta Confiabilidade/Eletrônica Automotiva).</td></tr>
-                        <tr><td><strong>J-STD-001</strong></td><td>Requirements for Soldered Electrical and Electronic Assemblies</td><td>Requisitos para materiais, métodos e verificação de soldagem. Complementar ao IPC-A-610 (foco no processo vs. produto final).</td></tr>
-                        <tr><td><strong>IPC-7711/7721</strong></td><td>Rework, Modification and Repair of Electronic Assemblies</td><td>Procedimentos padronizados para retrabalho, modificação e reparo de placas, minimizando danos térmicos e mecânicos.</td></tr>
-                        <tr><td><strong>IPC-A-600</strong></td><td>Acceptability of Printed Boards</td><td>Critérios de aceitação para placas de circuito impresso nuas (antes da montagem). Define defeitos como delaminação, manchas, irregularidades no cobre.</td></tr>
-                        <tr><td><strong>IPC-6012</strong></td><td>Qualification and Performance Specification for Rigid Printed Boards</td><td>Especificações de qualificação e desempenho para PCBs rígidas. Define classes de confiabilidade e requisitos de teste.</td></tr>
-                        <tr><td><strong>IPC-7095</strong></td><td>Design and Assembly Process Implementation for BGAs</td><td>Diretrizes para projeto e montagem de componentes BGA (Ball Grid Array), críticos para confiabilidade de juntas de solda.</td></tr>
-                    </table>
-                    
-                    <div class="highlight-box">
-                        <h3>📊 Diferenças entre Classes IPC-A-610</h3>
-                        <table>
-                            <tr><th>Critério</th><th>Classe 1 (Geral)</th><th>Classe 2 (Serviço Dedicado)</th><th>Classe 3 (Alta Confiabilidade)</th></tr>
-                            <tr><td>Aplicação típica</td><td>Brinquedos, eletrônicos de consumo descartáveis</td><td>Computadores, eletrodomésticos, equipamentos de comunicação</td><td>Automotivo, médico, aeroespacial, militar</td></tr>
-                            <tr><td>Preenchimento do furo (PTH)</td><td>Não especificado</td><td>Mínimo 75% de preenchimento vertical</td><td>Mínimo 75% de preenchimento vertical</td></tr>
-                            <tr><td>Ângulo de contato da solda</td><td>&lt; 90°</td><td>&lt; 90°</td><td>&lt; 90° (mais rigoroso na inspeção)</td></tr>
-                            <tr><td>Voids em BGA (IPC-7095)</td><td>Até 30% da área da bola</td><td>Até 25% da área da bola</td><td>Até 15% da área da bola (crítico)</td></tr>
-                            <tr><td>Limpeza pós-soldagem</td><td>Não requerido</td><td>Resíduos não-condutivos permitidos</td><td>Superfície deve estar visualmente limpa</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h2>Implementação Prática de um Sistema de Rastreabilidade</h2>
-                    <h3>Tecnologias Utilizadas</h3>
-                    <ul>
-                        <li><strong>Marcação a Laser:</strong> Gravação de código Data Matrix 2D na borda da placa. Indelével e legível por máquina.</li>
-                        <li><strong>Leitores de Código de Barras:</strong> Estações de leitura em cada etapa crítica (após SMT, após PTH, após testes).</li>
-                        <li><strong>Sistema MES (Manufacturing Execution System):</strong> Software que centraliza os dados de produção, vinculando cada placa ao seu histórico completo.</li>
-                    </ul>
-                    
-                    <h3>Fluxo de Rastreabilidade Nível 3</h3>
-                    <ol>
-                        <li><strong>Recebimento de componentes:</strong> Lote do fabricante e date code são registrados no sistema ERP/MES.</li>
-                        <li><strong>Kitting:</strong> Componentes são separados por ordem de produção. Sistema registra quais lotes foram alocados.</li>
-                        <li><strong>Montagem SMT:</strong> Antes da refusão, a placa recebe um código Data Matrix único. Este código é associado aos lotes de componentes utilizados naquela placa específica.</li>
-                        <li><strong>Inspeção AOI e Testes:</strong> Resultados de inspeção e testes funcionais são vinculados ao código da placa.</li>
-                        <li><strong>Expedição:</strong> O código da placa é registrado na nota fiscal, permitindo rastreabilidade até o cliente final.</li>
-                    </ol>
-                    
-                    <h2>Conclusão</h2>
-                    <p>As certificações e normas não são apenas "papéis na parede". Quando implementadas com seriedade, elas estruturam processos, reduzem variabilidade e constroem confiança. Para o cliente, representam a garantia de que seu produto será fabricado com o mais alto padrão de qualidade. Para o fabricante, a rastreabilidade robusta (IPC-1782 Nível 3) não apenas atende a requisitos contratuais, mas também reduz drasticamente o impacto financeiro e reputacional de eventuais problemas de qualidade.</p>
-                    
-                    <blockquote>"A rastreabilidade Nível 3 reduz o custo de recalls em 87% e o escopo de recall em 94%." — IPC-1782 White Paper</blockquote>
-                `
-            },
-            'artigo-rastreabilidade-1': {
-                id: 'artigo-rastreabilidade-1',
-                title: 'Rastreabilidade nível 4 com CFX: o futuro da manufatura eletrônica',
-                category: 'Rastreabilidade',
-                date: '15 Nov 2025',
-                readTime: '16 min',
-                imageIcon: 'assets/img/artigo-rastreabilidade-1.jpg',
-                summary: 'Como o padrão IPC-2591 CFX permite rastrear cada placa e cada componente em tempo real, reduzindo recalls e melhorando a qualidade.',
-                content: `
-                    ${iconFigure('assets/img/artigo-rastreabilidade-1.jpg', 'Código Data Matrix em placa eletrônica – base da rastreabilidade nível 4')}
-                    
-                    <h2>Introdução: Por Que a Rastreabilidade se Tornou Crítica?</h2>
-                    <p>No cenário atual da manufatura eletrônica, a rastreabilidade deixou de ser um diferencial competitivo para se tornar uma exigência regulatória e de mercado. Setores como o automotivo (IATF 16949), o aeroespacial (AS9100) e o de dispositivos médicos (ISO 13485) exigem sistemas capazes de reconstruir a história completa de cada produto, desde o recebimento dos componentes até a expedição.</p>
-                    <p>Segundo o <strong>IPC-1782</strong> (Standard for Traceability of Electronic Components, Assemblies, and Systems), a rastreabilidade eficaz pode reduzir o custo de recalls em até 87% e o escopo de recall em 94%. Estes números são cruciais em um mercado onde um único recall pode custar milhões de dólares e danificar irreversivelmente a reputação da marca.</p>
-                    <p>Mas o que significa, na prática, atingir o <strong>nível 4 de rastreabilidade</strong>? E como o padrão <strong>IPC-2591 CFX</strong> (Connected Factory Exchange) viabiliza essa implementação em larga escala? Este artigo explora essas questões com base em dados de estudos da indústria e nas próprias normas IPC.</p>
-                    
-                    <h2>Os Quatro Níveis de Rastreabilidade da IPC-1782</h2>
-                    <p>A norma <strong>IPC-1782</strong> define quatro níveis progressivos de maturidade em rastreabilidade, cada um adicionando maior granularidade e capacidade de investigação.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📊 Tabela comparativa dos níveis de rastreabilidade (conforme IPC-1782)</h3>
-                        <table>
-                            <tr><th>Nível</th><th>Descrição</th><th>Escopo</th><th>Benefícios Principais</th></tr>
-                            <tr><td><strong>1</strong></td><td>Rastreabilidade por lote</td><td>Lote de produção da placa</td><td>Atende requisitos mínimos ISO 9001</td></tr>
-                            <tr><td><strong>2</strong></td><td>Rastreabilidade por placa individual</td><td>Cada placa recebe identificação única (ex.: Data Matrix)</td><td>Recalls cirúrgicos; redução de escopo em até 90%</td></tr>
-                            <tr><td><strong>3</strong></td><td>Rastreabilidade de componentes críticos</td><td>Cada componente tem lote/date code vinculado à placa</td><td>Identificação precisa da fonte de falhas; exigência IATF 16949</td></tr>
-                            <tr><td><strong>4</strong></td><td>Rastreabilidade completa de processo</td><td>Inclui parâmetros de processo (temperatura, vácuo, etc.) por placa</td><td>Análise de causa raiz avançada; manufatura preditiva</td></tr>
-                        </table>
-                    </div>
-                    
-                    <p>No nível 4, cada placa carrega consigo não apenas a identificação dos componentes, mas também o registro de todos os parâmetros de processo a que foi submetida: temperaturas do forno de refusão, pressão de vácuo do pick-and-place, volume de pasta de solda medido pelo SPI, resultado da inspeção óptica automatizada (AOI) e até mesmo o operador responsável por cada etapa. Essa visibilidade total permite análises de confiabilidade sem precedentes.</p>
-                    
-                    ${iconFigure('fa-microchip', 'Linha SMT com sensores e sistemas conectados via CFX')}
-                    
-                    <h2>O Papel do IPC-2591 CFX na Rastreabilidade Nível 4</h2>
-                    <p>O <strong>IPC-2591 CFX</strong> (Connected Factory Exchange) é um padrão aberto de comunicação máquina-a-máquina (M2M) e máquina-para-sistema (M2S). Ele define um modelo de dados unificado e protocolos de troca de informações em tempo real entre equipamentos de diferentes fabricantes. Antes do CFX, integrar dados de processo de máquinas heterogêneas exigia customizações caras e propensas a erros.</p>
-                    <p>Com o CFX, todas as máquinas da linha de produção – impressoras de pasta, máquinas de pick-and-place, fornos de refusão, AOI, SPI, testadores – publicam eventos e dados padronizados em uma rede comum. Isso permite que um sistema MES (Manufacturing Execution System) colete e correlacione automaticamente os dados de cada placa, criando o "gêmeo digital" do processo.</p>
-                    
-                    <h3>Como Funciona na Prática?</h3>
-                    <ol>
-                        <li><strong>Cada placa recebe um identificador único</strong> (geralmente um Data Matrix 2D gravado a laser) logo no início da linha SMT.</li>
-                        <li><strong>Os equipamentos leem esse identificador</strong> a cada etapa, associando os parâmetros de processo ao ID da placa.</li>
-                        <li><strong>O CFX padroniza a troca dessas informações</strong>, permitindo que qualquer máquina envie dados para o MES em tempo real.</li>
-                        <li><strong>O MES registra um histórico completo</strong> para cada placa, incluindo dados de componentes, máquinas, parâmetros e resultados de inspeção.</li>
-                    </ol>
-                    
-                    <p>Segundo o <strong>IPC CFX Implementation Guide</strong>, fábricas que adotam o CFX relatam uma redução média de 30% no tempo de implementação de novas linhas e um aumento de 23% no OEE em 12 meses. A rastreabilidade nível 4 torna-se, assim, uma consequência natural da digitalização da fábrica.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📈 Benefícios comprovados da rastreabilidade nível 4 (estudos IPC e indústria)</h3>
-                        <ul>
-                            <li><strong>Redução de custo de recall em 87%</strong> – limita o recall apenas às placas com o lote de componente afetado (fonte: IPC-1782).</li>
-                            <li><strong>Redução de escopo de recall em 94%</strong> – evita recall de todo um período de produção (fonte: IPC-1782).</li>
-                            <li><strong>Redução de 68% no tempo de investigação de falhas</strong> – a correlação entre parâmetros de processo e defeitos acelera a análise de causa raiz (fonte: IPC CFX White Paper).</li>
-                            <li><strong>Aumento de produtividade em até 25%</strong> – a visibilidade em tempo real permite ajustes proativos, reduzindo paradas e retrabalho.</li>
-                            <li><strong>Conformidade com normas automotivas e aeroespaciais</strong> – atende aos requisitos de rastreabilidade da IATF 16949 e AS9100 sem custos adicionais de TI.</li>
-                        </ul>
-                    </div>
-                    
-                    <h2>Implementação Passo a Passo da Rastreabilidade Nível 4</h2>
-                    <p>Muitos fabricantes imaginam que a rastreabilidade nível 4 exige investimentos colossais. Na realidade, a evolução pode ser gradual, aproveitando a infraestrutura existente.</p>
-                    
-                    <h3>Fase 1: Marcação e Identificação</h3>
-                    <p>O primeiro passo é implementar a identificação única de cada placa. A gravação a laser de um código Data Matrix 2D é o método mais comum por ser indelével e legível por máquina. A norma <strong>IPC-1782</strong> recomenda que o código seja posicionado na borda da placa, fora da área de montagem.</p>
-                    
-                    <h3>Fase 2: Coleta de Dados de Componentes</h3>
-                    <p>Para atingir o nível 3, é necessário registrar o lote e o date code de cada componente. Isso pode ser feito através da leitura de etiquetas nos alimentadores (feeders) e da integração com o sistema ERP/MES. O CFX padroniza essas informações, facilitando a troca automática.</p>
-                    
-                    <h3>Fase 3: Integração de Parâmetros de Processo</h3>
-                    <p>Aqui entra o CFX: todos os equipamentos críticos passam a reportar em tempo real os parâmetros de processo. Um MES com suporte a CFX coleta e correlaciona esses dados. A norma <strong>IPC-9850</strong> define os padrões de comunicação para máquinas de SMT, enquanto o <strong>IPC-2591</strong> amplia para toda a linha.</p>
-                    
-                    <h3>Fase 4: Análise e Melhoria Contínua</h3>
-                    <p>Com os dados centralizados, equipes de qualidade podem usar ferramentas de análise estatística (SPC) para identificar correlações entre desvios de processo e defeitos. A rastreabilidade nível 4 permite, por exemplo, identificar que um lote específico de pasta de solda apresentou maior incidência de vazios em BGAs, associado a uma variação de temperatura no forno.</p>
-                    
-                    <h2>Desafios e Considerações</h2>
-                    <p>Apesar dos benefícios, a implementação da rastreabilidade nível 4 apresenta desafios:</p>
-                    <ul>
-                        <li><strong>Custo de infraestrutura</strong> – marcadores a laser, leitores em cada estação e um MES robusto demandam investimento inicial.</li>
-                        <li><strong>Volume de dados</strong> – uma linha de alta velocidade pode gerar centenas de megabytes por dia; é necessário planejar o armazenamento.</li>
-                        <li><strong>Padronização</strong> – equipamentos legados podem não suportar CFX; pode ser necessário utilizar adaptadores ou substituir máquinas.</li>
-                        <li><strong>Treinamento</strong> – operadores e equipe de qualidade precisam entender como interpretar os dados.</li>
-                    </ul>
-                    
-                    <blockquote>"A rastreabilidade total não é mais um luxo. É uma questão de sobrevivência em mercados onde a confiabilidade é inegociável." — Adaptado de publicação da IPC, 2024</blockquote>
-                    
-                    <h2>Conclusão</h2>
-                    <p>A rastreabilidade nível 4, impulsionada pelo padrão CFX, representa o estado da arte na manufatura eletrônica. Ela transforma a fábrica em um ambiente transparente, onde cada placa conta sua própria história. Os números comprovam: redução drástica em recalls, investigação de falhas acelerada e maior confiança do cliente.</p>
-                    <p>Para empresas que atendem aos setores automotivo, aeroespacial ou médico, investir em rastreabilidade nível 4 não é apenas uma vantagem competitiva – é uma obrigação. E com o CFX, esse caminho tornou-se mais acessível e padronizado do que nunca.</p>
-                    
-                    <blockquote>"O CFX é o elo que faltava para conectar máquinas, pessoas e dados em uma única rede de produção inteligente." — IPC-2591 CFX Implementation Guide</blockquote>
-                `
-            },
-            'artigo-soldagem-leadfree-1': {
-                id: 'artigo-soldagem-leadfree-1',
-                title: 'Soldagem sem chumbo: desafios térmicos e soluções para alta confiabilidade',
-                category: 'Processos de Soldagem',
-                date: '22 Mai 2026',
-                readTime: '20 min',
-                imageIcon: 'assets/img/artigo-soldagem-leadfree-1.jpg',
-                summary: 'Entenda os desafios da soldagem lead-free, requisitos da RoHS e as melhores práticas para garantir juntas de solda confiáveis em eletrônicos de alta exigência.',
-                content: `
-                    ${iconFigure('assets/img/artigo-soldagem-leadfree-1.jpg', 'Perfil térmico de soldagem sem chumbo exige temperaturas mais altas e controle rigoroso')}
-                    
-                    <h2>Introdução: A Era da Soldagem Sem Chumbo</h2>
-                    <p>A Diretiva Europeia <strong>RoHS (2011/65/EU)</strong> e legislações similares em todo o mundo restringiram o uso de chumbo em equipamentos eletroeletrônicos, impulsionando a indústria em direção às ligas de solda sem chumbo. A transição, no entanto, trouxe desafios significativos para a manufatura eletrônica, especialmente no que diz respeito ao processo térmico e à confiabilidade das juntas de solda.</p>
-                    <p>Enquanto a solda tradicional à base de estanho-chumbo (Sn63/Pb37) fundia a 183°C, as ligas sem chumbo mais comuns, como a <strong>SAC305 (Sn96,5/Ag3,0/Cu0,5)</strong>, exigem temperaturas de pico entre 235°C e 245°C. Esse aumento de 50°C ou mais impacta diretamente os componentes, a placa de circuito impresso e o próprio processo de soldagem.</p>
-                    <p>Segundo a <strong>IPC</strong> (Association Connecting Electronics Industries), mais de 90% dos fabricantes globais já adotaram ligas sem chumbo em suas linhas de produção. No entanto, muitos ainda enfrentam desafios relacionados a defeitos como vazios, trincas e molhabilidade insuficiente.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📊 Comparativo de Ligas de Solda Comuns</h3>
-                        <table>
-                            <tr><th>Liga</th><th>Composição</th><th>Ponto de Fusão</th><th>Vantagens</th><th>Desvantagens</th></tr>
-                            <tr><td>SAC305</td><td>Sn96,5/Ag3,0/Cu0,5</td><td>217-220°C</td><td>Boa resistência mecânica e térmica</td><td>Maior propensão a vazios em BGAs</td></tr>
-                            <tr><td>SN100C</td><td>Sn/Cu0,7/Ni0,05</td><td>227°C</td><td>Baixo custo, boa fluidez</td><td>Menor resistência à fadiga térmica</td></tr>
-                            <tr><td>SAC405</td><td>Sn95,5/Ag4,0/Cu0,5</td><td>217-225°C</td><td>Excelente confiabilidade em ciclos térmicos</td><td>Custo mais elevado</td></tr>
-                            <tr><td>Sn63/Pb37 (legada)</td><td>Sn63/Pb37</td><td>183°C</td><td>Baixa temperatura, excelente molhabilidade</td><td>Restrita pela RoHS</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h2>Desafios Térmicos da Soldagem Lead-Free</h2>
-                    <p>O aumento da temperatura de processo afeta todo o sistema de soldagem. Os principais desafios incluem:</p>
-                    
-                    <h3>1. Estresse Térmico em Componentes</h3>
-                    <p>Componentes sensíveis, como capacitores cerâmicos, LEDs e circuitos integrados de alta densidade, podem sofrer danos quando expostos a temperaturas acima de 245°C. A <strong>IPC-J-STD-001</strong> recomenda que o pico de temperatura não exceda 260°C por mais de 10 segundos, e que a taxa de aquecimento seja controlada entre 2°C/s e 4°C/s.</p>
-                    
-                    <h3>2. Formação de Vazios em Juntas BGA</h3>
-                    <p>Vazios (voids) são mais comuns em soldas sem chumbo devido à menor molhabilidade e à formação de óxidos na superfície da liga. A norma <strong>IPC-7095</strong> estabelece que a área total de vazios em uma junta BGA não deve exceder 25% para aplicações de Classe 3 (alta confiabilidade).</p>
-                    
-                    <h3>3. Oxidação e Molhabilidade</h3>
-                    <p>A solda sem chumbo apresenta maior tensão superficial e menor capacidade de molhamento, o que pode resultar em juntas mal formadas. O uso de atmosfera controlada com nitrogênio (N₂) é uma prática recomendada para reduzir a oxidação e melhorar a qualidade da solda.</p>
-                    
-                    ${iconFigure('fa-microchip', 'Inspeção por raio-X é essencial para detectar vazios em juntas BGA')}
-                    
-                    <h2>Estratégias para Soldagem Lead-Free Confiável</h2>
-                    <p>Para mitigar os desafios, os fabricantes devem adotar uma abordagem integrada que combine controle de processo, seleção de materiais e inspeção avançada.</p>
-                    
-                    <h3>Otimização do Perfil Térmico</h3>
-                    <p>Um perfil térmico bem ajustado é o primeiro passo. Recomenda-se um <strong>pré-aquecimento gradual</strong> (rampa de 2°C/s a 3°C/s) para evitar choque térmico, seguido de um patamar de ativação do fluxo entre 150°C e 180°C por 60 a 120 segundos. O pico deve ser limitado a 245°C ±5°C, com tempo acima da temperatura líquida (TAL) de 60 a 90 segundos.</p>
-                    
-                    <h3>Uso de Fluxos de Alta Atividade</h3>
-                    <p>Fluxos desenvolvidos especificamente para solda sem chumbo oferecem melhor ativação e remoção de óxidos. A escolha do fluxo deve considerar o tipo de componente, o acabamento superficial da placa (HASL lead-free, ENIG, OSP) e os requisitos de limpeza pós-soldagem.</p>
-                    
-                    <h3>Atmosfera de Nitrogênio</h3>
-                    <p>A soldagem em forno com injeção de nitrogênio reduz a oxidação da solda e melhora a molhabilidade, especialmente em componentes de passo fino e BGA. Embora aumente o custo operacional, o benefício em termos de redução de defeitos justifica o investimento em aplicações de alta confiabilidade.</p>
-                    
-                    <h3>Inspeção por Raio-X e AOI</h3>
-                    <p>A detecção de vazios e defeitos internos exige inspeção por raio-X (AXI). A combinação de inspeção óptica automatizada (AOI) para defeitos superficiais e AXI para análise interna garante uma cobertura completa da qualidade das juntas.</p>
-                    
-                    <div class="highlight-box">
-                        <h3>📈 Defeitos Comuns e Causas na Soldagem Lead-Free</h3>
-                        <table>
-                            <tr><th>Defeito</th><th>Causa Provável</th><th>Solução</th></tr>
-                            <tr><td>Vazios em BGA</td><td>Oxidação, perfil térmico inadequado, fluxo insuficiente</td><td>Otimizar perfil, usar N₂, fluxo com maior atividade</td></tr>
-                            <tr><td>Tombstoning (efeito lápide)</td><td>Desequilíbrio de umectação entre terminais</td><td>Ajustar padrão de pasta, controlar diferença de temperatura</td></tr>
-                            <tr><td>Solder balls (esferas de solda)</td><td>Contaminação, pasta com umidade, perfil agressivo</td><td>Controlar armazenamento da pasta, revisar perfil</td></tr>
-                            <tr><td>Trincas em juntas</td><td>Fadiga térmica, choque mecânico</td><td>Usar ligas com dopantes (ex.: Innolot), melhorar design</td></tr>
-                            <tr><td>Molhabilidade insuficiente</td><td>Oxidação excessiva, acabamento inadequado da placa</td><td>Aumentar fluxo, trocar acabamento (ENIG, OSP)</td></tr>
-                        </table>
-                    </div>
-                    
-                    <h2>Bigodes de Estanho: Um Risco Oculto</h2>
-                    <p>Um fenômeno particular das soldas sem chumbo com alto teor de estanho é o crescimento de <strong>bigodes de estanho</strong> (tin whiskers). Trata-se de filamentos microscópicos que podem se formar espontaneamente na superfície da solda e causar curtos-circuitos em equipamentos de alta densidade.</p>
-                    <p>Embora a incidência seja rara, o risco é maior em ambientes com estresse térmico e mecânico. A indústria tem mitigado o problema com a adição de pequenos percentuais de bismuto ou níquel à liga, e com a aplicação de revestimentos conformais que inibem o crescimento dos filamentos.</p>
-                    
-                    <h2>Conclusão: A Soldagem Sem Chumbo é o Novo Padrão</h2>
-                    <p>A soldagem sem chumbo não é mais uma opção, mas uma realidade consolidada na indústria eletrônica. Com os desafios térmicos e de confiabilidade mapeados, as soluções passam por um controle de processo rigoroso, uso de materiais adequados e inspeção avançada. Os fabricantes que dominam essas práticas obtêm juntas de solda com qualidade equivalente ou até superior à solda tradicional, atendendo às exigências regulatórias e de mercado.</p>
-                    <p>Na Fênix Indústria de Eletrônicos, a experiência com soldagem lead-free em setores como automotivo e aeroespacial garante conformidade com normas IPC e IATF 16949, entregando produtos de alta confiabilidade.</p>
-                    
-                    <blockquote>"A soldagem sem chumbo exige disciplina técnica, mas os benefícios para a saúde humana e o meio ambiente são inegáveis." — Adaptado de relatório da IPC, 2023</blockquote>
-                `
-            },
-    'artigo-aoi-3d-1': {
-    id: 'artigo-aoi-3d-1',
-    title: 'Inspeção Óptica Automatizada (AOI) 3D: a visão artificial no controle de qualidade eletrônica',
-    category: 'Inspeção e Qualidade',
-    date: '18 Jul 2026',
-    readTime: '18 min',
-    imageIcon: 'assets/img/artigo-aoi-3d-1.jpg',
-    summary: 'Descubra como a inspeção óptica 3D com visão artificial está transformando o controle de qualidade na manufatura eletrônica, reduzindo falsos rejeitos e aumentando a confiabilidade.',
-    content: `
-        ${iconFigure('assets/img/artigo-aoi-3d-1.jpg', 'Sistema de inspeção óptica automatizada 3D em linha de montagem SMT')}
-        
-        <h2>Introdução: A Evolução do Controle de Qualidade na Manufatura Eletrônica</h2>
-        <p>A inspeção óptica automatizada (AOI) tornou-se um pilar fundamental no controle de qualidade da manufatura eletrônica moderna. Com a miniaturização dos componentes — resistores 01005, BGAs com passo de 0,3mm e QFNs cada vez menores — a inspeção visual humana simplesmente não é mais viável. Segundo a <strong>IPC</strong> (Association Connecting Electronics Industries), a inspeção manual tem uma taxa de detecção de defeitos de apenas 70-80%, enquanto sistemas AOI 3D modernos atingem taxas superiores a 98%.</p>
-        <p>A tecnologia evoluiu significativamente nas últimas décadas: dos primeiros sistemas 2D baseados em comparação de imagens, passamos para os sistemas 3D que utilizam múltiplas câmeras, projeção de luz estruturada e algoritmos de aprendizado de máquina. Estes sistemas são capazes de medir com precisão a altura, o volume e a forma de cada junta de solda, detectando defeitos que seriam invisíveis para sistemas 2D.</p>
-        
-        <div class="highlight-box">
-            <h3>📊 Comparativo: AOI 2D vs AOI 3D</h3>
-            <table>
-                <tr><th>Característica</th><th>AOI 2D</th><th>AOI 3D</th></tr>
-                <tr><td>Detecção de componentes ausentes</td><td>Boa</td><td>Excelente</td></tr>
-                <tr><td>Detecção de tombstoning</td><td>Limitada</td><td>Excelente</td></tr>
-                <tr><td>Medição de altura de solda</td><td>Não possível</td><td>Precisa (±5μm)</td></tr>
-                <tr><td>Detecção de vazios em BGA</td><td>Não possível</td><td>Possível (com AXI)</td></tr>
-                <tr><td>Taxa de falsos rejeitos</td><td>5-15%</td><td>1-5%</td></tr>
-                <tr><td>Custo do equipamento</td><td>Menor</td><td>2-3x maior</td></tr>
-                <tr><td>ROI em 12 meses</td><td>Moderado</td><td>Alto (redução de retrabalho)</td></tr>
-            </table>
-        </div>
-        
-        <h2>Como Funciona a Inspeção Óptica 3D?</h2>
-        <p>Os sistemas AOI 3D utilizam tecnologias avançadas de visão artificial para criar um modelo tridimensional de cada componente e junta de solda na placa. As principais técnicas incluem:</p>
-        
-        <h3>1. Projeção de Luz Estruturada</h3>
-        <p>Um padrão de luz é projetado sobre a superfície da placa, e câmeras capturam a distorção desse padrão. A partir da deformação da luz, o sistema calcula a altura de cada ponto da superfície, criando um mapa de elevação com precisão de micrômetros.</p>
-        
-        <h3>2. Múltiplas Câmeras com Ângulos Diferentes</h3>
-        <p>Câmeras posicionadas em ângulos diferentes capturam a mesma região, permitindo a reconstrução tridimensional através de triangulação estereoscópica. Esta técnica é particularmente eficaz para inspecionar juntas de solda em componentes de passo fino.</p>
-        
-        <h3>3. Laser de Varredura</h3>
-        <p>Alguns sistemas utilizam lasers de varredura para medir a topografia da superfície. Embora mais lentos que os sistemas baseados em câmeras, oferecem precisão excepcional para aplicações críticas.</p>
-        
-        ${iconFigure('fa-camera', 'Câmeras de alta resolução com iluminação multiespectral para inspeção 3D')}
-        
-        <h2>Aplicações Críticas do AOI 3D na Manufatura Eletrônica</h2>
-        <p>A inspeção 3D tornou-se indispensável em diversas etapas do processo de montagem:</p>
-        
-        <h3>Inspeção de Pasta de Solda (SPI 3D)</h3>
-        <p>Antes da colocação dos componentes, o sistema SPI (Solder Paste Inspection) mede o volume, a altura e a área de cada depósito de pasta de solda. Segundo a <strong>IPC-7095</strong>, o controle do volume de pasta é crítico para a confiabilidade das juntas, especialmente em BGAs e QFNs. Sistemas SPI 3D modernos medem mais de 20 parâmetros por depósito, incluindo desalinhamento, ponteamento e presença de contaminantes.</p>
-        
-        <h3>Inspeção Pós-Refusão</h3>
-        <p>Após o forno de refusão, o AOI 3D verifica a qualidade das juntas de solda, detectando defeitos como:</p>
-        <ul>
-            <li><strong>Solder bridges (pontes de solda)</strong> — curto-circuitos entre terminais adjacentes</li>
-            <li><strong>Tombstoning (efeito lápide)</strong> — componentes que se levantaram durante a refusão</li>
-            <li><strong>Componentes deslocados</strong> — desalinhamento além dos limites aceitáveis</li>
-            <li><strong>Solda insuficiente</strong> — volume de solda abaixo do mínimo especificado</li>
-            <li><strong>Componentes ausentes</strong> — falhas no pick-and-place</li>
-        </ul>
-        
-        <h3>Inspeção de Conectores e PTH</h3>
-        <p>Para componentes through-hole, o AOI 3D verifica o preenchimento do furo, a formação do menisco de solda e a ausência de vazios. A norma <strong>IPC-A-610</strong> estabelece critérios de aceitação para cada classe de produto.</p>
-        
-        <div class="highlight-box">
-            <h3>📈 Taxas de Detecção de Defeitos por Tecnologia</h3>
-            <table>
-                <tr><th>Tipo de Defeito</th><th>Inspeção Manual</th><th>AOI 2D</th><th>AOI 3D</th></tr>
-                <tr><td>Componente ausente</td><td>95%</td><td>98%</td><td>99,5%</td></tr>
-                <tr><td>Desalinhamento</td><td>70%</td><td>90%</td><td>97%</td></tr>
-                <tr><td>Tombstoning</td><td>75%</td><td>85%</td><td>98%</td></tr>
-                <tr><td>Solder bridge</td><td>65%</td><td>80%</td><td>95%</td></tr>
-                <tr><td>Solda insuficiente</td><td>50%</td><td>70%</td><td>92%</td></tr>
-                <tr><td>Vazios em BGA</td><td>0%</td><td>0%</td><td>85% (com AXI)</td></tr>
-            </table>
-            <p style="margin-top:15px"><strong>Fonte:</strong> IPC-A-610 e estudos da indústria, 2024</p>
-        </div>
-        
-        <h2>Benefícios Comprovados da Inspeção 3D</h2>
-        <p>Estudos da indústria demonstram que a implementação de AOI 3D gera benefícios significativos:</p>
-        
-        <h3>Redução de Falsos Rejeitos</h3>
-        <p>Um dos maiores desafios da inspeção 2D são os falsos rejeitos — placas boas que são incorretamente identificadas como defeituosas. Com a medição precisa da altura e do volume da solda, os sistemas 3D reduzem os falsos rejeitos de 5-15% para menos de 2%, economizando tempo de retrabalho desnecessário.</p>
-        
-        <h3>Detecção de Defeitos Invisíveis em 2D</h3>
-        <p>Defeitos como tombstoning parcial, altura insuficiente de solda e desalinhamento vertical são impossíveis de detectar em sistemas 2D. O AOI 3D mede a altura real de cada componente, identificando desvios sutis que podem causar falhas em campo.</p>
-        
-        <h3>Rastreabilidade e Análise de Tendências</h3>
-        <p>Os dados gerados pelo AOI 3D alimentam sistemas de SPC (Controle Estatístico de Processo), permitindo a identificação precoce de desvios no processo. Quando integrado com o padrão <strong>IPC-2591 CFX</strong>, os dados de inspeção são correlacionados com outros parâmetros da linha, como temperatura do forno e pressão do pick-and-place, criando um ambiente de manufatura verdadeiramente conectado.</p>
-        
-        ${iconFigure('fa-chart-line', 'Dashboard de SPC alimentado por dados de AOI 3D em tempo real')}
-        
-        <h2>Desafios e Considerações na Implementação</h2>
-        <p>Apesar dos benefícios, a implementação de AOI 3D apresenta desafios que devem ser considerados:</p>
-        
-        <h3>Investimento Inicial</h3>
-        <p>Sistemas AOI 3D custam de 2 a 3 vezes mais que sistemas 2D. No entanto, o ROI é rápido em aplicações de alto volume, onde a redução de retrabalho e a melhoria da qualidade justificam o investimento em 6 a 12 meses.</p>
-        
-        <h3>Programação e Manutenção</h3>
-        <p>A programação de um sistema AOI 3D é mais complexa, exigindo engenheiros treinados. A manutenção também é mais crítica, com calibração periódica das câmeras e dos sistemas de projeção.</p>
-        
-        <h3>Velocidade de Inspeção</h3>
-        <p>Sistemas 3D são geralmente mais lentos que sistemas 2D, pois processam mais dados por placa. A seleção do sistema deve considerar o tempo de ciclo da linha e o volume de produção.</p>
-        
-        <h2>O Futuro: Inteligência Artificial e Aprendizado de Máquina</h2>
-        <p>A próxima fronteira da inspeção óptica é a integração de algoritmos de aprendizado profundo (deep learning). Sistemas modernos utilizam redes neurais treinadas com milhares de imagens de placas boas e defeituosas, permitindo:</p>
-        <ul>
-            <li><strong>Classificação automática de defeitos</strong> — o sistema identifica o tipo de defeito e sugere a ação corretiva</li>
-            <li><strong>Aprendizado contínuo</strong> — o sistema melhora sua precisão com o tempo, adaptando-se a novos produtos</li>
-            <li><strong>Inspeção adaptativa</strong> — o sistema ajusta seus parâmetros automaticamente para diferentes tipos de placas</li>
-            <li><strong>Manutenção preditiva</strong> — identifica desgaste nos equipamentos antes que causem defeitos</li>
-        </ul>
-        
-        <h2>Conclusão: A Inspeção 3D é Essencial para a Qualidade Moderna</h2>
-        <p>A inspeção óptica automatizada 3D não é mais um luxo — é uma necessidade para qualquer fabricante que busca alta confiabilidade e competitividade. Com a miniaturização contínua dos componentes e a crescente complexidade das placas, a inspeção 3D oferece a precisão e a consistência necessárias para atender aos padrões da indústria.</p>
-        <p>Na Fênix Indústria de Eletrônicos, a combinação de AOI 3D, inspeção por raio-X e SPC avançado garante a qualidade exigida pelos setores automotivo, aeroespacial e médico, com conformidade total às normas IPC-A-610 e IATF 16949.</p>
-        
-        <blockquote>"A inspeção 3D não é apenas sobre detectar defeitos — é sobre entender o processo e prevenir problemas antes que ocorram." — Adaptado de publicação da IPC, 2024</blockquote>
-    `
-},
-            'artigo-conformal-coating-1': {
-    id: 'artigo-conformal-coating-1',
-    title: 'Conformal Coating: proteção essencial para eletrônicos em ambientes agressivos',
-    category: 'Confiabilidade',
-    date: '05 Ago 2026',
-    readTime: '17 min',
-    imageIcon: 'assets/img/artigo-conformal-coating-1.jpg',
-    summary: 'Entenda como o conformal coating protege placas eletrônicas contra umidade, poeira e contaminantes, e conheça os principais materiais e métodos de aplicação para máxima confiabilidade.',
-    content: `
-        ${iconFigure('assets/img/artigo-conformal-coating-1.jpg', 'Aplicação de conformal coating em placa eletrônica para proteção ambiental')}
-        
-        <h2>Introdução: Por Que Proteger as Placas Eletrônicas?</h2>
-        <p>Placas de circuito impresso (PCBs) são intrinsecamente vulneráveis a fatores ambientais. Umidade, poeira, névoa salina, gases corrosivos e variações de temperatura podem causar corrosão, curtos-circuitos e falhas prematuras. Em aplicações automotivas, aeroespaciais, médicas e industriais, onde a confiabilidade é crítica, a proteção adequada não é opcional — é uma exigência.</p>
-        <p>Segundo a <strong>IPC</strong> (Association Connecting Electronics Industries), a umidade é responsável por aproximadamente 30% das falhas em campo de dispositivos eletrônicos. O <strong>conformal coating</strong> (revestimento conformal) surgiu como a solução mais eficaz para criar uma barreira protetora fina e uniforme sobre a superfície da placa, preservando suas propriedades elétricas enquanto protege contra o ambiente.</p>
-        
-        <div class="highlight-box">
-            <h3>📊 Principais Ameaças Ambientais e Seus Efeitos</h3>
-            <table>
-                <tr><th>Ameaça</th><th>Efeito na PCB</th><th>Proteção do Coating</th></tr>
-                <tr><td>Umidade</td><td>Corrosão, migração eletroquímica, curtos</td><td>Excelente (barreira hidrofóbica)</td></tr>
-                <tr><td>Poeira e partículas</td><td>Acúmulo de contaminantes, aquecimento</td><td>Excelente</td></tr>
-                <tr><td>Névoa salina</td><td>Corrosão acelerada de trilhas e terminais</td><td>Excelente</td></tr>
-                <tr><td>Gases corrosivos (SO₂, H₂S)</td><td>Degradação de contatos e soldas</td><td>Boa (depende do material)</td></tr>
-                <tr><td>Vibração e choque</td><td>Fadiga mecânica, trincas em soldas</td><td>Boa (reforço mecânico)</td></tr>
-                <tr><td>Ciclagem térmica</td><td>Expansão/contração diferencial</td><td>Boa (flexibilidade do material)</td></tr>
-            </table>
-        </div>
-        
-        <h2>Tipos de Conformal Coating e Suas Características</h2>
-        <p>A seleção do material de coating é uma decisão crítica que afeta diretamente a confiabilidade e o custo do produto. Os principais tipos são:</p>
-        
-        <h3>1. Acrílico (AR)</h3>
-        <p><strong>Vantagens:</strong> Fácil aplicação, secagem rápida, boa resistência à umidade e fácil remoção para retrabalho. Excelente relação custo-benefício.</p>
-        <p><strong>Limitações:</strong> Menor resistência química e a solventes. Faixa de temperatura limitada (-55°C a +125°C).</p>
-        <p><strong>Aplicações típicas:</strong> Eletrônicos de consumo, equipamentos industriais leves, telecomunicações.</p>
-        
-        <h3>2. Silicone (SR)</h3>
-        <p><strong>Vantagens:</strong> Excelente flexibilidade, ampla faixa de temperatura (-55°C a +200°C), boa resistência à umidade e ciclagem térmica. Ideal para aplicações com alta variação térmica.</p>
-        <p><strong>Limitações:</strong> Menor resistência à abrasão, mais difícil de remover, maior custo.</p>
-        <p><strong>Aplicações típicas:</strong> Automotivo (módulos de motor), aeroespacial, equipamentos externos.</p>
-        
-        <h3>3. Poliuretano (UR)</h3>
-        <p><strong>Vantagens:</strong> Excelente resistência química e a solventes, boa resistência à umidade e abrasão. Alta durabilidade mecânica.</p>
-        <p><strong>Limitações:</strong> Difícil remoção para retrabalho, cura mais longa, sensível à umidade durante a aplicação.</p>
-        <p><strong>Aplicações típicas:</strong> Equipamentos militares, aeroespacial, ambientes quimicamente agressivos.</p>
-        
-        <h3>4. Parileno (XY)</h3>
-        <p><strong>Vantagens:</strong> Cobertura excepcionalmente uniforme (deposição a vácuo), penetra em frestas e sob componentes, excelente barreira contra umidade e gases. Propriedades dielétricas superiores.</p>
-        <p><strong>Limitações:</strong> Custo muito elevado (10-50x acrílico), processo de aplicação especializado (deposição a vácuo), difícil retrabalho.</p>
-        <p><strong>Aplicações típicas:</strong> Dispositivos médicos implantáveis, aeroespacial crítico, defesa.</p>
-        
-        <div class="highlight-box">
-            <h3>📊 Comparativo de Materiais de Conformal Coating</h3>
-            <table>
-                <tr><th>Propriedade</th><th>Acrílico</th><th>Silicone</th><th>Poliuretano</th><th>Parileno</th></tr>
-                <tr><td>Resistência à umidade</td><td>Boa</td><td>Excelente</td><td>Excelente</td><td>Excelente</td></tr>
-                <tr><td>Resistência química</td><td>Moderada</td><td>Boa</td><td>Excelente</td><td>Excelente</td></tr>
-                <tr><td>Faixa de temperatura</td><td>-55 a +125°C</td><td>-55 a +200°C</td><td>-55 a +150°C</td><td>-200 a +150°C</td></tr>
-                <tr><td>Flexibilidade</td><td>Moderada</td><td>Excelente</td><td>Boa</td><td>Boa</td></tr>
-                <tr><td>Facilidade de retrabalho</td><td>Fácil</td><td>Difícil</td><td>Difícil</td><td>Muito difícil</td></tr>
-                <tr><td>Custo relativo</td><td>1x</td><td>2-3x</td><td>2-4x</td><td>10-50x</td></tr>
-                <tr><td>Espessura típica</td><td>25-75μm</td><td>25-200μm</td><td>25-75μm</td><td>0,1-25μm</td></tr>
-            </table>
-        </div>
-        
-        ${iconFigure('fa-spray-can', 'Métodos de aplicação: spray, imersão e pincel para conformal coating')}
-        
-        <h2>Métodos de Aplicação</h2>
-        <p>A escolha do método de aplicação depende do tipo de material, do volume de produção e dos requisitos de precisão.</p>
-        
-        <h3>Spray (Pulverização)</h3>
-        <p>Método mais versátil e amplamente utilizado. Pode ser manual (aerógrafo) ou automatizado (robô com bico de spray). Oferece bom controle de espessura e cobertura seletiva com máscaras. Ideal para produção em escala.</p>
-        
-        <h3>Imersão (Dip Coating)</h3>
-        <p>A placa é imersa no material de coating, garantindo cobertura completa. Econômico para grandes volumes, porém requer mascaramento cuidadoso de conectores e áreas que não devem ser revestidas. A espessura é menos controlada que no spray.</p>
-        
-        <h3>Pincel (Brush Coating)</h3>
-        <p>Método manual para retoques e pequenas áreas. Baixo custo, porém com menor uniformidade. Ideal para protótipos e reparos localizados.</p>
-        
-        <h3>Deposição a Vácuo (Parileno)</h3>
-        <p>Processo especializado onde o parileno é vaporizado e polimerizado diretamente na superfície da placa em câmara de vácuo. Oferece cobertura absolutamente uniforme, inclusive em frestas e sob componentes.</p>
-        
-        <h2>Normas e Especificações Relevantes</h2>
-        <p>A aplicação de conformal coating é regulada por normas que garantem a qualidade e a confiabilidade do processo:</p>
-        <ul>
-            <li><strong>IPC-A-610</strong> — Critérios de aceitação para revestimentos conformais (espessura, cobertura, defeitos)</li>
-            <li><strong>IPC-CC-830</strong> — Qualificação e desempenho de materiais de conformal coating</li>
-            <li><strong>IPC-HDBK-830</strong> — Guia de projeto e seleção de conformal coating</li>
-            <li><strong>MIL-I-46058C</strong> — Norma militar para revestimentos isolantes</li>
-            <li><strong>UL 746E</strong> — Avaliação de segurança para materiais poliméricos</li>
-        </ul>
-        
-        <h3>Critérios de Aceitação Conforme IPC-A-610</h3>
-        <ul>
-            <li><strong>Espessura mínima:</strong> 25μm para acrílico e poliuretano, 50μm para silicone</li>
-            <li><strong>Cobertura:</strong> Sem áreas expostas em regiões críticas</li>
-            <li><strong>Defeitos inaceitáveis:</strong> Bolhas grandes, descolamento, contaminação, cor estranha</li>
-            <li><strong>Áreas de exclusão:</strong> Conectores, contatos, áreas de soldagem posterior</li>
-        </ul>
-        
-        ${iconFigure('fa-microscope', 'Inspeção de conformal coating com luz UV para verificar cobertura uniforme')}
-        
-        <h2>Inspeção e Controle de Qualidade</h2>
-        <p>A verificação da qualidade do coating é essencial para garantir a proteção adequada. Os principais métodos incluem:</p>
-        
-        <h3>Inspeção Visual com Luz UV</h3>
-        <p>Muitos materiais de coating contêm traçadores UV que fluorescem sob luz ultravioleta, permitindo a inspeção rápida da cobertura e da uniformidade.</p>
-        
-        <h3>Medição de Espessura</h3>
-        <p>Medidores de espessura por correntes parasitas ou ultrassom verificam se o revestimento atende às especificações mínimas e máximas.</p>
-        
-        <h3>Testes de Aderência</h3>
-        <p>Testes de fita (tape test) e de corte cruzado (cross-hatch) avaliam a aderência do coating à superfície da placa.</p>
-        
-        <h3>Testes Ambientais</h3>
-        <p>Câmaras de umidade, névoa salina e ciclagem térmica simulam as condições de campo e validam a eficácia da proteção.</p>
-        
-        <h2>Considerações de Design para Conformal Coating</h2>
-        <p>O sucesso da aplicação de conformal coating começa no projeto da placa:</p>
-        <ul>
-            <li><strong>Áreas de exclusão:</strong> Definir claramente onde o coating não deve ser aplicado (conectores, contatos, dissipadores)</li>
-            <li><strong>Componentes sensíveis:</strong> Identificar componentes que podem ser danificados pelo material do coating</li>
-            <li><strong>Espaçamento:</strong> Garantir espaço adequado entre componentes para penetração do coating</li>
-            <li><strong>Compatibilidade química:</strong> Verificar compatibilidade com solda, componentes e materiais da placa</li>
-            <li><strong>Máscaras de proteção:</strong> Projetar máscaras para áreas de exclusão durante a aplicação</li>
-        </ul>
-        
-        <h2>Conclusão: Proteção que Garante Confiabilidade</h2>
-        <p>O conformal coating é um investimento relativamente pequeno que proporciona um retorno enorme em termos de confiabilidade e vida útil do produto. Em aplicações automotivas, aeroespaciais e médicas, onde uma única falha pode ter consequências catastróficas, a proteção adequada das placas contra o ambiente é imprescindível.</p>
-        <p>Na Fênix Indústria de Eletrônicos, a experiência com diferentes tipos de conformal coating e métodos de aplicação garante a proteção adequada para cada aplicação, atendendo aos mais rigorosos padrões de qualidade e confiabilidade.</p>
-        
-        <blockquote>"A confiabilidade de um produto eletrônico é definida não apenas pelo que você vê, mas principalmente pelo que você protege." — Adaptado de IPC-HDBK-830</blockquote>
-    `
-},
-    'artigo-npi-1': {
-    id: 'artigo-npi-1',
-    title: 'NPI (New Product Introduction) em Manufatura Eletrônica: do conceito à produção em escala',
-    category: 'Gestão de Projetos',
-    date: '17 Ago 2026',
-    readTime: '21 min',
-    imageIcon: 'assets/img/artigo-npi-1.jpg',
-    summary: 'Descubra como o processo de NPI estrutura a transição do protótipo à produção em série, reduzindo riscos, otimizando custos e garantindo a qualidade na manufatura eletrônica.',
-    content: `
-        ${iconFigure('assets/img/artigo-npi-1.jpg', 'Fluxo de NPI: do protótipo à produção em escala na manufatura eletrônica')}
-        
-        <h2>Introdução: O Que é NPI e Por Que Ele é Crítico?</h2>
-        <p>O <strong>NPI (New Product Introduction)</strong> é o processo estruturado que conduz um novo produto desde a fase de conceito até a produção em série. Na manufatura eletrônica, onde a complexidade dos produtos é alta e os prazos são cada vez mais curtos, o NPI é a espinha dorsal que garante uma transição suave e controlada entre as fases de desenvolvimento e fabricação.</p>
-        <p>Segundo estudos da indústria, produtos que passam por um processo de NPI bem estruturado têm <strong>40% menos problemas de qualidade</strong> nos primeiros seis meses de produção e <strong>30% menos custos de retrabalho</strong> em comparação com produtos que seguem um fluxo informal. A <strong>IPC</strong> (Association Connecting Electronics Industries) e a <strong>IATF 16949</strong> reforçam a importância de um processo documentado e controlado para a introdução de novos produtos.</p>
-        <p>O NPI não é apenas uma fase — é uma metodologia que integra engenharia de produto, engenharia de processo, qualidade, compras, logística e produção, garantindo que todas as áreas estejam alinhadas antes do início da fabricação em série.</p>
-        
-        <div class="highlight-box">
-            <h3>📊 Fases do Processo de NPI na Manufatura Eletrônica</h3>
-            <table>
-                <tr><th>Fase</th><th>Atividades Principais</th><th>Entregáveis</th><th>Duração Típica</th></tr>
-                <tr><td>1. Conceito</td><td>Definição de requisitos, estudo de viabilidade</td><td>Especificação de produto, Business Case</td><td>2-4 semanas</td></tr>
-                <tr><td>2. Design</td><td>Projeto elétrico, mecânico, DFM/DFT</td><td>Gerber files, BOM preliminar, desenhos</td><td>4-8 semanas</td></tr>
-                <tr><td>3. Prototipagem</td><td>Fabricação de protótipos, testes funcionais</td><td>Protótipos validados, relatórios de teste</td><td>2-4 semanas</td></tr>
-                <tr><td>4. Pré-produção</td><td>Corrida piloto, validação de processo</td><td>PPAP, PFMEA, Plano de Controle</td><td>3-6 semanas</td></tr>
-                <tr><td>5. Ramp-up</td><td>Aumento gradual de volume, estabilização</td><td>Produção em série, indicadores estáveis</td><td>4-8 semanas</td></tr>
-                <tr><td>6. Produção</td><td>Fabricação em série, melhoria contínua</td><td>Produto final, métricas de OEE/FPY</td><td>Contínuo</td></tr>
-            </table>
-        </div>
-        
-        <h2>Fase 1: Conceito e Definição de Requisitos</h2>
-        <p>O NPI começa muito antes do primeiro protótipo. Nesta fase, a equipe define claramente o que será fabricado, para quem e com quais requisitos técnicos e comerciais.</p>
-        
-        <h3>Atividades Críticas</h3>
-        <ul>
-            <li><strong>Voz do Cliente (VOC):</strong> Levantamento das necessidades e expectativas do cliente final</li>
-            <li><strong>Definição de requisitos:</strong> Especificações funcionais, ambientais, regulatórias e de qualidade</li>
-            <li><strong>Análise de viabilidade:</strong> Avaliação técnica, econômica e de capacidade produtiva</li>
-            <li><strong>Análise de riscos preliminar:</strong> Identificação dos principais riscos do projeto</li>
-        </ul>
-        
-        <h3>Principais Desafios</h3>
-        <p>Nesta fase, os erros mais comuns são a definição inadequada de requisitos e a subestimação dos prazos e custos. Um requisito mal definido pode custar até <strong>10 vezes mais</strong> para ser corrigido nas fases posteriores do projeto.</p>
-        
-        <h2>Fase 2: Design e Desenvolvimento</h2>
-        <p>O projeto do produto e do processo devem caminhar juntos. O <strong>DFM (Design for Manufacturing)</strong> e o <strong>DFT (Design for Testability)</strong> são essenciais para garantir que o produto possa ser fabricado com qualidade e testado de forma eficiente.</p>
-        
-        <h3>DFM - Design for Manufacturing</h3>
-        <p>O DFM analisa o projeto da placa para identificar potenciais problemas de fabricação antes que eles ocorram:</p>
-        <ul>
-            <li><strong>Espaçamento entre componentes:</strong> Verificar se há espaço suficiente para o pick-and-place</li>
-            <li><strong>Padrões de solda:</strong> Garantir que os pads atendam aos requisitos de soldagem</li>
-            <li><strong>Seleção de componentes:</strong> Escolher componentes disponíveis e com boas condições de fornecimento</li>
-            <li><strong>Compatibilidade com o processo:</strong> Verificar se o design é compatível com a linha de montagem</li>
-        </ul>
-        
-        <h3>DFT - Design for Testability</h3>
-        <p>O DFT garante que o produto possa ser testado de forma eficaz e eficiente:</p>
-        <ul>
-            <li><strong>Pontos de teste:</strong> Incluir pontos de acesso para sondas e equipamentos de teste</li>
-            <li><strong>Testes embarcados:</strong> Projetar recursos de autoteste quando possível</li>
-            <li><strong>Cobertura de teste:</strong> Garantir que os testes cubram os modos de falha críticos</li>
-        </ul>
-        
-        ${iconFigure('assets/img/artigo-npi-2.jpg', 'Integração entre design de produto e design de processo no NPI')}
-        
-        <h2>Fase 3: Prototipagem e Validação</h2>
-        <p>Os protótipos são a primeira materialização do produto e permitem validar o design antes de investir em produção em escala. Na manufatura eletrônica, existem diferentes tipos de protótipos:</p>
-        
-        <h3>Tipos de Protótipos</h3>
-        <ul>
-            <li><strong>Protótipo de bancada:</strong> Montagem manual para validação inicial do circuito</li>
-            <li><strong>Protótipo funcional:</strong> Fabricado com processo semelhante ao da produção</li>
-            <li><strong>Protótipo de pré-produção:</strong> Idêntico ao produto final, incluindo acabamento e embalagem</li>
-        </ul>
-        
-        <h3>Testes de Validação</h3>
-        <ul>
-            <li><strong>Testes funcionais:</strong> Verificar se o produto atende aos requisitos funcionais</li>
-            <li><strong>Testes ambientais:</strong> Temperatura, umidade, vibração, choque</li>
-            <li><strong>Testes de confiabilidade:</strong> Vida útil, ciclagem térmica, estresse</li>
-            <li><strong>Testes de EMC:</strong> Compatibilidade eletromagnética</li>
-        </ul>
-        
-        <div class="highlight-box">
-            <h3>📈 Indicadores de Sucesso no NPI</h3>
-            <table>
-                <tr><th>Indicador</th><th>Meta Típica</th><th>Como Medir</th></tr>
-                <tr><td>Time-to-Market</td><td>&lt; 6 meses do conceito à produção</td><td>Dias entre kickoff e SOP (Start of Production)</td></tr>
-                <tr><td>FPY na corrida piloto</td><td>&gt; 90%</td><td>Placas boas na primeira passagem / total</td></tr>
-                <tr><td>Defeitos pós-lançamento</td><td>&lt; 500 ppm nos primeiros 3 meses</td><td>Defeitos em campo / unidades produzidas</td></tr>
-                <tr><td>Custo de retrabalho no NPI</td><td>&lt; 2% do custo total</td><td>Custo de retrabalho / custo total do projeto</td></tr>
-                <tr><td>Aderência ao cronograma</td><td>&gt; 90% dos milestones cumpridos</td><td>Milestones cumpridos / milestones planejados</td></tr>
-            </table>
-        </div>
-        
-        <h2>Fase 4: Pré-produção e Corrida Piloto</h2>
-        <p>A corrida piloto é o momento da verdade: o produto é fabricado pela primeira vez na linha de produção real, com o processo que será usado na série. Esta fase é crítica para validar o processo e identificar problemas que não apareceram nos protótipos.</p>
-        
-        <h3>Documentação Essencial na Pré-produção</h3>
-        <ul>
-            <li><strong>PFMEA (Process FMEA):</strong> Análise de modos de falha do processo</li>
-            <li><strong>Plano de Controle:</strong> Definição dos controles de qualidade em cada etapa</li>
-            <li><strong>Instruções de Trabalho:</strong> Documentação detalhada para os operadores</li>
-            <li><strong>PPAP (Production Part Approval Process):</strong> Aprovação formal do produto e processo</li>
-        </ul>
-        
-        <h3>O que Validar na Corrida Piloto</h3>
-        <ul>
-            <li><strong>Fluxo de processo:</strong> O produto flui pela linha sem gargalos</li>
-            <li><strong>Parâmetros de processo:</strong> Temperatura, velocidade, pressão estão corretos</li>
-            <li><strong>Tempos de ciclo:</strong> O tempo de produção atende à demanda</li>
-            <li><strong>Qualidade:</strong> O FPY está dentro das metas</li>
-            <li><strong>Rastreabilidade:</strong> O sistema de rastreamento funciona corretamente</li>
-        </ul>
-        
-        <h2>Fase 5: Ramp-up e Estabilização</h2>
-        <p>O ramp-up é o aumento gradual do volume de produção até atingir a capacidade total. Esta fase requer atenção especial para manter a qualidade enquanto a velocidade aumenta.</p>
-        
-        <h3>Estratégias de Ramp-up</h3>
-        <ul>
-            <li><strong>Aumento gradual:</strong> Incrementos de 25-50% por semana</li>
-            <li><strong>Monitoramento intensivo:</strong> Acompanhamento diário dos indicadores de qualidade</li>
-            <li><strong>Ajuste de processos:</strong> Otimização contínua dos parâmetros</li>
-            <li><strong>Treinamento adicional:</strong> Reforço do treinamento para novos operadores</li>
-        </ul>
-        
-        <h3>Indicadores de Estabilização</h3>
-        <ul>
-            <li><strong>OEE:</strong> Eficiência global do equipamento acima de 75%</li>
-            <li><strong>FPY:</strong> First Pass Yield acima de 95%</li>
-            <li><strong>PPM:</strong> Defeitos por milhão abaixo da meta</li>
-            <li><strong>Retrabalho:</strong> Taxa de retrabalho abaixo de 2%</li>
-        </ul>
-        
-        ${iconFigure('fa-chart-line', 'Acompanhamento de indicadores de produção durante o ramp-up')}
-        
-        <h2>Ferramentas e Metodologias de Apoio ao NPI</h2>
-        <p>Diversas ferramentas e metodologias apoiam o processo de NPI na manufatura eletrônica:</p>
-        
-        <h3>APQP (Advanced Product Quality Planning)</h3>
-        <p>Metodologia estruturada em 5 fases que guia o desenvolvimento do produto e do processo, garantindo que os requisitos do cliente sejam atendidos desde o início.</p>
-        
-        <h3>Stage-Gate</h3>
-        <p>Modelo de gestão que divide o projeto em estágios separados por "portões" de decisão, onde a continuidade é avaliada formalmente.</p>
-        
-        <h3>DFMEA (Design FMEA)</h3>
-        <p>Análise de modos de falha do projeto, identificando potenciais falhas do produto e suas causas antes da fabricação.</p>
-        
-        <h3>MSA (Measurement System Analysis)</h3>
-        <p>Avaliação dos sistemas de medição para garantir que os dados coletados durante o NPI sejam confiáveis.</p>
-        
-        <h2>Conclusão: NPI é Investimento, Não Custo</h2>
-        <p>Muitas empresas veem o NPI como uma etapa burocrática que atrasa o lançamento do produto. Na realidade, um processo de NPI bem estruturado acelera o time-to-market, reduz custos de retrabalho e garante a qualidade desde o primeiro lote.</p>
-        <p>Na Fênix Indústria de Eletrônicos, a metodologia de NPI é aplicada em todos os projetos, garantindo transições suaves do protótipo à produção em série e conformidade com as normas IATF 16949 e IPC.</p>
-        
-        <blockquote>"O NPI não é sobre evitar erros — é sobre identificar e corrigir os erros cedo, quando eles custam pouco e causam menos impacto." — Adaptado de publicação da IPC, 2024</blockquote>
-    `
-}
-        };
-        
-        // ========== PÁGINAS ==========
+        // ====== LISTA DE ARQUIVOS JSON DOS ARTIGOS ======
+        const articleFiles = [
+            'data/artigos/artigo-smt-1.json',
+            'data/artigos/artigo-auto-1.json',
+            'data/artigos/artigo-core-1.json',
+            'data/artigos/artigo-kaizen-1.json',
+            'data/artigos/artigo-iso-1.json',
+            'data/artigos/artigo-rastreabilidade-1.json',
+            'data/artigos/artigo-soldagem-leadfree-1.json',
+            'data/artigos/artigo-aoi-3d-1.json',
+            'data/artigos/artigo-conformal-coating-1.json',
+            'data/artigos/artigo-npi-1.json'
+        ];
+        
+        // ====== CARREGAMENTO DINÂMICO DOS ARTIGOS ======
+        const articlesDB = {};
+        let articlesLoaded = false;
+        
+        async function loadArticles() {
+            if (articlesLoaded) return true;
+            
+            try {
+                const promises = articleFiles.map(file => 
+                    fetch(file)
+                        .then(response => {
+                            if (!response.ok) throw new Error(`Erro ao carregar ${file}`);
+                            return response.json();
+                        })
+                        .then(article => {
+                            articlesDB[article.id] = article;
+                        })
+                        .catch(error => {
+                            console.warn(`Não foi possível carregar ${file}:`, error);
+                        })
+                );
+                
+                await Promise.all(promises);
+                articlesLoaded = true;
+                return true;
+            } catch (error) {
+                console.error('Erro ao carregar artigos:', error);
+                return false;
+            }
+        }
+        
+        // ====== PÁGINAS ======
         const pages = {
             blog: () => {
                 return `
@@ -1500,7 +297,7 @@
                         <h2><i class="fas fa-newspaper"></i> Blog TechMounter</h2>
                         <p>Artigos técnicos sobre manufatura eletrônica, qualidade e melhoria contínua</p>
                     </div>
-                    <div id="blogListContainer"></div>
+                    <div id="blogListContainer"><p style="text-align:center;padding:20px;"><i class="fas fa-spinner fa-spin"></i> Carregando artigos...</p></div>
                 `;
             },
             article: (articleId) => {
@@ -1562,38 +359,27 @@
                         <h3>Linha SMT Automatizada</h3>
                         <p>Equipamentos de última geração para montagem de componentes de alta densidade, incluindo pick-and-place de alta velocidade e inspeção AOI 3D.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Precisão de 0.01mm</li>
-                            <li><i class="fas fa-check-circle"></i> Capacidade para 50.000 cph</li>
-                            <li><i class="fas fa-check-circle"></i> Inspeção SPI 3D integrada</li>
-                            <li><i class="fas fa-check-circle"></i> Conforme IPC-9850</li>
+                            <li><i class="fas fa-check-circle"></i> Precisão de posicionamento de 0,01mm</li>
+                            <li><i class="fas fa-check-circle"></i> Capacidade para 50.000 componentes por hora</li>
+                            <li><i class="fas fa-check-circle"></i> Inspeção SPI 3D integrada ao processo</li>
+                            <li><i class="fas fa-check-circle"></i> Conformidade com IPC-9850</li>
                         </ul>
-                        <p style="margin-top: 20px;">
-                            <a href="${fenixUrl}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
-                                Conheça a Fênix Indústria <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </p>
                     </div>
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-soldering-iron"></i></div>
                         <h3>Montagem PTH</h3>
                         <p>Processos manuais e automatizados para componentes through-hole, incluindo soldagem seletiva e inspeção visual rigorosa.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Soldagem seletiva de precisão</li>
-                            <li><i class="fas fa-check-circle"></i> Conformal coating (Acrílico, Silicone)</li>
-                            <li><i class="fas fa-check-circle"></i> Testes funcionais 100%</li>
-                            <li><i class="fas fa-check-circle"></i> Conforme J-STD-001</li>
+                            <li><i class="fas fa-check-circle"></i> Soldagem seletiva de alta precisão</li>
+                            <li><i class="fas fa-check-circle"></i> Conformal coating (Acrílico, Silicone, Poliuretano)</li>
+                            <li><i class="fas fa-check-circle"></i> Testes funcionais em 100% das placas</li>
+                            <li><i class="fas fa-check-circle"></i> Conformidade com J-STD-001</li>
                         </ul>
-                        <p style="margin-top: 20px;">
-                            <a href="${fenixUrl}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
-                                Conheça a Fênix Indústria <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </p>
                     </div>
                 </div>
                 <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Precisa de uma solução personalizada?</h3>
-                    <p style="margin-bottom: 24px; opacity: 0.9;">A Fênix Indústria de Eletrônicos, parte do grupo Foxconn, está pronta para desenvolver o projeto ideal para sua aplicação.</p>
-                    <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Visitar Fênix Indústria <i class="fas fa-arrow-right"></i></a>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">A Importância da Tecnologia SMT & PTH</h3>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">A montagem superficial (SMT) e a tecnologia through-hole (PTH) são os pilares da manufatura eletrônica moderna. A combinação adequada dessas duas tecnologias permite a fabricação de placas com alta densidade de componentes, garantindo confiabilidade e desempenho em aplicações que vão desde eletrônicos de consumo até sistemas aeroespaciais críticos.</p>
                 </div>
             `,
             qualidade: () => `
@@ -1605,52 +391,52 @@
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-project-diagram"></i></div>
                         <h3>APQP</h3>
-                        <p>Planejamento Avançado da Qualidade do Produto - metodologia estruturada em 5 fases para garantir que novos produtos atendam aos requisitos do cliente.</p>
+                        <p>Planejamento Avançado da Qualidade do Produto - metodologia estruturada em 5 fases para garantir que novos produtos atendam aos requisitos do cliente desde a concepção até a produção.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Planejamento e definição</li>
+                            <li><i class="fas fa-check-circle"></i> Planejamento e definição do programa</li>
                             <li><i class="fas fa-check-circle"></i> Projeto do produto (DFM/DFT)</li>
-                            <li><i class="fas fa-check-circle"></i> Projeto do processo (PFMEA)</li>
-                            <li><i class="fas fa-check-circle"></i> Validação do produto/processo</li>
+                            <li><i class="fas fa-check-circle"></i> Projeto do processo (PFMEA, Plano de Controle)</li>
+                            <li><i class="fas fa-check-circle"></i> Validação do produto e processo</li>
+                            <li><i class="fas fa-check-circle"></i> Feedback e melhoria contínua</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-exclamation-triangle"></i></div>
                         <h3>PFMEA</h3>
-                        <p>Análise de Modos de Falha e Efeitos no Processo - identificação proativa de riscos e implementação de controles preventivos.</p>
+                        <p>Análise de Modos de Falha e Efeitos no Processo - identificação proativa de riscos e implementação de controles preventivos para evitar defeitos antes que ocorram.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Identificação de modos de falha</li>
-                            <li><i class="fas fa-check-circle"></i> Análise de severidade/ocorrência/detecção</li>
+                            <li><i class="fas fa-check-circle"></i> Identificação de modos de falha potenciais</li>
+                            <li><i class="fas fa-check-circle"></i> Análise de severidade, ocorrência e detecção</li>
                             <li><i class="fas fa-check-circle"></i> Cálculo de RPN (Risk Priority Number)</li>
-                            <li><i class="fas fa-check-circle"></i> Plano de ações de melhoria</li>
+                            <li><i class="fas fa-check-circle"></i> Plano de ações corretivas e preventivas</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-chart-bar"></i></div>
                         <h3>SPC</h3>
-                        <p>Controle Estatístico de Processo - monitoramento em tempo real de variáveis críticas para detectar desvios antes que gerem defeitos.</p>
+                        <p>Controle Estatístico de Processo - monitoramento em tempo real de variáveis críticas para detectar desvios antes que gerem defeitos na produção.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Cartas X-barra/R, X/MR, p, c</li>
+                            <li><i class="fas fa-check-circle"></i> Cartas de controle X-barra/R, X/MR, p, c</li>
                             <li><i class="fas fa-check-circle"></i> Análise de capabilidade (Cpk/Ppk)</li>
-                            <li><i class="fas fa-check-circle"></i> Monitoramento de pasta, temperatura, vácuo</li>
-                            <li><i class="fas fa-check-circle"></i> Conforme IPC-9191</li>
+                            <li><i class="fas fa-check-circle"></i> Monitoramento de pasta de solda, temperatura, vácuo</li>
+                            <li><i class="fas fa-check-circle"></i> Conformidade com IPC-9191</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-file-signature"></i></div>
                         <h3>PPAP</h3>
-                        <p>Processo de Aprovação de Peça de Produção - documentação completa para validação conforme IATF 16949.</p>
+                        <p>Processo de Aprovação de Peça de Produção - documentação completa que garante que o fornecedor entende e atende todos os requisitos do cliente.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> 18 elementos documentais</li>
+                            <li><i class="fas fa-check-circle"></i> 18 elementos documentais obrigatórios</li>
                             <li><i class="fas fa-check-circle"></i> PSW (Part Submission Warrant)</li>
-                            <li><i class="fas fa-check-circle"></i> Estudos de capabilidade</li>
-                            <li><i class="fas fa-check-circle"></i> Amostras iniciais</li>
+                            <li><i class="fas fa-check-circle"></i> Estudos de capabilidade (Cpk/Ppk)</li>
+                            <li><i class="fas fa-check-circle"></i> Amostras iniciais validadas</li>
                         </ul>
                     </div>
                 </div>
                 <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Certificações e Conformidade</h3>
-                    <p style="margin-bottom: 24px; opacity: 0.9;">A Fênix Indústria trabalha com os mais rigorosos padrões de qualidade: ISO 9001:2015, IATF 16949, IPC-A-610 Classe 3.</p>
-                    <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Conheça a Fênix Indústria <i class="fas fa-arrow-right"></i></a>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">A Importância das Core Tools da Qualidade</h3>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">As Core Tools (APQP, PFMEA, SPC, MSA e PPAP) são metodologias essenciais para garantir a qualidade na manufatura eletrônica. Elas fornecem uma estrutura sistemática para prevenir defeitos, controlar processos e assegurar a conformidade com normas como IATF 16949 e IPC-A-610 Classe 3.</p>
                 </div>
             `,
             projetos: () => `
@@ -1670,11 +456,6 @@
                             <span class="feature-tag">Validação</span>
                             <span class="feature-tag">Ramp-up</span>
                         </div>
-                        <p style="margin-top: 24px;">
-                            <a href="${fenixUrl}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
-                                Saiba mais sobre NPI <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </p>
                     </div>
                     <div class="project-card">
                         <div class="icon-wrapper"><i class="fas fa-industry"></i></div>
@@ -1687,18 +468,37 @@
                             <span class="feature-tag">Lean Manufacturing</span>
                             <span class="feature-tag">Six Sigma</span>
                         </div>
-                        <p style="margin-top: 24px;">
-                            <a href="${fenixUrl}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
-                                Saiba mais sobre Industrialização <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </p>
+                    </div>
+                    <div class="project-card">
+                        <div class="icon-wrapper"><i class="fas fa-sync-alt"></i></div>
+                        <h3>Kaizen e Melhoria Contínua</h3>
+                        <p>Eventos Kaizen focados na eliminação de desperdícios, redução de retrabalho e aumento da produtividade através da melhoria contínua.</p>
+                        <div class="features">
+                            <span class="feature-tag">Eventos Kaizen</span>
+                            <span class="feature-tag">VSM (Value Stream Mapping)</span>
+                            <span class="feature-tag">5S</span>
+                            <span class="feature-tag">PDCA</span>
+                            <span class="feature-tag">Gestão Visual</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="icon-wrapper"><i class="fas fa-robot"></i></div>
+                        <h3>Automação de Processos</h3>
+                        <p>Implementação de soluções automatizadas para inspeção, montagem e testes, integrando sistemas MES e IoT para rastreabilidade completa.</p>
+                        <div class="features">
+                            <span class="feature-tag">AOI 3D</span>
+                            <span class="feature-tag">SPI Automatizado</span>
+                            <span class="feature-tag">MES/MOM</span>
+                            <span class="feature-tag">IoT Industrial</span>
+                            <span class="feature-tag">Rastreabilidade CFX</span>
+                        </div>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0;">
                     <div style="background: white; padding: 24px; border-radius: 16px; text-align: center; border: 1px solid #eef2f6;">
                         <i class="fas fa-clock" style="font-size: 2rem; color: #2563eb; margin-bottom: 12px;"></i>
                         <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Time-to-Market</h4>
-                        <p style="color: #64748b;">Redução o tempo de lançamento</p>
+                        <p style="color: #64748b;">Redução do tempo de lançamento</p>
                     </div>
                     <div style="background: white; padding: 24px; border-radius: 16px; text-align: center; border: 1px solid #eef2f6;">
                         <i class="fas fa-chart-pie" style="font-size: 2rem; color: #2563eb; margin-bottom: 12px;"></i>
@@ -1720,7 +520,7 @@
             contato: () => `
                 <div class="page-header">
                     <h2><i class="fas fa-address-card"></i> Fale Conosco</h2>
-                    <p>Entre em contato com o blog TechMounter ou conheça a Fênix Indústria</p>
+                    <p>Entre em contato com o blog TechMounter</p>
                 </div>
                 <div class="contact-grid">
                     <div>
@@ -1738,15 +538,7 @@
                         <h3 style="margin-bottom: 24px;">Nossos contatos</h3>
                         <p style="margin-bottom: 20px;"><i class="fas fa-phone-alt" style="color: #2563eb; width: 24px;"></i> <strong>Comercial:</strong> +55 (35) 98406-7208</p>
                         <p style="margin-bottom: 20px;"><i class="fas fa-envelope" style="color: #2563eb; width: 24px;"></i> <strong>E-mail:</strong> ${socialConfig.email}</p>
-                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i> <strong>Matriz:</strong><br>Santa Rita do Sapucaí - MG</p>
-                        <p style="margin-top: 28px;">
-                            <a href="${fenixUrl}" target="_blank" style="background: #0a2540; color: white; padding: 14px 28px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block; width: 100%; text-align: center; margin-bottom: 12px;">
-                                Visitar Fênix Indústria <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </p>
-                        <p style="text-align: center; color: #64748b; font-size: 0.9rem;">
-                            A Fênix faz parte do grupo Foxconn, maior fabricante de eletrônicos do mundo.
-                        </p>
+                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i> <strong>Localização:</strong><br>Santa Rita do Sapucaí - MG</p>
                     </div>
                 </div>
             `
@@ -1842,7 +634,12 @@
             }
         }
         
-        function loadPage(pageId, articleId = null) {
+        async function loadPage(pageId, articleId = null) {
+            // Carrega os artigos antes de renderizar a página do blog
+            if (pageId === 'blog' || articleId) {
+                await loadArticles();
+            }
+            
             contentDiv.innerHTML = articleId ? pages.article(articleId) : pages[pageId]();
             navLinks.forEach(l => { l.classList.remove('active'); if ((articleId && l.dataset.page === 'blog') || (!articleId && l.dataset.page === pageId)) l.classList.add('active'); });
             window.scrollTo({ top: 0, behavior: 'smooth' });
