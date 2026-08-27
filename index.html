@@ -24,6 +24,22 @@
         .nav-menu a { text-decoration: none; font-weight: 500; color: #334155; cursor: pointer; transition: color 0.2s; }
         .nav-menu a:hover, .nav-menu a.active { color: #2563eb; }
 
+        /* ===== ÍCONE DE BUSCA ===== */
+        .search-icon { cursor: pointer; font-size: 1.2rem; color: #334155; transition: color 0.2s; padding: 8px; }
+        .search-icon:hover { color: #2563eb; }
+        .search-panel { display: none; background: #f8fafc; border-bottom: 1px solid #eef2f6; padding: 20px 0; }
+        .search-panel.active { display: block; }
+        .search-input-wrapper { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .search-input { flex: 1; min-width: 250px; padding: 12px 20px; border: 1px solid #e2e8f0; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 1rem; }
+        .search-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .filter-chip { background: white; border: 1px solid #e2e8f0; color: #334155; padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .filter-chip:hover { border-color: #2563eb; color: #2563eb; }
+        .filter-chip.active { background: #2563eb; color: white; border-color: #2563eb; }
+        .search-results-info { margin-top: 12px; color: #64748b; font-size: 0.9rem; }
+        .search-close { background: none; border: none; color: #64748b; cursor: pointer; font-size: 1.2rem; padding: 8px; }
+        .search-close:hover { color: #2563eb; }
+
         #page-content { min-height: 60vh; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -59,13 +75,17 @@
         .article-icon img { width: 100%; height: auto; max-height: 400px; object-fit: cover; display: block; }
         .article-icon figcaption { background: #f8fafc; padding: 12px 16px; font-size: 0.9rem; color: #64748b; border-top: 1px solid #eef2f6; }
 
-        .article-footer { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eef2f6; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .article-footer { margin-top: 50px; padding-top: 30px; border-top: 1px solid #eef2f6; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .back-button { display: inline-flex; align-items: center; gap: 8px; color: #2563eb; font-weight: 600; cursor: pointer; }
-        .share-buttons { display: flex; align-items: center; gap: 12px; }
+        .share-buttons { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .share-label { color: #64748b; font-size: 0.9rem; font-weight: 500; margin-right: 4px; }
         .share-btn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: white; text-decoration: none; transition: transform 0.2s; }
         .share-btn:hover { transform: scale(1.1); }
         .share-btn.linkedin { background: #0077b5; }
         .share-btn.whatsapp { background: #25d366; }
+        .share-btn.facebook { background: #1877f2; }
+        .share-btn.instagram { background: #e4405f; }
+        .share-btn.x-twitter { background: #000000; }
 
         .article-list { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
         .article-list-item { display: flex; background: white; border-radius: 18px; border: 1px solid #eef2f6; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
@@ -201,8 +221,20 @@
 <body>
 
 <!-- Header com logotipo -->
-<header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1><i class="fas fa-microchip"></i>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
+<header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1><i class="fas fa-microchip"></i>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="tecnologia">Tecnologia</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon" id="searchIcon"><i class="fas fa-search"></i></div></div></div></header>
 <div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- Painel de Busca -->
+<div class="search-panel" id="searchPanel">
+    <div class="container">
+        <div class="search-input-wrapper">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar artigos por título, resumo ou palavra-chave...">
+            <button class="search-close" id="searchClose" title="Fechar busca"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="filter-chips" id="filterChips"></div>
+        <div class="search-results-info" id="searchResultsInfo"></div>
+    </div>
+</div>
 
 <main id="page-content" class="container"></main>
 
@@ -222,7 +254,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí/MG</p><p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p><p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p><p><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2026 TechMounter – Todos os direitos reservados.</div></div></footer>
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="tecnologia">Tecnologia</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí/MG</p><p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p><p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p><p><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2026 TechMounter – Todos os direitos reservados.</div></div></footer>
 <div class="whatsapp-float"><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i></a></div>
 
 <script>
@@ -254,6 +286,8 @@
         // ====== CARREGAMENTO DINÂMICO DOS ARTIGOS ======
         const articlesDB = {};
         let articlesLoaded = false;
+        let activeCategoryFilter = null;
+        let searchQuery = '';
         
         async function loadArticles() {
             if (articlesLoaded) return true;
@@ -275,11 +309,107 @@
                 
                 await Promise.all(promises);
                 articlesLoaded = true;
+                buildCategoryFilters();
                 return true;
             } catch (error) {
                 console.error('Erro ao carregar artigos:', error);
                 return false;
             }
+        }
+        
+        // ====== CONSTRUIR FILTROS DE CATEGORIA ======
+        function buildCategoryFilters() {
+            const chipsContainer = document.getElementById('filterChips');
+            if (!chipsContainer) return;
+            
+            const categories = [...new Set(Object.values(articlesDB).map(a => a.category))];
+            
+            let html = `<button class="filter-chip ${activeCategoryFilter === null ? 'active' : ''}" data-category="">Todos</button>`;
+            categories.forEach(cat => {
+                html += `<button class="filter-chip ${activeCategoryFilter === cat ? 'active' : ''}" data-category="${cat}">${cat}</button>`;
+            });
+            chipsContainer.innerHTML = html;
+            
+            chipsContainer.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    activeCategoryFilter = chip.dataset.category || null;
+                    buildCategoryFilters();
+                    applySearchFilter();
+                });
+            });
+        }
+        
+        // ====== APLICAR FILTRO DE BUSCA ======
+        function applySearchFilter() {
+            const container = document.getElementById('blogListContainer');
+            if (!container) return;
+            
+            let filteredArticles = Object.values(articlesDB);
+            
+            if (activeCategoryFilter) {
+                filteredArticles = filteredArticles.filter(a => a.category === activeCategoryFilter);
+            }
+            
+            if (searchQuery.trim()) {
+                const query = searchQuery.toLowerCase().trim();
+                filteredArticles = filteredArticles.filter(a => 
+                    a.title.toLowerCase().includes(query) ||
+                    a.summary.toLowerCase().includes(query) ||
+                    a.category.toLowerCase().includes(query)
+                );
+            }
+            
+            const resultsInfo = document.getElementById('searchResultsInfo');
+            if (resultsInfo) {
+                resultsInfo.textContent = `${filteredArticles.length} artigo(s) encontrado(s)`;
+            }
+            
+            renderFilteredArticles(filteredArticles);
+        }
+        
+        // ====== RENDERIZAR ARTIGOS FILTRADOS ======
+        function renderFilteredArticles(articles) {
+            const container = document.getElementById('blogListContainer');
+            if (!container) return;
+            
+            if (articles.length === 0) {
+                container.innerHTML = '<p style="text-align:center;padding:40px;color:#64748b;">Nenhum artigo encontrado. Tente outro termo ou categoria.</p>';
+                return;
+            }
+            
+            let html = `<div class="article-list">`;
+            articles.forEach(art => {
+                html += `
+                    <article class="article-list-item" data-article="${art.id}">
+                        <div class="article-list-img">
+                            ${art.imageIcon && art.imageIcon.includes('/') 
+                                ? `<img src="${art.imageIcon}" alt="${art.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class="fas fa-image"></i>';">`
+                                : `<i class="fas ${art.imageIcon || 'fa-image'}"></i>`}
+                        </div>
+                        <div class="article-list-content">
+                            <span class="category-badge">${art.category}</span>
+                            <h3>${art.title}</h3>
+                            <div class="article-list-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${art.date}</span>
+                                <span><i class="far fa-clock"></i> ${art.readTime}</span>
+                            </div>
+                            <p>${art.summary}</p>
+                            <span class="read-more">Ler artigo completo <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                    </article>
+                `;
+            });
+            html += `</div>`;
+            
+            container.innerHTML = html;
+            
+            container.querySelectorAll('[data-article]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if (!e.target.closest('a')) {
+                        loadPage('blog', el.dataset.article);
+                    }
+                });
+            });
         }
         
         // ====== PÁGINAS ======
@@ -288,7 +418,7 @@
                 return `
                     <div class="page-header">
                         <h2><i class="fas fa-newspaper"></i> Blog TechMounter</h2>
-                        <p>Artigos técnicos sobre manufatura eletrônica, qualidade e melhoria contínua</p>
+                        <p>Artigos e Insights técnicos sobre manufatura eletrônica, qualidade, melhoria contínua, gestão de projetos e tecnologia</p>
                     </div>
                     <div id="blogListContainer"><p style="text-align:center;padding:20px;"><i class="fas fa-spinner fa-spin"></i> Carregando artigos...</p></div>
                 `;
@@ -313,8 +443,12 @@
                         <div class="article-footer">
                             <a class="back-button" data-page="blog"><i class="fas fa-arrow-left"></i> Voltar</a>
                             <div class="share-buttons">
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" class="share-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                                <span class="share-label">Compartilhe este artigo:</span>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" class="share-btn linkedin" title="Compartilhar no LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}" target="_blank" class="share-btn whatsapp" title="Compartilhar no WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" class="share-btn facebook" title="Compartilhar no Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/?url=${shareUrl}" target="_blank" class="share-btn instagram" title="Compartilhar no Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank" class="share-btn x-twitter" title="Compartilhar no X"><i class="fab fa-x-twitter"></i></a>
                             </div>
                         </div>
                     </article>
@@ -349,24 +483,35 @@
                 <div class="service-grid">
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-robot"></i></div>
-                        <h3>Linha SMT Automatizada</h3>
+                        <h3>Montagem L6 - SMT</h3>
                         <p>Equipamentos de última geração para montagem de componentes de alta densidade, incluindo pick-and-place de alta velocidade e inspeção AOI 3D.</p>
                         <ul>
                             <li><i class="fas fa-check-circle"></i> Precisão de posicionamento de 0,01mm</li>
-                            <li><i class="fas fa-check-circle"></i> Capacidade para 50.000 componentes por hora</li>
-                            <li><i class="fas fa-check-circle"></i> Inspeção SPI 3D integrada ao processo</li>
+                            <li><i class="fas fa-check-circle"></i> Escalabilidade de produção</li>
+                            <li><i class="fas fa-check-circle"></i> Inspeção SPI e AOI 3D integrada ao processo</li>
                             <li><i class="fas fa-check-circle"></i> Conformidade com IPC-9850</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <div class="icon-wrapper"><i class="fas fa-soldering-iron"></i></div>
-                        <h3>Montagem PTH</h3>
+                        <h3>Montagem L6 - PTH</h3>
                         <p>Processos manuais e automatizados para componentes through-hole, incluindo soldagem seletiva e inspeção visual rigorosa.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Soldagem seletiva de alta precisão</li>
+                            <li><i class="fas fa-check-circle"></i> Soldagem por onda e seletiva de alta precisão</li>
                             <li><i class="fas fa-check-circle"></i> Conformal coating (Acrílico, Silicone, Poliuretano)</li>
                             <li><i class="fas fa-check-circle"></i> Testes funcionais em 100% das placas</li>
                             <li><i class="fas fa-check-circle"></i> Conformidade com J-STD-001</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-wrapper"><i class="fas fa-box-open"></i></div>
+                        <h3>Montagem L10 - Integração Final</h3>
+                        <p>Montagem final do produto, integrando placas eletrônicas, carcaças, cabos e acessórios para entrega do produto completo.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Montagem mecânica de precisão</li>
+                            <li><i class="fas fa-check-circle"></i> Integração de cabos e conectores</li>
+                            <li><i class="fas fa-check-circle"></i> Testes funcionais finais (FCT)</li>
+                            <li><i class="fas fa-check-circle"></i> Embalagem e expedição</li>
                         </ul>
                     </div>
                 </div>
@@ -506,14 +651,70 @@
                 </div>
                 <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
                     <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Metodologia de Gestão de Projetos</h3>
-                    <p style="margin-bottom: 24px; opacity: 0.9;">A gestão de projetos na manufatura eletrônica exige a integração de metodologias ágeis e preditivas. O uso combinado de APQP, Stage-Gate e ferramentas Lean garante entregas no prazo, dentro do orçamento e com a qualidade exigida pelos setores automotivo, aeroespacial e médico.</p>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">A gestão de projetos na manufatura eletrônica exige a integração de metodologias ágeis e preditivas. O uso combinado de APQP, PMBOK, Stage-Gate e ferramentas Lean garante entregas no prazo, dentro do orçamento e com a qualidade exigida pelos setores automotivo, aeroespacial e médico.</p>
                     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
                         <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">APQP</span>
                         <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Stage-Gate</span>
                         <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Lean</span>
                         <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Six Sigma</span>
                         <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Scrum</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">PMBOK</span>
                     </div>
+                </div>
+            `,
+            tecnologia: () => `
+                <div class="page-header">
+                    <h2><i class="fas fa-microchip"></i> Tecnologia</h2>
+                    <p>Software e soluções tecnológicas para a indústria eletrônica</p>
+                </div>
+                <div class="service-grid">
+                    <div class="service-card">
+                        Montagem L6                        <h3>Software Embarcado</h3>
+                        <p>Soluções de firmware e software para sistemas embarcados, microcontroladores e dispositivos inteligentes.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Firmware para microcontroladores</li>
+                            <li><i class="fas fa-check-circle"></i> Sistemas em tempo real (RTOS)</li>
+                            <li><i class="fas fa-check-circle"></i> Interfaces de comunicação</li>
+                            <li><i class="fas fa-check-circle"></i> Atualização OTA</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-wrapper"><i class="fas fa-cogs"></i></div>
+                        <h3>Software de Automação</h3>
+                        <p>Soluções de software para automação de processos industriais, integração de equipamentos e sistemas de manufatura.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Sistemas MES/MOM</li>
+                            <li><i class="fas fa-check-circle"></i> Integração com equipamentos</li>
+                            <li><i class="fas fa-check-circle"></i> Dashboards de indicadores</li>
+                            <li><i class="fas fa-check-circle"></i> Rastreabilidade CFX</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-wrapper"><i class="fas fa-wifi"></i></div>
+                        <h3>IoT Industrial</h3>
+                        <p>Soluções IoT para monitoramento remoto, coleta de dados e análise preditiva na manufatura.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Sensores inteligentes</li>
+                            <li><i class="fas fa-check-circle"></i> Gateways de comunicação</li>
+                            <li><i class="fas fa-check-circle"></i> Plataformas em nuvem</li>
+                            <li><i class="fas fa-check-circle"></i> Análise de dados em tempo real</li>
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-wrapper"><i class="fas fa-database"></i></div>
+                        <h3>Banco de Dados e Analytics</h3>
+                        <p>Estruturação de banco de dados para rastreabilidade, análise de qualidade e inteligência de negócios na manufatura.</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Modelagem de dados</li>
+                            <li><i class="fas fa-check-circle"></i> ETL e integração</li>
+                            <li><i class="fas fa-check-circle"></i> Relatórios e dashboards</li>
+                            <li><i class="fas fa-check-circle"></i> Machine Learning aplicado</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Tecnologia a Serviço da Manufatura</h3>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">A integração de software embarcado, automação e IoT está transformando a manufatura eletrônica. Sistemas inteligentes permitem monitoramento em tempo real, manutenção preditiva e rastreabilidade completa, elevando a qualidade e reduzindo custos operacionais.</p>
                 </div>
             `,
             contato: () => `
@@ -549,7 +750,7 @@
                 </div>
                 <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
                     <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Sobre o Autor</h3>
-                    <p style="margin-bottom: 24px; opacity: 0.9;">Cresio Dias é especialista em manufatura eletrônica com mais de 10 anos de experiência em SMT, PTH, qualidade e gestão de projetos. Atuou em empresas de renome nos setores automotivo, aeroespacial e de defesa, liderando projetos de melhoria contínua e implementação de core tools da qualidade.</p>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">Cresio Dias é especialista em manufatura eletrônica com mais de 10 anos de experiência em SMT, PTH, qualidade e gestão de projetos. Atuou em empresas de manufatura eletrônica, liderando projetos de NPI(New Product Introduction), de melhoria contínua e implementação de core tools da qualidade.</p>
                     <a href="https://cresiodiaz-web.github.io/site_pessoal/" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Conheça mais sobre o autor <i class="fas fa-arrow-right"></i></a>
                 </div>
             `
@@ -618,7 +819,43 @@
             container.querySelectorAll('[data-page-num]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     renderBlogArticles(parseInt(btn.dataset.pageNum));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
+            });
+        }
+        
+        // ========== BUSCA ==========
+        function initSearch() {
+            const searchIcon = document.getElementById('searchIcon');
+            const searchPanel = document.getElementById('searchPanel');
+            const searchClose = document.getElementById('searchClose');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (!searchIcon || !searchPanel) return;
+            
+            searchIcon.addEventListener('click', () => {
+                searchPanel.classList.toggle('active');
+                if (searchPanel.classList.contains('active')) {
+                    searchInput.focus();
+                }
+            });
+            
+            searchClose.addEventListener('click', () => {
+                searchPanel.classList.remove('active');
+                searchInput.value = '';
+                searchQuery = '';
+                activeCategoryFilter = null;
+                buildCategoryFilters();
+                if (articlesLoaded) {
+                    renderBlogArticles(0);
+                }
+            });
+            
+            searchInput.addEventListener('input', () => {
+                searchQuery = searchInput.value;
+                if (articlesLoaded) {
+                    applySearchFilter();
+                }
             });
         }
         
@@ -650,13 +887,26 @@
                 await loadArticles();
             }
             
+            if (!articleId && pageId !== 'blog') {
+                searchQuery = '';
+                activeCategoryFilter = null;
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = '';
+                const searchPanel = document.getElementById('searchPanel');
+                if (searchPanel) searchPanel.classList.remove('active');
+            }
+            
             contentDiv.innerHTML = articleId ? pages.article(articleId) : pages[pageId]();
             navLinks.forEach(l => { l.classList.remove('active'); if ((articleId && l.dataset.page === 'blog') || (!articleId && l.dataset.page === pageId)) l.classList.add('active'); });
             window.scrollTo({ top: 0, behavior: 'smooth' });
             toggleMenu(true);
             
             if (!articleId && pageId === 'blog') {
-                renderBlogArticles(blogCurrentPage);
+                if (searchQuery || activeCategoryFilter) {
+                    applySearchFilter();
+                } else {
+                    renderBlogArticles(blogCurrentPage);
+                }
             }
             
             document.querySelectorAll('[data-article]').forEach(el => el.addEventListener('click', e => { if (!e.target.closest('a') && !e.target.closest('.btn-primary')) loadPage('blog', el.dataset.article); }));
@@ -668,6 +918,9 @@
         footerNavs.forEach(l => l.addEventListener('click', e => { e.preventDefault(); loadPage(l.dataset.page); }));
         menuToggle.addEventListener('click', () => toggleMenu());
         menuOverlay.addEventListener('click', () => toggleMenu(true));
+        
+        // Inicializar busca
+        initSearch();
         
         // Carregar página inicial
         loadPage('blog');
