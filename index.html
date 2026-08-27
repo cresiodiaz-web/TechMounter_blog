@@ -9,17 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== ESTILOS (mantidos exatamente como antes) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: #f9fafc; color: #1e293b; line-height: 1.7; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-        
-        .top-bar { background-color: #0a2540; color: #e2e8f0; padding: 10px 0; font-size: 0.9rem; border-bottom: 1px solid #1e3a5f; }
-        .top-bar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .contact-info i { margin-right: 8px; color: #3b82f6; }
-        .contact-info span { margin-right: 24px; }
-        .social-top a { color: #cbd5e1; margin-left: 16px; font-size: 1.1rem; transition: color 0.2s; }
-        .social-top a:hover { color: #60a5fa; }
 
         .main-header { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02); padding: 16px 0; border-bottom: 1px solid #eef2f6; position: sticky; top: 0; z-index: 100; }
         .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
@@ -189,7 +181,6 @@
             .related-grid .card-img { height: 180px; }
         }
         @media (max-width: 600px) {
-            .contact-info span { display: block; margin-bottom: 5px; }
             .newsletter-form { flex-direction: column; align-items: stretch; }
             .newsletter-form input { width: 100%; }
             .newsletter-form button { padding: 16px 20px; text-align: center; }
@@ -209,8 +200,7 @@
 </head>
 <body>
 
-<!-- Top Bar e Header com logotipo de chip -->
-<div class="top-bar"><div class="container"><div class="contact-info"><span><i class="fas fa-microchip"></i> Manufatura Eletrônica de Alta Performance</span></div><div class="social-top"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></div></div></div>
+<!-- Header com logotipo -->
 <header class="main-header"><div class="container"><div class="header-inner"><div class="logo-area"><h1><i class="fas fa-microchip"></i>TechMounter <span>| blog</span></h1><span>Excelência em manufatura eletrônica</span></div><button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button><nav class="nav-menu" id="navMenu"><ul><li><a class="nav-link active" data-page="blog">Blog</a></li><li><a class="nav-link" data-page="smt">SMT & PTH</a></li><li><a class="nav-link" data-page="qualidade">Qualidade</a></li><li><a class="nav-link" data-page="projetos">Projetos</a></li><li><a class="nav-link" data-page="contato">Contato</a></li></ul></nav><div class="search-icon"><i class="fas fa-search"></i></div></div></div></header>
 <div class="menu-overlay" id="menuOverlay"></div>
 
@@ -232,7 +222,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p><div class="social-footer"><a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener" class="linkedin"><i class="fab fa-linkedin-in"></i></a></div></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí/MG</p><p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p><p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p><p><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2025 TechMounter – Todos os direitos reservados.</div></div></footer>
+<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>TechMounter</h3><p>Blog especializado em manufatura eletrônica, qualidade e melhoria contínua.</p></div><div class="footer-links"><h4>Navegação</h4><ul><li><a class="footer-nav" data-page="blog">Blog</a></li><li><a class="footer-nav" data-page="smt">SMT & PTH</a></li><li><a class="footer-nav" data-page="qualidade">Qualidade</a></li><li><a class="footer-nav" data-page="projetos">Projetos</a></li><li><a class="footer-nav" data-page="contato">Contato</a></li></ul></div><div class="footer-contact"><h4>Contatos</h4><p><i class="fas fa-map-marker-alt"></i> Santa Rita do Sapucaí/MG</p><p><i class="fas fa-phone-alt"></i> +55 (35) 98406-7208</p><p><i class="fas fa-envelope"></i> cresiodiaz@gmail.com</p><p><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" style="color: #25d366;"><i class="fab fa-whatsapp"></i> WhatsApp</a></p></div></div><div class="copyright">© 2026 TechMounter – Todos os direitos reservados.</div></div></footer>
 <div class="whatsapp-float"><a href="https://api.whatsapp.com/send?phone=5535984067208" target="_blank" class="whatsapp-button"><i class="fab fa-whatsapp"></i></a></div>
 
 <script>
@@ -513,9 +503,15 @@
                     </div>
                 </div>
                 <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Transforme sua ideia em realidade</h3>
-                    <p style="margin-bottom: 24px; opacity: 0.9;">A Fênix Indústria de Eletrônicos, parte do grupo Foxconn, está pronta para gerenciar seu projeto do conceito à produção.</p>
-                    <a href="${fenixUrl}" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Visitar Fênix Indústria <i class="fas fa-arrow-right"></i></a>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Metodologia de Gestão de Projetos</h3>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">A gestão de projetos na manufatura eletrônica exige a integração de metodologias ágeis e preditivas. O uso combinado de APQP, Stage-Gate e ferramentas Lean garante entregas no prazo, dentro do orçamento e com a qualidade exigida pelos setores automotivo, aeroespacial e médico.</p>
+                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">APQP</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Stage-Gate</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Lean</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Six Sigma</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px; font-weight: 500;">Scrum</span>
+                    </div>
                 </div>
             `,
             contato: () => `
@@ -537,10 +533,22 @@
                     </div>
                     <div style="background: #f8fafc; padding: 32px; border-radius: 20px;">
                         <h3 style="margin-bottom: 24px;">Nossos contatos</h3>
+                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i> <strong>Localização:</strong><br>Santa Rita do Sapucaí - MG</p>
                         <p style="margin-bottom: 20px;"><i class="fas fa-phone-alt" style="color: #2563eb; width: 24px;"></i> <strong>Comercial:</strong> +55 (35) 98406-7208</p>
                         <p style="margin-bottom: 20px;"><i class="fas fa-envelope" style="color: #2563eb; width: 24px;"></i> <strong>E-mail:</strong> ${socialConfig.email}</p>
-                        <p style="margin-bottom: 20px;"><i class="fas fa-map-marker-alt" style="color: #2563eb; width: 24px;"></i> <strong>Localização:</strong><br>Santa Rita do Sapucaí - MG</p>
+                        <p style="margin-bottom: 20px;"><i class="fab fa-whatsapp" style="color: #25d366; width: 24px;"></i> <strong>WhatsApp:</strong> +55 (35) 98406-7208</p>
+                        <div style="margin-top: 28px; display: flex; align-items: center; gap: 16px;">
+                            <a href="https://www.linkedin.com/in/cresio-dias-90824a56" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #0A66C2; color: white; border-radius: 50%; font-size: 1.5rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);" title="Conecte-se no LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <span style="color: #64748b; font-size: 0.9rem; font-weight: 500;">Conecte-se comigo no LinkedIn</span>
+                        </div>
                     </div>
+                </div>
+                <div style="background: linear-gradient(145deg, #0a2540, #1e3a5f); border-radius: 20px; padding: 40px; margin: 40px 0; color: white; text-align: center;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Sobre o Autor</h3>
+                    <p style="margin-bottom: 24px; opacity: 0.9;">Cresio Dias é especialista em manufatura eletrônica com mais de 10 anos de experiência em SMT, PTH, qualidade e gestão de projetos. Atuou em empresas de renome nos setores automotivo, aeroespacial e de defesa, liderando projetos de melhoria contínua e implementação de core tools da qualidade.</p>
+                    <a href="https://cresiodiaz-web.github.io/site_pessoal/" target="_blank" style="background: #2563eb; color: white; padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600; display: inline-block;">Conheça mais sobre o autor <i class="fas fa-arrow-right"></i></a>
                 </div>
             `
         };
@@ -636,7 +644,6 @@
         }
         
         async function loadPage(pageId, articleId = null) {
-            // Carrega os artigos antes de renderizar a página do blog
             if (pageId === 'blog' || articleId) {
                 await loadArticles();
             }
